@@ -4,6 +4,9 @@ import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import packageJson from '../package.json';
+global.appVersion = packageJson.version;
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

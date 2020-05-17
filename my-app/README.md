@@ -1,5 +1,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+This project has added support for:
+    - Jest and Enzyme testing (https://medium.com/@dev_33592/testing-with-react-1b-5-setting-up-538339570956)
+    - Saas/Scss Styling (https://scotch.io/tutorials/using-sass-in-create-react-app-v2)
+    - Cache busting (https://dev.to/flexdinesh/cache-busting-a-react-app-22lk)
+
 ## Available Scripts
 
 In the project directory, you can run:
