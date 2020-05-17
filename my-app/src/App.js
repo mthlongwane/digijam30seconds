@@ -16,19 +16,29 @@ class App extends Component  {
         return(
             <div className="App" data-test= "App">
               <header className="App-header">
+              {//Must be atleast one header - PWA Accessibility Testing
+              }
+                <h1>React PWA</h1>
                 <img src={logo} className="App-logo" alt="logo" />
                 <p>
                   Edit <code>src/App.js</code> and save to reload.
                 </p>
+                {//Must be atleast one skip link - PWA Accessibility Testing
+                }
                 <a
-                  className="App-link"
-                  href="https://reactjs.org"
+                  className="App-link skip-link"
+                  href="#maincontent"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Learn React
+                  Skip to Main
                 </a>
               </header>
+              {//Skip link skips to here - PWA Accessibility Testing
+              }
+              <main id="maincontent"> 
+                  <p>main</p>
+              </main>
             </div>
         );
       }}
