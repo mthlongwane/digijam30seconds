@@ -20,6 +20,6 @@ test('App renders without crashing', () => {
 
 test('renders App Component without error' , () => {
   const wrapper =  shallow(<App />);
-  const appComponent = wrapper.find({"data-test": "App" });
+  const appComponent = wrapper.find({"data-test": "CacheBusterApp" });
   expect(appComponent.length).toBe(1); 
 });

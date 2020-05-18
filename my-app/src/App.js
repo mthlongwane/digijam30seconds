@@ -6,7 +6,7 @@ import './App.scss';
 class App extends Component  {
   render(){
   return (
-    <CacheBuster>
+    <CacheBuster data-test= "CacheBusterApp">
       {({ loading, isLatestVersion, refreshCacheAndReload }) => {
         if (loading) return null;
         if (!loading && !isLatestVersion) {
@@ -14,7 +14,7 @@ class App extends Component  {
           refreshCacheAndReload();
         }
         return(
-            <div className="App" data-test= "App">
+            <div className="App" >
               <header className="App-header">
               {//Must be atleast one header - PWA Accessibility Testing
               }
