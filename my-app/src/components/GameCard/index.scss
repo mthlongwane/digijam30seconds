@@ -1,0 +1,25 @@
+
+
+.list-header--listHeaderGameCard {
+    //apple
+    background-color: lightgrey !important;
+    color: black !important;
+}
+.list--listGameCard {
+    background-color: #ffe795 !important;
+    width: 80%;
+}
+.card--cardGameCard{
+    background-color: #ffd202 !important;
+    width: 100%;
+    display: flex !important; 
+    flex-direction: row !important;
+    justify-content: center !important;
+}
+// .list-header .list-header--material__listHeaderBorderBottom  .list-header__listHeaderBorderBottom  {
+//     background-color: green;
+// }
+
+
+// inside - #ffe795
+// edges - #ffd202

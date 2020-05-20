@@ -1,16 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import './index.scss';
 import App from './containers/App';
+
 import * as serviceWorker from './serviceWorker';
 
+// Webpack CSS import
+import 'onsenui/css/onsenui.css';
+import 'onsenui/css/onsen-css-components.css';
+
+//used for my build versioning
 import packageJson from '../package.json';
 global.appVersion = packageJson.version;
 
+//var ons = require('onsenui');
+//var Ons = require('react-onsenui');
+//var {Page} = require('react-onsenui');
+
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  // <React.StrictMode>
+    //<Page>
+      <App />
+    //</Page>
+  // </React.StrictMode>
+  ,
   document.getElementById('root')
 );
 

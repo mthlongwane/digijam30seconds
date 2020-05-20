@@ -1,1 +1,17 @@
 @import "scss/all-utilities";
+
+.flexbox-container-center{
+    display: flex; 
+    flex-direction: row;
+    justify-content: center
+}
+
+.flexbox-container-even{
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between
+}
+.flexbox-item-center-noGrow{
+    flex: 0 0 ;
+    align-self: center
+}
