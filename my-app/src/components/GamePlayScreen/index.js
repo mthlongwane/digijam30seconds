@@ -58,11 +58,11 @@ export default class GamePlayScreen extends Component {
                                 dice: randomRoll
                         }
                     })} 
-        ,250);
+        ,500);
 
     }
     handlePickUpCard(){
-        const randomCardIndex = Math.round(Math.random()*gameCards.Classic.length)
+        const randomCardIndex = Math.ceil(Math.random()*(gameCards.Classic.length)-1)
         const selectedCardItems = gameCards.Classic[randomCardIndex]
         this.setState((oldstate) => {
             return { ...oldstate, 
