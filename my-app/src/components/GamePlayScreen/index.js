@@ -42,7 +42,7 @@ export default class GamePlayScreen extends Component {
     }
     handleRollDice() {
         //Randomly Generate value between zero and 2 and round to nearest int
-        const randomRoll = Math.round(Math.random()*2)
+        const randomRoll = Math.ceil(Math.random()*3-1)
         // temporarily set the dice to an asterix
         this.setState((oldstate) => {
             return { ...oldstate, 
