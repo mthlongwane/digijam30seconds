@@ -78,6 +78,13 @@ export default class GamePlayScreen extends Component {
       if (count < 0) {
         clearInterval(counter); //time is now up
         ons.notification.alert("Time is up!");
+        this.setState(oldstate => {
+          return {
+            ...oldstate,
+            disableBtnRollDice: false,
+            disableBtnReset: true
+          };
+        });
         return;
       }
       //Each Second that Passes Set New timer value to state
@@ -158,6 +165,7 @@ export default class GamePlayScreen extends Component {
             </Button>
           </Col>
         </Row>
+        <br></br>
         <Row className="flexbox-container-even-around">
           {this.state.teams.map((item, index) => {
             return (
