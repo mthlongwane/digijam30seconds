@@ -31,13 +31,13 @@ export default class GamePlayScreen extends Component {
             gameState: gameState.GAMESTART,
             disableCard: true,
             disableBtnPickup: true,
-            disableRollDice: false,
-            disableRestartTimer: true,
+            disableBtnRollDice: false,
+            disableBtnReset: true,
             cardItems: []
         }
         this.handleRollDice = this.handleRollDice.bind(this)
         this.handlePickUpCard =  this.handlePickUpCard.bind(this)
-        this.handleRestartTimer = this.handleRestartTimer.bind(this)
+        this.handleReset = this.handleReset.bind(this)
         
     }
     handleRollDice() {
@@ -48,7 +48,7 @@ export default class GamePlayScreen extends Component {
             return { ...oldstate, 
                      dice: "*",
                      gameState: gameState.DICEROLL,
-                     disableRollDice: true,
+                     disableBtnRollDice: true,
                      disableBtnPickup: false
                  }
           })
@@ -97,18 +97,33 @@ export default class GamePlayScreen extends Component {
         this.setState((oldstate) => {
             return { ...oldstate, 
                 disableBtnPickup: true,
-                disableRestartTimer: false,
+                disableBtnReset: false,
                 counterId:counter
             }
         })
 
         timer()
     }
-    handleRestartTimer() {
+    handleReset() {
+
+        //reset
+        clearInterval(this.state.counterId)
+
+        //reset timer, remove card, disable card, enable pickup button
+        this.setState((oldstate) => {
+            return { ...oldstate, 
+                     gameState: gameState.TIMERRESTARTED,
+                     timer: 30,
+                     cardItems:[],
+                     disableCard : true,
+                     disableBtnPickup: false,
+                     disableBtnReset: true
+                 }
+          })
+
 
         // pick new card
-        clearInterval(this.state.counterId)
-        this.handlePickUpCard() 
+        //this.handlePickUpCard() 
     }
     render() {
         return (
@@ -122,13 +137,13 @@ export default class GamePlayScreen extends Component {
                 </Row>
                 <Row className = "flexbox-container-even">
                     <Col className="flexbox-item-center-noGrow">
-                        <Button  onClick = {this.handleRollDice} disabled = {this.state.disableRollDice}>Roll Dice</Button>
+                        <Button  onClick = {this.handleRollDice} disabled = {this.state.disableBtnRollDice}>Roll Dice</Button>
                     </Col>
                     <Col className="flexbox-item-center-noGrow">
                         <Button   onClick = {this.handlePickUpCard} disabled = {this.state.disableBtnPickup}>Pick up Card</Button>
                      </Col>
                     <Col className="flexbox-item-center-noGrow">
-                        <Button   onClick = {this.handleRestartTimer} disabled = {this.state.disableRestartTimer}>Restart</Button>
+                        <Button   onClick = {this.handleReset} disabled = {this.state.disableBtnReset}>Reset</Button>
                     </Col>
                 </Row>
                 
