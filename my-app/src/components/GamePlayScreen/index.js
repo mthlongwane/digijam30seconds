@@ -33,7 +33,8 @@ export default class GamePlayScreen extends Component {
             disableBtnPickup: true,
             disableBtnRollDice: false,
             disableBtnReset: true,
-            cardItems: []
+            cardItems: [],
+            teams: new Array(this.props.teams?this.props.teams: 2).fill("")
         }
         this.handleRollDice = this.handleRollDice.bind(this)
         this.handlePickUpCard =  this.handlePickUpCard.bind(this)
@@ -146,7 +147,15 @@ export default class GamePlayScreen extends Component {
                         <Button   onClick = {this.handleReset} disabled = {this.state.disableBtnReset}>Reset</Button>
                     </Col>
                 </Row>
-                
+                <Row className="flexbox-container-even">
+                    { this.state.teams.map((item, index)=>{ 
+                            return  <Col key = {index} className="flexbox-item-center-noGrow" >Team:{index+1}
+                                        {// place new inputbox component here
+                                        }
+                                    </Col>
+                        })
+                    }
+                </Row>
             </div>
         )
     }
