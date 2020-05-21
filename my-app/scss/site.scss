@@ -11,7 +11,13 @@
     flex-direction: row;
     justify-content: space-between
 }
+.flexbox-container-even-around{
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-around
+}
 .flexbox-item-center-noGrow{
     flex: 0 0 ;
-    align-self: center
+    align-self: center;
+    text-align: center
 }

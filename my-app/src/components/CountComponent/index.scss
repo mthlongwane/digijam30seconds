@@ -1,0 +1,17 @@
+.row-counter{
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between
+}
+
+.button-counter{
+    border: 1px solid black;
+    background-color: lightgray;
+    border-radius: 8px;
+    font-size: 0.5rem;
+}
+
+.label-counter{
+    padding: 20px;
+}
+
