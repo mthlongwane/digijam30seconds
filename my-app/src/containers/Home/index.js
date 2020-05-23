@@ -4,7 +4,10 @@ import React, { Component } from "react";
  import {Toolbar, ToolbarButton, Icon, 
     List, ListItem,
     Splitter , SplitterSide, SplitterContent, 
-    Page,  Row} from 'react-onsenui';
+    Page, Row,
+    ActionSheet, ActionSheetButton
+  
+  } from 'react-onsenui';
 
 //import HelloWorldAlert from '../../components/test/HelloWorldAlert'
 import GamePlayScreen from "../../components/GamePlayScreen";
@@ -12,17 +15,20 @@ import GamePlayScreen from "../../components/GamePlayScreen";
 export default class Home extends Component {
     constructor(){
         super()
-        this.state = {isSideBarOpen: false}
+        this.state = {isSideBarOpen: false, isActionSheetOpen: false}
         this.renderToolbar = this.renderToolbar.bind(this)
-        this.hide = this.hide.bind(this)
-        this.show =  this.show.bind(this)
-
+        this.hideSideBar = this.hideSideBar.bind(this)
+        this.showSideBar =  this.showSideBar.bind(this)
+        this.handleNewGame = this.handleNewGame.bind(this)
+        this.cancelNewGameActionSheet =   this.cancelNewGameActionSheet.bind(this)
+        this.openNewGameActionSheet =   this.openNewGameActionSheet.bind(this)
+        
     }
     renderToolbar() {
         return (
             <Toolbar>
                 <div className='left'>
-                    <ToolbarButton onClick={this.show}>
+                    <ToolbarButton onClick={this.showSideBar}>
                     <Icon icon='md-menu' />
                     </ToolbarButton>
                 </div>
@@ -30,12 +36,21 @@ export default class Home extends Component {
             </Toolbar>
         );
     }
-    hide() {
-        this.setState({isSideBarOpen: false});
+    hideSideBar() {
+        this.setState(prevState=>{return {...prevState, isSideBarOpen: false}});
      }
-    show() {
-        this.setState({isSideBarOpen: true});
+    showSideBar() {
+        this.setState(prevState=> {return {...prevState,isSideBarOpen: true}});
     }   
+    cancelNewGameActionSheet(){
+        this.setState(prevState=> {return {...prevState,isActionSheetOpen: false}});
+    }
+    openNewGameActionSheet(){
+        this.setState(prevState=> {return {...prevState,isActionSheetOpen: true}});
+    }
+    handleNewGame(numTeams){
+        alert(numTeams)  ;    
+    }
   render() {
     return (
         <Splitter>
@@ -48,14 +63,19 @@ export default class Home extends Component {
           collapse={true}
           swipeable={true}
           isOpen={this.state.isSideBarOpen}
-          onClose={this.hide}
-          onOpen={this.show}
+          onClose={this.hideSideBar}
+          onOpen={this.showSideBar}
         >
           <Page>
             <List
               dataSource={['New Game', 'Boosters', 'Settings']}
               renderRow={(title) => (
-                <ListItem key={title} onClick={this.hide} tappable>{title}</ListItem>
+                title==='New Game'?
+                  <ListItem key={title} onClick={this.openNewGameActionSheet} tappable>{title}</ListItem>
+                :
+                  <ListItem key={title} onClick={this.hideSideBar} tappable>{title}</ListItem>
+                
+
               )}
             />
           </Page>
@@ -63,7 +83,7 @@ export default class Home extends Component {
         <SplitterContent>
           <Page renderToolbar={this.renderToolbar}>
                 <section  style={{margin: '16px'}}>
-                  <Row className="flexbox-container-center sections"  style={{backgroundColor: '#ffd202'}}>
+                  <Row onClick={this.openNewGameActionSheet} className="sections flexbox-container-center "  style={{backgroundColor: '#ffd202'}}>
                     <Row className="flexbox-container-center">
                       <h1 style={{padding: '0px'}}>New Game</h1> 
                     </Row>
@@ -72,7 +92,7 @@ export default class Home extends Component {
                     </Row>
                   </Row>
                   <br></br>
-                  <Row className="flexbox-container-center sections" style={{backgroundColor: '#ffe795'}}>
+                  <Row className="sections flexbox-container-center " style={{backgroundColor: '#ffe795'}}>
                     <Row className="flexbox-container-center">
                       <h1 style={{padding: '0px'}}>Boosters</h1> 
                     </Row>
@@ -83,7 +103,18 @@ export default class Home extends Component {
                     
                   </Row>
                 </section>
-                
+                <ActionSheet isOpen={this.state.isActionSheetOpen} animation='default'
+                    onCancel={this.cancelNewGameActionSheet}
+                    isCancelable={true}
+                    title={'Number of Teams:'}
+                  >
+                    <ActionSheetButton onClick={()=>{this.handleNewGame(1)}}>1</ActionSheetButton>
+                    <ActionSheetButton onClick={()=>{this.handleNewGame(2)}}>2</ActionSheetButton>
+                    <ActionSheetButton onClick={()=>{this.handleNewGame(3)}} >3</ActionSheetButton>
+                    <ActionSheetButton onClick={()=>{this.handleNewGame(4)}} >4</ActionSheetButton>
+                    <ActionSheetButton onClick={this.cancelNewGameActionSheet} icon={'md-close'}>Cancel</ActionSheetButton>
+                  </ActionSheet>
+
           </Page>
         </SplitterContent>
       </Splitter>      
