@@ -15,14 +15,16 @@ import React, { Component } from "react";
 export default class Home extends Component {
     constructor(props){
         super(props)
-        this.state = {isSideBarOpen: false, isActionSheetOpen: false}
+        this.state = {isSideBarOpen: false, isNewGameActionSheetOpen: false, isBoosterActionSheetOpen: false}
         this.renderToolbar = this.renderToolbar.bind(this)
         this.hideSideBar = this.hideSideBar.bind(this)
         this.showSideBar =  this.showSideBar.bind(this)
         this.handleNewGame = this.handleNewGame.bind(this)
         this.cancelNewGameActionSheet =   this.cancelNewGameActionSheet.bind(this)
         this.openNewGameActionSheet =   this.openNewGameActionSheet.bind(this)
-        
+        this.handleBooster = this.handleBooster.bind(this)
+        this.cancelBoosterActionSheet =   this.cancelBoosterActionSheet.bind(this)
+        this.openBoosterActionSheet =   this.openBoosterActionSheet.bind(this)
     }
     renderToolbar() {
         return (
@@ -43,14 +45,24 @@ export default class Home extends Component {
         this.setState(prevState=> {return {...prevState,isSideBarOpen: true}});
     }   
     cancelNewGameActionSheet(){
-        this.setState(prevState=> {return {...prevState,isActionSheetOpen: false}});
+        this.setState(prevState=> {return {...prevState,isNewGameActionSheetOpen: false}});
     }
     openNewGameActionSheet(){
-        this.setState(prevState=> {return {...prevState,isActionSheetOpen: true}});
+        this.setState(prevState=> {return {...prevState,isNewGameActionSheetOpen: true}});
     }
     handleNewGame(numTeams){
-        this.setState(prevState=> {return {...prevState,isActionSheetOpen: false}});
+        this.setState(prevState=> {return {...prevState,isNewGameActionSheetOpen: false}});
         this.props.pushPage(this.props.navigator , 'Game',{teams:numTeams })  
+    }
+    cancelBoosterActionSheet(){
+      this.setState(prevState=> {return {...prevState,isBoosterActionSheetOpen: false}});
+    }
+    openBoosterActionSheet(){
+      this.setState(prevState=> {return {...prevState,isBoosterActionSheetOpen: true}});
+    }
+    handleBooster(page){
+        this.setState(prevState=> {return {...prevState,isBoosterActionSheetOpen: false}});
+        this.props.pushPage(this.props.navigator , page,{})  
     }
   render() {
     return (
@@ -69,11 +81,15 @@ export default class Home extends Component {
           >
             <Page>
               <List
+                style={{ marginTop:'60px'}}
                 dataSource={['New Game', 'Boosters', 'Settings']}
                 renderRow={(title) => (
                   title==='New Game'?
                     <ListItem key={title} onClick={this.openNewGameActionSheet} tappable>{title}</ListItem>
                   :
+                  title==='Boosters'?
+                    <ListItem key={title} onClick={this.openBoosterActionSheet} tappable>{title}</ListItem>
+                    :
                     <ListItem key={title} onClick={this.hideSideBar} tappable>{title}</ListItem>
                   
 
@@ -93,7 +109,7 @@ export default class Home extends Component {
                       </Row>
                     </Row>
                     <br></br>
-                    <Row className="sections flexbox-container-center " style={{backgroundColor: '#ffe795'}}>
+                    <Row onClick={this.openBoosterActionSheet} className="sections flexbox-container-center " style={{backgroundColor: '#ffe795'}}>
                       <Row className="flexbox-container-center">
                         <h1 style={{padding: '0px'}}>Boosters</h1> 
                       </Row>
@@ -102,17 +118,26 @@ export default class Home extends Component {
                       </Row>
                     </Row>
                   </section>
-                  <ActionSheet isOpen={this.state.isActionSheetOpen} animation='default'
+                  <ActionSheet isOpen={this.state.isNewGameActionSheetOpen} animation='default'
                       onCancel={this.cancelNewGameActionSheet}
                       isCancelable={true}
-                      title={'Number of Teams:'}
+                      title={'Number of Teams Playing:'}
                     >
                       <ActionSheetButton onClick={()=>{this.handleNewGame(2)}}>2</ActionSheetButton>
                       <ActionSheetButton onClick={()=>{this.handleNewGame(3)}} >3</ActionSheetButton>
                       <ActionSheetButton onClick={()=>{this.handleNewGame(4)}} >4</ActionSheetButton>
                       <ActionSheetButton onClick={this.cancelNewGameActionSheet} icon={'md-close'}>Cancel</ActionSheetButton>
-                    </ActionSheet>
+                  </ActionSheet>
+                  <ActionSheet isOpen={this.state.isBoosterActionSheetOpen} animation='default'
+                    onCancel={this.cancelBoosterActionSheet}
+                    isCancelable={true}
+                    title={'Select a Booster:'}
+                  >
+                    <ActionSheetButton onClick={()=>{this.handleBooster("Dice")}}>Dice</ActionSheetButton>
+                    <ActionSheetButton onClick={()=>{this.handleBooster("New Cards")}} >New Cards</ActionSheetButton>
 
+                    <ActionSheetButton onClick={this.cancelBoosterActionSheet} icon={'md-close'}>Cancel</ActionSheetButton>
+                </ActionSheet>
             </Page>
           </SplitterContent>
       </Splitter>      

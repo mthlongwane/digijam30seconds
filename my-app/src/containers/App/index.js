@@ -8,6 +8,7 @@ import  {Navigator, Page, PullHook, BackButton, Toolbar} from 'react-onsenui';
 //import Login from '../Login'
 import Home from '../Home'
 import GamePlayScreen from "../../components/GamePlayScreen";
+import Dice from '../../components/Dice';
 
 const refreshCacheAndReload = () => {
   console.log('Clearing cache and hard reloading...')
@@ -65,7 +66,12 @@ class App extends Component  {
                                               </PullHook>
                                                 <Home className="App" pushPage = {this.pushPage} navigator = {navigator}/>       
                                             </Page>) 
-
+      case 'Dice': return ( <Page key={route.title} renderToolbar={this.renderToolbar.bind(this,route, navigator)}>
+                              <Dice/>
+                            </Page>)
+      case 'New Cards': return ( <Page key={route.title} renderToolbar={this.renderToolbar.bind(this,route, navigator)}>
+                                  <p style= {{textAlign:'center'}}> This section is coming soon! - You will be able to select card packs based on themes!</p>
+                                </Page>)
       default: return  <div>404 - page not found</div>
 
     }
