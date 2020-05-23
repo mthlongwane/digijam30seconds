@@ -6,7 +6,8 @@ import { Button, Row, Col } from "react-onsenui";
 import GameCard from "../GameCard";
 
 import cardItemArray from "../../localDatafiles/card-data_Main.json";
-import selectCards from "../../helperFunctions/cardPicker";
+import selectCard from "../../helperFunctions/cardPicker";
+import runTimer from "../../helperFunctions/advancedTimer";
 
 import CountComponent from "../CountComponent";
 
@@ -30,7 +31,7 @@ export default class GamePlayScreen extends Component {
     super(props);
     this.state = {
       dice: "*",
-      timer: 30,
+      timer: "30:00",
       gameState: gameState.GAMESTART,
       disableCard: true,
       disableBtnPickup: true,
@@ -68,17 +69,17 @@ export default class GamePlayScreen extends Component {
     // const randomCardIndex = Math.ceil(
     //   Math.random() * gameCards.Classic.length - 1
     // );
-    const selectedCardItems = selectCards(gameCards); //gameCards.Classic[randomCardIndex];
+    const selectedCardItems = selectCard(gameCards); //gameCards.Classic[randomCardIndex];
     this.setState(oldstate => {
       return { ...oldstate, disableCard: false, cardItems: selectedCardItems };
     });
     this.handleStartTimer();
   }
   handleStartTimer() {
-    var count = 30;
-
+    var countSeconds = 30;
+    var countSplits = 0;
+    var count = 3000;
     const timer = () => {
-      //count--;
       if (count < 0) {
         clearInterval(counter); //time is now up
         ons.notification.alert("Time is up!");
@@ -91,13 +92,20 @@ export default class GamePlayScreen extends Component {
         });
         return;
       }
+      if (countSplits < 0) {
+        countSeconds--;
+        countSplits = 99;
+      }
+      var newTime = runTimer(countSplits, countSeconds);
       //Each Second that Passes Set New timer value to state
       this.setState(oldstate => {
-        return { ...oldstate, timer: count-- };
+        return { ...oldstate, timer: newTime };
       });
+      count--;
+      countSplits--;
     };
 
-    var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+    var counter = setInterval(timer, 10); //1000 will  run it every 1 second
 
     this.setState(oldstate => {
       return {
@@ -119,7 +127,7 @@ export default class GamePlayScreen extends Component {
       return {
         ...oldstate,
         gameState: gameState.TIMERRESTARTED,
-        timer: 30,
+        timer: "30:00",
         cardItems: [],
         disableCard: true,
         disableBtnPickup: false,
