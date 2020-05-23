@@ -150,7 +150,6 @@ export default class GamePlayScreen extends Component {
           <Col className="timer_label">Timer: {this.state.timer}s</Col>
         </Row>
         <br></br>
-        <br></br>
         <Row className="flexbox-container-center">
           <GameCard
             disabled={this.state.disableCard}
@@ -158,7 +157,7 @@ export default class GamePlayScreen extends Component {
           />
         </Row>
         <br></br>
-        <br></br>
+        
         <Row className="flexbox-container-even">
           <Col className="flexbox-item-center-noGrow">
             <Button
