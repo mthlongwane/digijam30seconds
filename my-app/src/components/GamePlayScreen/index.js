@@ -4,12 +4,15 @@ import ons from "onsenui";
 import { Button, Row, Col } from "react-onsenui";
 
 import GameCard from "../GameCard";
-import cards from "../../api/cards.json";
+
+import cardItemArray from "../../localDatafiles/card-data_Main.json";
+import selectCards from "../../helperFunctions/cardPicker";
+
 import CountComponent from "../CountComponent";
 
 import "./index.scss";
 
-const gameCards = cards;
+const gameCards = cardItemArray;
 
 const gameState = {
   GAMESTART: "GAMESTART",
@@ -50,7 +53,8 @@ export default class GamePlayScreen extends Component {
         dice: "*",
         gameState: gameState.DICEROLL,
         disableBtnRollDice: true,
-        disableBtnPickup: false
+        disableBtnPickup: false,
+        disableCard: true
       };
     });
     // 1 second later, set the value to the random number
@@ -61,10 +65,10 @@ export default class GamePlayScreen extends Component {
     }, 500);
   }
   handlePickUpCard() {
-    const randomCardIndex = Math.ceil(
-      Math.random() * gameCards.Classic.length - 1
-    );
-    const selectedCardItems = gameCards.Classic[randomCardIndex];
+    // const randomCardIndex = Math.ceil(
+    //   Math.random() * gameCards.Classic.length - 1
+    // );
+    const selectedCardItems = selectCards(gameCards); //gameCards.Classic[randomCardIndex];
     this.setState(oldstate => {
       return { ...oldstate, disableCard: false, cardItems: selectedCardItems };
     });
@@ -165,6 +169,8 @@ export default class GamePlayScreen extends Component {
             </Button>
           </Col>
         </Row>
+        <br></br>
+        <Row className="scores_label">Scores!</Row>
         <br></br>
         <Row className="flexbox-container-even-around">
           {this.state.teams.map((item, index) => {

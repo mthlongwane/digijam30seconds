@@ -21,6 +21,15 @@
     justify-content: end;
     text-align: end;
 }
+
+.scores_label{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: rgb(128, 105, 0);
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+}
 // .col-align-center {
 //     justify-content: center;
 //     text-align: center;

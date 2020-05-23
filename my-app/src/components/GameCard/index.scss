@@ -6,8 +6,9 @@
     color: black !important;
 }
 .list--listGameCard {
+    flex: 20 4 4;
     background-color: #ffe795 !important;
-    width: 80%;
+    width: 100%;
 }
 .card--cardGameCard{
     background-color: #ffd202 !important;
@@ -16,6 +17,39 @@
     flex-direction: row !important;
     justify-content: center !important;
 }
+
+ .side-block_prop{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 150px;
+    width: 8%;
+    margin: -56px;
+    padding: 0px;
+    text-align: center;
+    //height: 10px;
+    //flex: 1 1 1;
+//     display: block;
+//     position: relative;
+//     margin: 40px 0;
+}
+
+.side-text_prop{
+    transform: rotate(-90deg);
+    justify-content: center;
+    font: bold 20px Helvetica;
+    //letter-spacing: 1px;
+    text-transform: uppercase;
+    //margin: 1px;
+    padding: 1px;
+//     background: #369;
+//     color: #fff;
+//    padding: 1px 1px;
+//     margin: 0 0 10px 0;
+//     line-height: 24px;
+
+}
+
 // .list-header .list-header--material__listHeaderBorderBottom  .list-header__listHeaderBorderBottom  {
 //     background-color: green;
 // }

@@ -10,7 +10,7 @@ export default class Login extends Component {
   render() {
     return (
       <div>
-        <GamePlayScreen teams={4} />
+        <GamePlayScreen />
       </div>
     );
   }
