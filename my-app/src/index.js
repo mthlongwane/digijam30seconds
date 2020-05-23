@@ -16,14 +16,18 @@ global.appVersion = packageJson.version;
 
 //var ons = require('onsenui');
 //var Ons = require('react-onsenui');
-//var {Page} = require('react-onsenui');
+//var {Page, PullHook} = require('react-onsenui');
+
+
 
 
 ReactDOM.render(
   // <React.StrictMode>
-    //<Page>
+    // <Page>
+    // <PullHook onChange{handleRefreshPull} onPull ={refreshCacheAndReload}>
+    // </PullHook>
       <App />
-    //</Page>
+  //  </Page>
   // </React.StrictMode>
   ,
   document.getElementById('root')

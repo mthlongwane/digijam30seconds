@@ -3,12 +3,13 @@ import React, { Component } from "react";
 // import ons  from 'onsenui';
  import {Toolbar, ToolbarButton, Icon, 
     List, ListItem,
-    Splitter , SplitterSide, SplitterContent, Page} from 'react-onsenui';
+    Splitter , SplitterSide, SplitterContent, 
+    Page,  Row} from 'react-onsenui';
 
 //import HelloWorldAlert from '../../components/test/HelloWorldAlert'
 import GamePlayScreen from "../../components/GamePlayScreen";
 
-export default class Login extends Component {
+export default class Home extends Component {
     constructor(){
         super()
         this.state = {isSideBarOpen: false}
@@ -62,7 +63,25 @@ export default class Login extends Component {
         <SplitterContent>
           <Page renderToolbar={this.renderToolbar}>
                 <section  style={{margin: '16px'}}>
+                  <Row className="flexbox-container-center"  style={{padding: '16px',backgroundColor: '#ffd202','border-radius':'10px'}}>
+                    <Row className="flexbox-container-center">
+                      <h1 style={{padding: '0px'}}>New Game</h1> 
+                    </Row>
+                    <Row className="flexbox-container-center">
+                      <p style={{padding: '0px', marginTop:'0px', fontSize: '11px',textAlign:'center'}}>Lets the games begin!</p>
+                    </Row>
+                  </Row>
+                  <br></br>
+                  <Row className="flexbox-container-center" style={{padding: '16px',backgroundColor: '#ffe795','border-radius':'10px'}}>
+                    <Row className="flexbox-container-center">
+                      <h1 style={{padding: '0px'}}>Boosters</h1> 
+                    </Row>
+                    <Row className="flexbox-container-center">
+                      <p style={{padding: '0px', marginTop:'0px', fontSize: '11px',textAlign:'center'}}>Have the game at home but in need of a new pack of cards or a dice?</p>
+                    </Row>
+                   
                     
+                  </Row>
                 </section>
                 
           </Page>
