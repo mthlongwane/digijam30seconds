@@ -43,6 +43,8 @@ export default class GamePlayScreen extends Component {
     this.handleRollDice = this.handleRollDice.bind(this);
     this.handlePickUpCard = this.handlePickUpCard.bind(this);
     this.handleReset = this.handleReset.bind(this);
+
+    this.alarm = new sound("/alarm-clock.mp3");
   }
   handleRollDice() {
     //Randomly Generate value between zero and 2 and round to nearest int
@@ -82,7 +84,8 @@ export default class GamePlayScreen extends Component {
     const timer = () => {
       if (count < 0) {
         clearInterval(counter); //time is now up
-        ons.notification.alert("Time is up!");
+        this.alarm.play()
+        ons.notification.alert("Time is up!").then(()=>{this.alarm.stop()});
         this.setState(oldstate => {
           return {
             ...oldstate,
@@ -201,3 +204,18 @@ export default class GamePlayScreen extends Component {
     );
   }
 }
+
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+      this.sound.play();
+    }
+    this.stop = function(){
+      this.sound.pause();
+    }
+  }
