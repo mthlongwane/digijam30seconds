@@ -1,11 +1,13 @@
 import React,{Component} from 'react';
 
-import  {Page, PullHook} from 'react-onsenui';
-//import logo from './logo.svg';
+import ons from 'onsenui';
+import  {Navigator, Page, PullHook, BackButton, Toolbar} from 'react-onsenui';
+//import  {Page, PullHook} from 'react-onsenui';
+
 //import CacheBuster from '../../CacheBuster';
 //import Login from '../Login'
 import Home from '../Home'
-
+import GamePlayScreen from "../../components/GamePlayScreen";
 
 const refreshCacheAndReload = () => {
   console.log('Clearing cache and hard reloading...')
@@ -15,20 +17,70 @@ const refreshCacheAndReload = () => {
       for (let name of names) caches.delete(name);
     });
   }
-
   // delete browser cache and hard reload
   window.location.reload(true);
 }
-class App extends Component  {
 
+class App extends Component  {
+  constructor(props){
+    super(props)
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this)
+    this.pushPage = this.pushPage.bind(this)
+    this.renderPage = this.renderPage.bind(this)
+  }
+  renderToolbar(route, navigator){
+    const backButton = route.hasBackButton
+    ? <BackButton onClick={()=>this.handleBackButtonClick(navigator)}>Back</BackButton>
+    : null;
+
+    return (
+      <Toolbar>
+        <div className='left'>{backButton}</div>
+        <div className='center'>{route.title}</div>
+      </Toolbar>
+    );
+  }
+  handleBackButtonClick(navigator){
+    ons.notification.confirm('Are you sure you want to go back?')
+    .then((response) => {
+      if (response === 1) {
+        navigator.popPage();
+      }
+    });
+  }
+  pushPage(navigator, pageTitle, additionalProps){
+    navigator.pushPage({
+      title: pageTitle,
+      hasBackButton: true,
+      additionalProps
+    });
+  }
+  renderPage(route, navigator){
+    switch(route.title){
+      case 'Game': return ( <Page key={route.title} renderToolbar={this.renderToolbar.bind(this,route, navigator)}>
+                              <GamePlayScreen teams= {route.additionalProps.teams}/>
+                            </Page>)
+      case '30 Seconds App - Home': return (<Page key={route.title} renderToolbar={this.renderToolbar.bind(this,route, navigator)}>
+                                              <PullHook onPull ={refreshCacheAndReload}>
+                                              </PullHook>
+                                                <Home className="App" pushPage = {this.pushPage} navigator = {navigator}/>       
+                                            </Page>) 
+
+      default: return  <div>404 - page not found</div>
+
+    }
+  }
   render(){
   return (
-      // <Page>
-      //   <PullHook onPull ={refreshCacheAndReload}>
-      //   </PullHook>
-        <Home className="App"/>
-     // </Page>
-       
+
+    <Navigator
+        swipeable
+        renderPage={this.renderPage}
+        initialRoute={{
+          title: '30 Seconds App - Home',
+          hasBackButton: false
+        }}
+    />     
   );
   }
 }
