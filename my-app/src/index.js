@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import firebase from 'firebase'
+
 import './index.scss';
 import App from './containers/App';
 
@@ -18,8 +20,19 @@ global.appVersion = packageJson.version;
 //var Ons = require('react-onsenui');
 //var {Page, PullHook} = require('react-onsenui');
 
-
-
+const firebaseConfig = {
+  apiKey: "AIzaSyDxfu1GbUaSgzO-F_K9x_NhmZPclM4rSrI",
+  authDomain: "secondsonline-63f60.firebaseapp.com",
+  databaseURL: "https://secondsonline-63f60.firebaseio.com",
+  projectId: "secondsonline-63f60",
+  storageBucket: "secondsonline-63f60.appspot.com",
+  messagingSenderId: "134149901655",
+  appId: "1:134149901655:web:10550c1a4a06e363f38212",
+  measurementId: "G-1ZR02C1MXZ"
+};
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+firebase.analytics().logEvent('webpage_loaded');
 
 ReactDOM.render(
   // <React.StrictMode>
@@ -38,3 +51,4 @@ ReactDOM.render(
 // Learn more about service workers: https://bit.ly/CRA-PWA
 //serviceWorker.unregister();
 serviceWorker.register();
+
