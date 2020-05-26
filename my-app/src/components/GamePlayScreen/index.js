@@ -6,7 +6,7 @@ import { Button, Row, Col } from "react-onsenui";
 import GameCard from "../GameCard";
 
 import cardItemArray from "../../localDatafiles/card-data_Main.json";
-import selectCard from "../../helperFunctions/cardPicker";
+import { selectCard } from "../../helperFunctions/cardPicker";
 import runTimer from "../../helperFunctions/advancedTimer";
 
 import CountComponent from "../CountComponent";
@@ -84,8 +84,10 @@ export default class GamePlayScreen extends Component {
     const timer = () => {
       if (count < 0) {
         clearInterval(counter); //time is now up
-        this.alarm.play()
-        ons.notification.alert("Time is up!").then(()=>{this.alarm.stop()});
+        this.alarm.play();
+        ons.notification.alert("Time is up!").then(() => {
+          this.alarm.stop();
+        });
         this.setState(oldstate => {
           return {
             ...oldstate,
@@ -143,8 +145,7 @@ export default class GamePlayScreen extends Component {
   }
   render() {
     return (
-      <div >
-
+      <div>
         <Row>
           <Col className="dice_label">Dice: {this.state.dice}</Col>
           <Col className="timer_label">Timer: {this.state.timer}s</Col>
@@ -157,7 +158,7 @@ export default class GamePlayScreen extends Component {
           />
         </Row>
         <br></br>
-        
+
         <Row className="flexbox-container-even">
           <Col className="flexbox-item-center-noGrow">
             <Button
@@ -184,20 +185,20 @@ export default class GamePlayScreen extends Component {
             </Button>
           </Col>
         </Row>
-        <div className="scoresection" >
-            <br></br>
-            <Row className="scores_label">Scores!</Row>
-            <br></br>
-            <Row className=" flexbox-container-even-around ">
+        <div className="scoresection">
+          <br></br>
+          <Row className="scores_label">Scores!</Row>
+          <br></br>
+          <Row className=" flexbox-container-even-around ">
             {this.state.teams.map((item, index) => {
-                return (
+              return (
                 <Col key={index} className="flexbox-item-center-noGrow">
-                    Team:{index + 1}
-                    <CountComponent />
+                  Team:{index + 1}
+                  <CountComponent />
                 </Col>
-                );
+              );
             })}
-            </Row>
+          </Row>
         </div>
       </div>
     );
@@ -205,16 +206,16 @@ export default class GamePlayScreen extends Component {
 }
 
 function sound(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.sound.style.display = "none";
-    document.body.appendChild(this.sound);
-    this.play = function(){
-      this.sound.play();
-    }
-    this.stop = function(){
-      this.sound.pause();
-    }
-  }
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function() {
+    this.sound.play();
+  };
+  this.stop = function() {
+    this.sound.pause();
+  };
+}

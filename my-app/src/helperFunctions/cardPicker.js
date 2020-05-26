@@ -47,4 +47,18 @@ function selectCard(cardItemArray) {
   return card;
 }
 
-module.exports = selectCard;
+function getCategories(array) {
+  const arrayOfCategories = array.map(categoryArray => {
+    if (categoryArray && categoryArray.length > 50) {
+      return categoryArray[0];
+    }
+  });
+  const filteredArray = arrayOfCategories.filter(category => {
+    return category !== undefined;
+  });
+  return filteredArray;
+}
+
+function selectCardFromCategory(array, category) {}
+
+module.exports = { selectCard, getCategories };

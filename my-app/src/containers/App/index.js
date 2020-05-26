@@ -1,17 +1,18 @@
-import React,{Component} from 'react';
+import React, { Component } from "react";
 
-import ons from 'onsenui';
-import  {Navigator, Page, PullHook, BackButton, Toolbar} from 'react-onsenui';
+import ons from "onsenui";
+import { Navigator, Page, PullHook, BackButton, Toolbar } from "react-onsenui";
 //import  {Page, PullHook} from 'react-onsenui';
 
 //import CacheBuster from '../../CacheBuster';
 //import Login from '../Login'
-import Home from '../Home'
+import Home from "../Home";
 import GamePlayScreen from "../../components/GamePlayScreen";
-import Dice from '../../components/Dice';
+import Dice from "../../components/Dice";
+import BoosterCards from "../../components/BoosterCards";
 
 const refreshCacheAndReload = () => {
-  console.log('Clearing cache and hard reloading...')
+  console.log("Clearing cache and hard reloading...");
   if (caches) {
     // Service worker cache should be cleared with caches.delete()
     caches.keys().then(function(names) {
@@ -20,74 +21,103 @@ const refreshCacheAndReload = () => {
   }
   // delete browser cache and hard reload
   window.location.reload(true);
-}
+};
 
-class App extends Component  {
-  constructor(props){
-    super(props)
-    this.handleBackButtonClick = this.handleBackButtonClick.bind(this)
-    this.pushPage = this.pushPage.bind(this)
-    this.renderPage = this.renderPage.bind(this)
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    this.pushPage = this.pushPage.bind(this);
+    this.renderPage = this.renderPage.bind(this);
   }
-  renderToolbar(route, navigator){
-    const backButton = route.hasBackButton
-    ? <BackButton onClick={()=>this.handleBackButtonClick(navigator)}>Back</BackButton>
-    : null;
+  renderToolbar(route, navigator) {
+    const backButton = route.hasBackButton ? (
+      <BackButton onClick={() => this.handleBackButtonClick(navigator)}>
+        Back
+      </BackButton>
+    ) : null;
 
     return (
       <Toolbar>
-        <div className='left'>{backButton}</div>
-        <div className='center'>{route.title}</div>
+        <div className="left">{backButton}</div>
+        <div className="center">{route.title}</div>
       </Toolbar>
     );
   }
-  handleBackButtonClick(navigator){
-    ons.notification.confirm('Are you sure you want to go back?')
-    .then((response) => {
-      if (response === 1) {
-        navigator.popPage();
-      }
-    });
+  handleBackButtonClick(navigator) {
+    ons.notification
+      .confirm("Are you sure you want to go back?")
+      .then(response => {
+        if (response === 1) {
+          navigator.popPage();
+        }
+      });
   }
-  pushPage(navigator, pageTitle, additionalProps){
+  pushPage(navigator, pageTitle, additionalProps) {
     navigator.pushPage({
       title: pageTitle,
       hasBackButton: true,
       additionalProps
     });
   }
-  renderPage(route, navigator){
-    switch(route.title){
-      case 'Game': return ( <Page key={route.title} renderToolbar={this.renderToolbar.bind(this,route, navigator)}>
-                              <GamePlayScreen teams= {route.additionalProps.teams}/>
-                            </Page>)
-      case '30 Seconds App - Home': return (<Page key={route.title} renderToolbar={this.renderToolbar.bind(this,route, navigator)}>
-                                              <PullHook onPull ={refreshCacheAndReload}>
-                                              </PullHook>
-                                                <Home className="App" pushPage = {this.pushPage} navigator = {navigator}/>       
-                                            </Page>) 
-      case 'Dice': return ( <Page key={route.title} renderToolbar={this.renderToolbar.bind(this,route, navigator)}>
-                              <Dice/>
-                            </Page>)
-      case 'New Cards': return ( <Page key={route.title} renderToolbar={this.renderToolbar.bind(this,route, navigator)}>
-                                  <p style= {{textAlign:'center'}}> This section is coming soon! - You will be able to select card packs based on themes!</p>
-                                </Page>)
-      default: return  <div>404 - page not found</div>
-
+  renderPage(route, navigator) {
+    switch (route.title) {
+      case "Game":
+        return (
+          <Page
+            key={route.title}
+            renderToolbar={this.renderToolbar.bind(this, route, navigator)}
+          >
+            <GamePlayScreen teams={route.additionalProps.teams} />
+          </Page>
+        );
+      case "30 Seconds App - Home":
+        return (
+          <Page
+            key={route.title}
+            renderToolbar={this.renderToolbar.bind(this, route, navigator)}
+          >
+            <PullHook onPull={refreshCacheAndReload}></PullHook>
+            <Home
+              className="App"
+              pushPage={this.pushPage}
+              navigator={navigator}
+            />
+          </Page>
+        );
+      case "Dice":
+        return (
+          <Page
+            key={route.title}
+            renderToolbar={this.renderToolbar.bind(this, route, navigator)}
+          >
+            <Dice />
+          </Page>
+        );
+      case "New Cards":
+        return (
+          <Page
+            key={route.title}
+            renderToolbar={this.renderToolbar.bind(this, route, navigator)}
+          >
+            <BoosterCards />
+          </Page>
+        );
+      default:
+        return <div>404 - page not found</div>;
     }
   }
-  render(){
-  return (
-
-    <Navigator
+  render() {
+    return (
+      <Navigator
         swipeable
         renderPage={this.renderPage}
         initialRoute={{
-          title: '30 Seconds App - Home',
+          title: "30 Seconds App - Home",
           hasBackButton: false
         }}
-    />     
-  );
+      />
+    );
   }
 }
 
@@ -108,13 +138,12 @@ class App extends Component  {
 //         );
 //       }}
 //     </CacheBuster>
-    
+
 //   );
 //   }
 // }
 
 export default App;
-
 
 // <header className="App-header">
 // {//Must be atleast one header - PWA Accessibility Testing
@@ -137,6 +166,6 @@ export default App;
 // </header>
 // {//Skip link skips to here - PWA Accessibility Testing
 // }
-// <main id="maincontent"> 
+// <main id="maincontent">
 //     <p>main</p>
 // </main>
