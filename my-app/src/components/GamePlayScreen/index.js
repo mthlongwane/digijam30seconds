@@ -33,11 +33,11 @@ export default class GamePlayScreen extends Component {
       dice: "*",
       timer: "30:00",
       gameState: gameState.GAMESTART,
-      disableCard: true,
+      disableCard: false,
       disableBtnPickup: true,
       disableBtnRollDice: false,
       disableBtnReset: true,
-      cardItems: [],
+      cardItems: ["", "", "", "", ""],
       teams: new Array(this.props.teams ? this.props.teams : 2).fill("")
     };
     this.handleRollDice = this.handleRollDice.bind(this);
@@ -57,7 +57,7 @@ export default class GamePlayScreen extends Component {
         gameState: gameState.DICEROLL,
         disableBtnRollDice: true,
         disableBtnPickup: false,
-        disableCard: true
+        disableCard: false
       };
     });
     // 1 second later, set the value to the random number
@@ -133,8 +133,8 @@ export default class GamePlayScreen extends Component {
         ...oldstate,
         gameState: gameState.TIMERRESTARTED,
         timer: "30:00",
-        cardItems: [],
-        disableCard: true,
+        cardItems: ["", "", "", "", ""],
+        disableCard: false,
         disableBtnPickup: false,
         disableBtnReset: true
       };

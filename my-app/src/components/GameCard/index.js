@@ -19,8 +19,8 @@ export default class GameCard extends Component {
         {this.props.disabled ? null : (
           <List modifier="listGameCard">
             <ListHeader modifier="listHeaderGameCard">Classic</ListHeader>
-            {this.props.cardItems.map(item => {
-              return <ListItem key={item}> {item}</ListItem>;
+            {this.props.cardItems.map((item, index) => {
+              return <ListItem key={index}> {item}</ListItem>;
             })}
           </List>
         )}

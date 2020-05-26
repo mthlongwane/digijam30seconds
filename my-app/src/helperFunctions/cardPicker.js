@@ -59,6 +59,35 @@ function getCategories(array) {
   return filteredArray;
 }
 
-function selectCardFromCategory(array, category) {}
+function selectCardFromCategory(array, category) {
+  const arrayOfCategories = array.map(categoryArray => {
+    if (
+      categoryArray &&
+      categoryArray.length > 50 &&
+      categoryArray[0] === category
+    ) {
+      return categoryArray;
+    }
+  });
+  const filteredArray = arrayOfCategories.filter(category => {
+    return category !== undefined;
+  })[0];
+  var newCardIndices = [];
 
-module.exports = { selectCard, getCategories };
+  while (newCardIndices.length < 5) {
+    var index = Math.ceil(Math.random() * filteredArray.length - 1);
+    if (newCardIndices.includes(index)) {
+      continue;
+    }
+
+    newCardIndices.push(index);
+  }
+
+  const finalSelectedArray = newCardIndices.map(index => {
+    return filteredArray[index];
+  });
+
+  return finalSelectedArray;
+}
+
+module.exports = { selectCard, getCategories, selectCardFromCategory };

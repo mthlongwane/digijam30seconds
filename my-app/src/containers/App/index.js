@@ -10,6 +10,7 @@ import Home from "../Home";
 import GamePlayScreen from "../../components/GamePlayScreen";
 import Dice from "../../components/Dice";
 import BoosterCards from "../../components/BoosterCards";
+import BoosterCardContainer from "../BoosterCardContainer";
 
 const refreshCacheAndReload = () => {
   console.log("Clearing cache and hard reloading...");
@@ -100,7 +101,7 @@ class App extends Component {
             key={route.title}
             renderToolbar={this.renderToolbar.bind(this, route, navigator)}
           >
-            <BoosterCards />
+            <BoosterCardContainer category={"SPORT"} />
           </Page>
         );
       default:
