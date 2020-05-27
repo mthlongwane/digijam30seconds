@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "30SecondsOnline",
+  "name": "30 Seconds Online Guess App",
   "icons": [
     {
       "src": "favicon.ico",
