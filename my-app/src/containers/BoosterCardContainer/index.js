@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import cardItemArray from "../../localDatafiles/card-data_Main.json";
-import { selectCardFromCategory } from "../../helperFunctions/cardPicker";
+import {
+  selectCardFromCategory,
+  selectCard
+} from "../../helperFunctions/cardPicker";
 import { Row, Col, Button } from "react-onsenui";
 import GameCard from "../../components/GameCard";
 
@@ -23,7 +26,12 @@ class BoosterCards extends Component {
   }
 
   handlePickUpCard() {
-    const newCard = selectCardFromCategory(cardItemArray, this.props.category);
+    var newCard;
+    if (this.props.category === "MIXED") {
+      newCard = selectCard(cardItemArray);
+    } else {
+      newCard = selectCardFromCategory(cardItemArray, this.props.category);
+    }
     this.setState(oldstate => {
       return { ...oldstate, cardArray: newCard };
     });

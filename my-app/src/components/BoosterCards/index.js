@@ -18,6 +18,19 @@ class BoosterCards extends Component {
   render() {
     return (
       <div>
+        <section style={{ margin: "16px", marginTop: "20px" }}>
+          <Row
+            onClick={() => {
+              this.handleCategorySelected("MIXED");
+            }}
+            className="sections flexbox-container-center "
+            style={{ backgroundColor: "#ffe795" }}
+          >
+            <Row className="flexbox-container-center">
+              <h3 style={{ padding: "0px" }}>{"MIXED"}</h3>
+            </Row>
+          </Row>
+        </section>
         {getCategories(cardItemArray).map((category, index) => {
           return (
             <section key={index} style={{ margin: "16px", marginTop: "20px" }}>
