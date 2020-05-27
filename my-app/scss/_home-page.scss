@@ -1,16 +1,16 @@
-// .sections{
-//     padding: 16px;
-//     border-radius: 10px;
-// }
-// *.sections:hover{
-//     background-color: lightblue !important;
-// }
-// .sections-text{
-//     padding: 0px;
-//     margin-top:0px; 
-//     font-size: 11px;
-//     text-align: center;
-// }
+.sections{
+    padding: 16px;
+    border-radius: 10px;
+}
+*.sections:hover{
+    background-color: lightblue !important;
+}
+.sections-text{
+    padding: 0px;
+    margin-top:0px; 
+    font-size: 11px;
+    text-align: center;
+}
 
 @media (prefers-color-scheme : dark ), (prefers-color-scheme : light ) {
     .sections{
