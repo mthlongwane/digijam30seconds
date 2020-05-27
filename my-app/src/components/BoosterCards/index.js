@@ -3,6 +3,8 @@ import cardItemArray from "../../localDatafiles/card-data_Main.json";
 import { getCategories } from "../../helperFunctions/cardPicker";
 import { Row } from "react-onsenui";
 
+const gameCards = cardItemArray;
+
 class BoosterCards extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +33,7 @@ class BoosterCards extends Component {
             </Row>
           </Row>
         </section>
-        {getCategories(cardItemArray).map((category, index) => {
+        {getCategories(gameCards).map((category, index) => {
           return (
             <section key={index} style={{ margin: "16px", marginTop: "20px" }}>
               <Row
