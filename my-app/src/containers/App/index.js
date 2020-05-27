@@ -101,7 +101,16 @@ class App extends Component {
             key={route.title}
             renderToolbar={this.renderToolbar.bind(this, route, navigator)}
           >
-            <BoosterCardContainer category={"SPORT"} />
+            <BoosterCards pushPage={this.pushPage} navigator={navigator} />
+          </Page>
+        );
+      case "boosterCard":
+        return (
+          <Page
+            key={route.title}
+            renderToolbar={this.renderToolbar.bind(this, route, navigator)}
+          >
+            <BoosterCardContainer category={route.additionalProps.category} />
           </Page>
         );
       default:

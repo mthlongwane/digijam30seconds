@@ -7,22 +7,31 @@ class BoosterCards extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.handleCategorySelected = this.handleCategorySelected.bind(this);
+  }
+
+  handleCategorySelected(category) {
+    this.props.pushPage(this.props.navigator, "boosterCard", {
+      category: category
+    });
   }
   render() {
     return (
       <div>
-        {getCategories(cardItemArray).map((categories, index) => {
+        {getCategories(cardItemArray).map((category, index) => {
           return (
-            <section key={index} style={{ margin: "16px", marginTop: "100px" }}>
+            <section key={index} style={{ margin: "16px", marginTop: "20px" }}>
               <Row
                 key={index}
-                onClick={this.openBoosterActionSheet}
+                onClick={() => {
+                  this.handleCategorySelected(category);
+                }}
                 className="sections flexbox-container-center "
                 style={{ backgroundColor: "#ffe795" }}
               >
                 <Row key={index} className="flexbox-container-center">
                   <h3 key={index} style={{ padding: "0px" }}>
-                    {categories}
+                    {category}
                   </h3>
                 </Row>
               </Row>

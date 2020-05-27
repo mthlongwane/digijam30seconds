@@ -52,6 +52,7 @@ function getCategories(array) {
     if (categoryArray && categoryArray.length > 50) {
       return categoryArray[0];
     }
+    return undefined;
   });
   const filteredArray = arrayOfCategories.filter(category => {
     return category !== undefined;
@@ -68,6 +69,7 @@ function selectCardFromCategory(array, category) {
     ) {
       return categoryArray;
     }
+    return undefined;
   });
   const filteredArray = arrayOfCategories.filter(category => {
     return category !== undefined;
