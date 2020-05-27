@@ -40,6 +40,12 @@ function selectCard(cardItemArray) {
       continue;
     }
 
+    //prevent duplicates
+
+    if (card.includes(cardItem)) {
+      continue;
+    }
+
     card.push(cardItem);
 
     cardItemArray[randomCategoryIndex][randomIndexcategoryItemsArray] = null;
