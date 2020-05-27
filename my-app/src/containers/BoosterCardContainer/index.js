@@ -7,6 +7,8 @@ import {
 import { Row, Col, Button } from "react-onsenui";
 import GameCard from "../../components/GameCard";
 
+const gameCards = cardItemArray;
+
 class BoosterCards extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +30,7 @@ class BoosterCards extends Component {
   handlePickUpCard() {
     var newCard;
     if (this.props.category === "MIXED") {
-      newCard = selectCard(cardItemArray);
+      newCard = selectCard(gameCards);
     } else {
       newCard = selectCardFromCategory(cardItemArray, this.props.category);
     }

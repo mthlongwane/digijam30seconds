@@ -6,21 +6,23 @@ function selectCard(cardItemArray) {
   var newCardItemArrayLength = cardItemArrayLength;
 
   while (card.length < 5) {
-    // pick random number between -1 and the last index value of cardItemArray, ceil it and define randomly selected sub-array
-
+    // randomly generate index number of category we will pich from
     let randomCategoryIndex = Math.ceil(
       Math.random() * newCardItemArrayLength - 1
     );
 
-    // tracking category index to prevent a category being used twice in one card.
+    // check if category index exists in index tracker
     if (categoryIndexTracker.includes(randomCategoryIndex)) {
       continue;
     }
+
+    // if not, push the index number into index tracker.
     categoryIndexTracker.push(randomCategoryIndex);
 
+    // capture category to choose from
     let categoryItemsArray = cardItemArray[randomCategoryIndex].slice(1);
 
-    // find length of randomly selected sub-array of cardItemArray
+    // find length of randomly selected category
 
     let categoryItemsArrayLength = categoryItemsArray.length;
 
@@ -36,7 +38,7 @@ function selectCard(cardItemArray) {
 
     let cardItem = categoryItemsArray[randomIndexcategoryItemsArray];
 
-    if (cardItem == null) {
+    if (cardItem === null) {
       continue;
     }
 
@@ -48,7 +50,9 @@ function selectCard(cardItemArray) {
 
     card.push(cardItem);
 
-    cardItemArray[randomCategoryIndex][randomIndexcategoryItemsArray] = null;
+    cardItemArray[randomCategoryIndex][
+      randomIndexcategoryItemsArray + 1
+    ] = null;
   }
   return card;
 }
