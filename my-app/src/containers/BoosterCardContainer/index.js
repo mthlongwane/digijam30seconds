@@ -44,6 +44,7 @@ class BoosterCards extends Component {
           <GameCard
             disabled={this.state.disableCard}
             cardItems={this.state.cardArray}
+            categoryHead={this.props.category}
           />
         </Row>
         <br></br>

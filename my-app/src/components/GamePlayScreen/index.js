@@ -159,6 +159,7 @@ export default class GamePlayScreen extends Component {
           <GameCard
             disabled={this.state.disableCard}
             cardItems={this.state.cardItems}
+            categoryHead={"MIXED"}
           />
         </Row>
         <br></br>

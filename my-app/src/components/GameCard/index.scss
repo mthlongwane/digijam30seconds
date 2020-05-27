@@ -62,6 +62,8 @@
         //apple
         background-color: lightgrey !important;
         color: black !important;
+        text-align: center !important;
+        padding: 0 0 0 0px !important;
     }
     .list--listGameCard {
         flex: 20 4 4;
@@ -100,7 +102,7 @@
         text-transform: uppercase;
         //margin: 1px;
         padding: 1px;
-        border: 5px solid burlywood;
+        border: 1.5px solid rgb(9, 0, 128);
         color: white;
     }
     
