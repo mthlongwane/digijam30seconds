@@ -46,6 +46,10 @@ export default class GamePlayScreen extends Component {
 
     this.alarm = new sound("/alarm-clock.mp3");
   }
+
+  componentWillUnmount() {
+    clearInterval(this.state.counterId);
+  }
   handleRollDice() {
     //Randomly Generate value between zero and 2 and round to nearest int
     const randomRoll = Math.ceil(Math.random() * 3 - 1);
