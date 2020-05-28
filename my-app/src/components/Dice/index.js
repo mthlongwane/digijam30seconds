@@ -38,20 +38,19 @@ export default class Dice extends Component {
   rollDoneCallback(num) {}
   render() {
     return (
-      <div>
+      <div  className="flex-col">
         <div>
           <p
-            className="flexbox-item-center-noGrow"
+            className="dice-title-center"
             style={{ textAlign: "center" }}
           >
             {" "}
-            Tap on the yellow spot to roll the dice
+            Tap the dice to roll it!
           </p>
         </div>
 
-        <div className="flexbox-container-center">
+        <div className="dice-col-center">
           <ReactDice
-            className="flexbox-item-center-noGrow"
             min={0}
             sides={3}
             numDice={1}
