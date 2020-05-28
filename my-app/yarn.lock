@@ -9825,7 +9825,16 @@ react-dev-utils@^10.2.1:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
-react-dom@^16.13.1:
+react-dice-complete@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-dice-complete/-/react-dice-complete-1.2.0.tgz#74221790cdf02c13cc04900c4a2b9a1bc338f685"
+  integrity sha512-I6AUExxUc/bfIYfyFrEjZG0KE3RibWygTUfZ0YZZrFq2LyOCQJDcLiS99Um/GZyUJtEl0+vfFUSFNEk5x45yCQ==
+  dependencies:
+    prop-types "^15.7.2"
+    react "^16.9.0"
+    react-dom "^16.9.0"
+
+react-dom@^16.13.1, react-dom@^16.9.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
   integrity sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag==
@@ -9864,7 +9873,7 @@ react-test-renderer@^16.0.0-0:
     react-is "^16.8.6"
     scheduler "^0.19.1"
 
-react@^16.13.1:
+react@^16.13.1, react@^16.9.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
   integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
