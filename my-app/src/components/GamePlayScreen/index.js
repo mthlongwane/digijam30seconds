@@ -10,6 +10,7 @@ import { selectCard } from "../../helperFunctions/cardPicker";
 import runTimer from "../../helperFunctions/advancedTimer";
 
 import CountComponent from "../CountComponent";
+import ReactDice from '../Dice/ReactDice'
 
 import "./index.scss";
 
@@ -43,16 +44,20 @@ export default class GamePlayScreen extends Component {
     this.handleRollDice = this.handleRollDice.bind(this);
     this.handlePickUpCard = this.handlePickUpCard.bind(this);
     this.handleReset = this.handleReset.bind(this);
-
+    this.rollDoneCallback = this.rollDoneCallback.bind(this)
     this.alarm = new sound("/alarm-clock.mp3");
   }
 
   componentWillUnmount() {
     clearInterval(this.state.counterId);
   }
-  handleRollDice() {
+  rollDoneCallback(num) {
+    this.handleRollDice(num)
+    //console.log(`You rolled a ${num}`)
+  }
+  handleRollDice(num) {
     //Randomly Generate value between zero and 2 and round to nearest int
-    const randomRoll = Math.ceil(Math.random() * 3 - 1);
+    const randomRoll = num// Math.ceil(Math.random() * 3 - 1);
     // temporarily set the dice to an asterix
     this.setState(oldstate => {
       return {
@@ -150,9 +155,11 @@ export default class GamePlayScreen extends Component {
   render() {
     return (
       <div>
-        <Row>
-          <Col className="dice_label">Dice: {this.state.dice}</Col>
-          <Col className="timer_label">Timer: {this.state.timer}s</Col>
+        <Row  className="flexbox-container-center">
+          {//<Col className="dice_label">Dice: {this.state.dice}</Col>
+          }
+          {/*className="timer_label"*/}
+          <Col  className="timer_label_center" >Timer: {this.state.timer}s</Col>
         </Row>
         <br></br>
         <Row className="flexbox-container-center">
@@ -165,18 +172,20 @@ export default class GamePlayScreen extends Component {
         <br></br>
 
         <Row className="flexbox-container-even">
-          <Col className="flexbox-item-center-noGrow">
-            <Button
-              onClick={this.handleRollDice}
-              disabled={this.state.disableBtnRollDice}
-            >
-              Roll Dice
-            </Button>
-          </Col>
+          {// <Col className="flexbox-item-center-noGrow">
+          //   <Button
+          //     onClick={this.handleRollDice}
+          //     disabled={this.state.disableBtnRollDice}
+          //   >
+          //     Roll Dice
+          //   </Button>
+          // </Col>
+          }
           <Col className="flexbox-item-center-noGrow">
             <Button
               onClick={this.handlePickUpCard}
               disabled={this.state.disableBtnPickup}
+              hidden={true}
             >
               Pick up Card
             </Button>
@@ -190,6 +199,20 @@ export default class GamePlayScreen extends Component {
             </Button>
           </Col>
         </Row>
+        <Row className ='flexbox-container-center'>
+          <ReactDice className=  'flexbox-item-center-noGrow'
+            min = {0} 
+            sides = {3}
+            numDice={1}
+            faceColor= {'#ffd202'}
+            dotColor ={'#111111'}
+            rollTime={2}
+            rollDone={this.rollDoneCallback}
+            ref={dice => this.reactDice = dice}
+            disableIndividual={this.state.disableBtnRollDice}
+            />
+        </Row>
+        {this.state.disableBtnRollDice?null: <span className ={'flexbox-container-center'} >Please tap the dice</span>}
         <div className="scoresection">
           <br></br>
           <Row className="scores_label">Scores!</Row>
