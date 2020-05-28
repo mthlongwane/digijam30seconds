@@ -154,14 +154,14 @@ export default class GamePlayScreen extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="gamePage">
         <Row  className="flexbox-container-center">
           {//<Col className="dice_label">Dice: {this.state.dice}</Col>
           }
           {/*className="timer_label"*/}
           <Col  className="timer_label_center" >Timer: {this.state.timer}s</Col>
         </Row>
-        <br></br>
+        
         <Row className="flexbox-container-center">
           <GameCard
             disabled={this.state.disableCard}
@@ -169,7 +169,7 @@ export default class GamePlayScreen extends Component {
             categoryHead={"MIXED"}
           />
         </Row>
-        <br></br>
+        
 
         <Row className="flexbox-container-even">
           {// <Col className="flexbox-item-center-noGrow">
@@ -190,33 +190,38 @@ export default class GamePlayScreen extends Component {
               Pick up Card
             </Button>
           </Col>
+          <ReactDice className=  'flexbox-item-center-noGrow'
+          min = {0} 
+          sides = {3}
+          numDice={1}
+          faceColor= {'#ffd202'}
+          dotColor ={'#111111'}
+          rollTime={2}
+          rollDone={this.rollDoneCallback}
+          ref={dice => this.reactDice = dice}
+          disableIndividual={this.state.disableBtnRollDice}
+          />
           <Col className="flexbox-item-center-noGrow">
             <Button
               onClick={this.handleReset}
               disabled={this.state.disableBtnReset}
             >
-              Reset
+            Reset Timer
             </Button>
           </Col>
         </Row>
-        <Row className ='flexbox-container-center'>
-          <ReactDice className=  'flexbox-item-center-noGrow'
-            min = {0} 
-            sides = {3}
-            numDice={1}
-            faceColor= {'#ffd202'}
-            dotColor ={'#111111'}
-            rollTime={2}
-            rollDone={this.rollDoneCallback}
-            ref={dice => this.reactDice = dice}
-            disableIndividual={this.state.disableBtnRollDice}
-            />
-        </Row>
-        {this.state.disableBtnRollDice?null: <span className ={'flexbox-container-center'} >Please tap the dice</span>}
+        {this.state.disableBtnRollDice?null: <span className ={'flexbox-container-center'} style ={{padding:'0px', margin:'0px'}} >Please tap the dice</span>}
+        {// <Row className ='flexbox-container-center' style= {{margin: `0px`, padding: '0px'}}>
+       
+
+          
+        // </Row>
+        }
+        
         <div className="scoresection">
           <br></br>
           <Row className="scores_label">Scores!</Row>
-          <br></br>
+          
           <Row className=" flexbox-container-even-around ">
             {this.state.teams.map((item, index) => {
               return (

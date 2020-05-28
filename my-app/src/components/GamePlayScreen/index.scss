@@ -28,8 +28,8 @@
 }
 
 .scores_label{
-    display: flex;
-    flex-direction: row;
+    // display: flex;
+    // flex-direction: row;
     justify-content: center;
     color: rgb(9, 0, 128);
     font-size: 30px;
@@ -37,16 +37,31 @@
 }
 
 .scoresection{
-    position: absolute; 
+    // position: absolute; 
+    // width: 100%;
+    // left:0;
+    // right: 0;
+    // margin: auto;
+    // bottom: 0;
+    // padding: 0px !important;
+    // //border-radius: 50px;
+    // background-color: rgb(255, 231, 149);
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    left:0;
-    right: 0;
-    margin: auto;
-    bottom: 0;
-    padding: 0px !important;
-    //border-radius: 50px;
     background-color: rgb(255, 231, 149);
+    justify-content: flex-end;
+    align-items: flex-end;
+    align-self: flex-end;
 }
+
+.gamePage{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between ; 
+    height: 100%
+}
+
 // .col-align-center {
 //     justify-content: center;
 //     text-align: center;
