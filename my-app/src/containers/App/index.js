@@ -72,7 +72,7 @@ class App extends Component {
             <GamePlayScreen teams={route.additionalProps.teams} />
           </Page>
         );
-      case "30 Seconds App - Home":
+      case "ZouZou - Home":
         return (
           <Page
             key={route.title}
@@ -123,7 +123,7 @@ class App extends Component {
         swipeable
         renderPage={this.renderPage}
         initialRoute={{
-          title: "30 Seconds App - Home",
+          title: "ZouZou - Home",
           hasBackButton: false
         }}
       />

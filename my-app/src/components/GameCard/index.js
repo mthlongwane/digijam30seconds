@@ -13,7 +13,7 @@ export default class GameCard extends Component {
         {this.props.disabled ? "Guess App" : null}
         {this.props.disabled ? null : (
           <aside className="side-block_prop">
-            <p className="side-text_prop">Guess App</p>
+            <p className="side-text_prop">ZouZou</p>
           </aside>
         )}
         {this.props.disabled ? null : (
@@ -28,7 +28,7 @@ export default class GameCard extends Component {
         )}
         {this.props.disabled ? null : (
           <aside className="side-block_prop">
-            <p className="side-text_prop">Guess App</p>
+            <p className="side-text_prop">ZouZou</p>
           </aside>
         )}
       </Card>

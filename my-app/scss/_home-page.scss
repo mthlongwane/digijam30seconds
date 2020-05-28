@@ -12,6 +12,20 @@
     text-align: center;
 }
 
+.sections-img{
+    // position: absolute;
+    // top: 0;
+    // right: 0;
+    // bottom: 0;
+    // left: 0;
+    width: 100%;
+    max-width: 400px;
+    height: 100%;
+    max-height: 303.17px;
+    padding: 0px;
+    // justify-content: center !important;
+}
+
 @media (prefers-color-scheme : dark ), (prefers-color-scheme : light ) {
     .sections{
         padding: 16px;
