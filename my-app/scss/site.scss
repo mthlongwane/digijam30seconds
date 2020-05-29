@@ -6,6 +6,11 @@
     justify-content: center
 }
 
+.flexbox-container-col-center{
+    display: flex; 
+    flex-direction: column;
+    justify-content: center
+}
 .flexbox-container-even{
     display: flex; 
     flex-direction: row;

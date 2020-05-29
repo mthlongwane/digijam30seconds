@@ -8,6 +8,9 @@ import { Navigator, Page, PullHook, BackButton, Toolbar } from "react-onsenui";
 //import Login from '../Login'
 import Home from "../Home";
 import GamePlayScreen from "../../components/GamePlayScreen";
+// import MultiPlayScreen from "../../components/MultiPlayScreen";
+import MultiPlayContainer from '../MultiPlayContainer'
+
 import Dice from "../../components/Dice";
 import BoosterCards from "../../components/BoosterCards";
 import BoosterCardContainer from "../BoosterCardContainer";
@@ -119,6 +122,17 @@ class App extends Component {
           >
              {this.props.firebaseAnalytics().logEvent('Booster Cards being used', { category: route.additionalProps.category})}
             <BoosterCardContainer category={route.additionalProps.category} />
+          </Page>
+        );
+      case "MultiplayerGame":
+        return (
+          <Page
+            firebaseAnalytics ={this.props.firebaseAnalytics}
+            key={route.title}
+            renderToolbar={this.renderToolbar.bind(this, route, navigator)}
+          >
+          
+            <MultiPlayContainer  firebaseAnalytics ={this.props.firebaseAnalytics} teams={route.additionalProps.teams} />
           </Page>
         );
       default:
