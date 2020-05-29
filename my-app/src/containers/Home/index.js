@@ -25,7 +25,9 @@ export default class Home extends Component {
     this.state = {
       isSideBarOpen: false,
       isNewGameActionSheetOpen: false,
-      isBoosterActionSheetOpen: false
+      isBoosterActionSheetOpen: false,
+      isLevelActionSheetOpen: false,
+      tracker: null
     };
     this.renderToolbar = this.renderToolbar.bind(this);
     this.hideSideBar = this.hideSideBar.bind(this);
@@ -36,6 +38,8 @@ export default class Home extends Component {
     this.handleBooster = this.handleBooster.bind(this);
     this.cancelBoosterActionSheet = this.cancelBoosterActionSheet.bind(this);
     this.openBoosterActionSheet = this.openBoosterActionSheet.bind(this);
+    this.openLevelActionSheet = this.openLevelActionSheet.bind(this);
+    this.cancelLevelActionSheet = this.cancelLevelActionSheet.bind(this);
   }
   renderToolbar() {
     return (
@@ -90,6 +94,36 @@ export default class Home extends Component {
       return { ...prevState, isBoosterActionSheetOpen: false };
     });
     this.props.pushPage(this.props.navigator, page, {});
+  }
+  openLevelActionSheet(val) {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isLevelActionSheetOpen: true,
+        isNewGameActionSheetOpen: false,
+        isBoosterActionSheetOpen: false,
+        tracker: val
+      };
+    });
+  }
+  cancelLevelActionSheet() {
+    this.setState(prevState => {
+      return { ...prevState, isLevelActionSheetOpen: false };
+    });
+  }
+  handleLevel(level) {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isLevelActionSheetOpen: false
+      };
+    });
+    this.state.tracker === "New Cards"
+      ? this.props.pushPage(this.props.navigator, "New Cards", { level: level })
+      : this.props.pushPage(this.props.navigator, "Game", {
+          teams: this.state.tracker,
+          level: level
+        });
   }
   render() {
     return (
@@ -181,21 +215,21 @@ export default class Home extends Component {
             >
               <ActionSheetButton
                 onClick={() => {
-                  this.handleNewGame(2);
+                  this.openLevelActionSheet(2);
                 }}
               >
                 2
               </ActionSheetButton>
               <ActionSheetButton
                 onClick={() => {
-                  this.handleNewGame(3);
+                  this.openLevelActionSheet(3);
                 }}
               >
                 3
               </ActionSheetButton>
               <ActionSheetButton
                 onClick={() => {
-                  this.handleNewGame(4);
+                  this.openLevelActionSheet(4);
                 }}
               >
                 4
@@ -223,7 +257,7 @@ export default class Home extends Component {
               </ActionSheetButton>
               <ActionSheetButton
                 onClick={() => {
-                  this.handleBooster("New Cards");
+                  this.openLevelActionSheet("New Cards");
                 }}
               >
                 New Cards
@@ -231,6 +265,36 @@ export default class Home extends Component {
 
               <ActionSheetButton
                 onClick={this.cancelBoosterActionSheet}
+                icon={"md-close"}
+              >
+                Cancel
+              </ActionSheetButton>
+            </ActionSheet>
+
+            <ActionSheet
+              isOpen={this.state.isLevelActionSheetOpen}
+              animation="default"
+              onCancel={this.cancelLevelActionSheet}
+              isCancelable={true}
+              title={"Choose Your Difficulty Level:"}
+            >
+              <ActionSheetButton
+                onClick={() => {
+                  this.handleLevel("Standard");
+                }}
+              >
+                Standard
+              </ActionSheetButton>
+              <ActionSheetButton
+                onClick={() => {
+                  this.handleLevel("Expert");
+                }}
+              >
+                Expert
+              </ActionSheetButton>
+
+              <ActionSheetButton
+                onClick={this.cancelLevelActionSheet}
                 icon={"md-close"}
               >
                 Cancel
