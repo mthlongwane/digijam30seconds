@@ -66,10 +66,12 @@ class App extends Component {
       case "Game":
         return (
           <Page
+           
             key={route.title}
             renderToolbar={this.renderToolbar.bind(this, route, navigator)}
           >
-            <GamePlayScreen teams={route.additionalProps.teams} />
+            {this.props.firebaseAnalytics().logEvent('New Game being played')}
+            <GamePlayScreen  firebaseAnalytics ={this.props.firebaseAnalytics} teams={route.additionalProps.teams} />
           </Page>
         );
       case "ZouZou - Home":
@@ -89,27 +91,33 @@ class App extends Component {
       case "Dice":
         return (
           <Page
+            firebaseAnalytics ={this.props.firebaseAnalytics}
             key={route.title}
             renderToolbar={this.renderToolbar.bind(this, route, navigator)}
           >
+            {this.props.firebaseAnalytics().logEvent('Booster Dice being used')}
             <Dice />
           </Page>
         );
       case "New Cards":
         return (
           <Page
+            firebaseAnalytics ={this.props.firebaseAnalytics}
             key={route.title}
             renderToolbar={this.renderToolbar.bind(this, route, navigator)}
           >
+            
             <BoosterCards pushPage={this.pushPage} navigator={navigator} />
           </Page>
         );
       case "boosterCard":
         return (
           <Page
+            firebaseAnalytics ={this.props.firebaseAnalytics}
             key={route.title}
             renderToolbar={this.renderToolbar.bind(this, route, navigator)}
           >
+             {this.props.firebaseAnalytics().logEvent('Booster Cards being used', { category: route.additionalProps.category})}
             <BoosterCardContainer category={route.additionalProps.category} />
           </Page>
         );

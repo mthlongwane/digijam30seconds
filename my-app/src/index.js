@@ -31,15 +31,15 @@ const firebaseConfig = {
   measurementId: "G-1ZR02C1MXZ"
 };
 firebase.initializeApp(firebaseConfig);
-firebase.analytics();
-firebase.analytics().logEvent('webpage_loaded');
+const firebaseAnalytics = firebase.analytics;
+firebaseAnalytics().logEvent('webpage_loaded');
 
 ReactDOM.render(
   // <React.StrictMode>
     // <Page>
     // <PullHook onChange{handleRefreshPull} onPull ={refreshCacheAndReload}>
     // </PullHook>
-      <App />
+      <App firebaseAnalytics ={firebaseAnalytics}/>
   //  </Page>
   // </React.StrictMode>
   ,

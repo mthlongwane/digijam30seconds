@@ -39,7 +39,8 @@ export default class GamePlayScreen extends Component {
       disableBtnRollDice: false,
       disableBtnReset: true,
       cardItems: ["", "", "", "", ""],
-      teams: new Array(this.props.teams ? this.props.teams : 2).fill("")
+      teams: new Array(this.props.teams ? this.props.teams : 2).fill(""),
+      nocardsPickedUp: 0
     };
     this.handleRollDice = this.handleRollDice.bind(this);
     this.handlePickUpCard = this.handlePickUpCard.bind(this);
@@ -50,6 +51,8 @@ export default class GamePlayScreen extends Component {
 
   componentWillUnmount() {
     clearInterval(this.state.counterId);
+    this.props.firebaseAnalytics().logEvent('Game Exit', { cardsPickedUp: this.state.nocardsPickedUp})
+    
   }
   rollDoneCallback(num) {
     this.handleRollDice(num)
@@ -80,9 +83,10 @@ export default class GamePlayScreen extends Component {
     // const randomCardIndex = Math.ceil(
     //   Math.random() * gameCards.Classic.length - 1
     // );
+    
     const selectedCardItems = selectCard(gameCards); //gameCards.Classic[randomCardIndex];
     this.setState(oldstate => {
-      return { ...oldstate, disableCard: false, cardItems: selectedCardItems };
+      return { ...oldstate, disableCard: false, cardItems: selectedCardItems,nocardsPickedUp: oldstate.nocardsPickedUp+1 };
     });
     this.handleStartTimer();
   }
