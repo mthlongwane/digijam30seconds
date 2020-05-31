@@ -69,12 +69,15 @@ class App extends Component {
       case "Game":
         return (
           <Page
-           
             key={route.title}
             renderToolbar={this.renderToolbar.bind(this, route, navigator)}
           >
-            {this.props.firebaseAnalytics().logEvent('New Game being played')}
-            <GamePlayScreen  firebaseAnalytics ={this.props.firebaseAnalytics} teams={route.additionalProps.teams} />
+            {this.props.firebaseAnalytics().logEvent("New Game being played")}
+            <GamePlayScreen
+              firebaseAnalytics={this.props.firebaseAnalytics}
+              teams={route.additionalProps.teams}
+              level={route.additionalProps.level}
+            />
           </Page>
         );
       case "ZouZou - Home":
@@ -94,33 +97,40 @@ class App extends Component {
       case "Dice":
         return (
           <Page
-            firebaseAnalytics ={this.props.firebaseAnalytics}
+            firebaseAnalytics={this.props.firebaseAnalytics}
             key={route.title}
             renderToolbar={this.renderToolbar.bind(this, route, navigator)}
           >
-            {this.props.firebaseAnalytics().logEvent('Booster Dice being used')}
+            {this.props.firebaseAnalytics().logEvent("Booster Dice being used")}
             <Dice />
           </Page>
         );
       case "New Cards":
         return (
           <Page
-            firebaseAnalytics ={this.props.firebaseAnalytics}
+            firebaseAnalytics={this.props.firebaseAnalytics}
             key={route.title}
             renderToolbar={this.renderToolbar.bind(this, route, navigator)}
           >
-            
-            <BoosterCards pushPage={this.pushPage} navigator={navigator} />
+            <BoosterCards
+              pushPage={this.pushPage}
+              navigator={navigator}
+              level={route.additionalProps.level}
+            />
           </Page>
         );
       case "boosterCard":
         return (
           <Page
-            firebaseAnalytics ={this.props.firebaseAnalytics}
+            firebaseAnalytics={this.props.firebaseAnalytics}
             key={route.title}
             renderToolbar={this.renderToolbar.bind(this, route, navigator)}
           >
-             {this.props.firebaseAnalytics().logEvent('Booster Cards being used', { category: route.additionalProps.category})}
+            {this.props
+              .firebaseAnalytics()
+              .logEvent("Booster Cards being used", {
+                category: route.additionalProps.category
+              })}
             <BoosterCardContainer category={route.additionalProps.category} />
           </Page>
         );
@@ -134,7 +144,8 @@ class App extends Component {
           
             <MultiPlayContainer  firebaseAnalytics ={this.props.firebaseAnalytics} teams={route.additionalProps.teams} />
           </Page>
-        );
+          );
+
       default:
         return <div>404 - page not found</div>;
     }

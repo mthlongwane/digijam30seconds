@@ -196,14 +196,15 @@ export default class MultiPlayScreen extends Component {
     
   }
   rollDoneCallback(num) {
-    this.handleRollDice(num)
     this.props.pubnub.publish({
       message: {
         user: this.props.user,
         state: {dice: num}
       },
       channel: this.props.gameChannel
-    });  
+    });
+    this.handleRollDice(num)
+  
     //console.log(`You rolled a ${num}`)
   }
   handleRollDice(num) {
