@@ -46,6 +46,24 @@ const printAlert = (title, text)=>{
     }
   })
 };
+const printAlertHTML = (title, html)=>{
+  Swal.fire({
+    position: 'top',
+    allowOutsideClick: false,
+    title: title,
+    html: html,
+    width: 275,
+    padding: '0.7em',
+    // Custom CSS to change the size of the modal
+    customClass: {
+        heightAuto: false,
+        title: 'title-class',
+        popup: 'popup-class',
+        confirmButton: 'button-class'
+    }
+  })
+};
+
 
 export default class MultiPlayScreen extends Component {
   constructor(props) {
@@ -98,6 +116,9 @@ export default class MultiPlayScreen extends Component {
             }
             else if(newMessageObj.additionalMessage){
               printAlert("Notification",`${newMessageObj.user} : ${newMessageObj.additionalMessage}` )
+            }
+            else if(newMessageObj.htmlMessage){
+              printAlertHTML(`${newMessageObj.user}`,newMessageObj.htmlMessage )
             }
           
           }
@@ -164,6 +185,13 @@ export default class MultiPlayScreen extends Component {
   }
   componentWillUnmount() {
     clearInterval(this.state.counterId);
+    this.props.pubnub.publish({
+      message: {
+        user: this.props.user,
+        additionalMessage: `Left the game :(.`
+      },
+      channel: this.props.gameChannel
+    }); 
     this.props.firebaseAnalytics().logEvent('Game Exit', { cardsPickedUp: this.state.nocardsPickedUp})
     
   }
@@ -206,9 +234,17 @@ export default class MultiPlayScreen extends Component {
     // );
     
     const selectedCardItems = selectCard(gameCards); //gameCards.Classic[randomCardIndex];
+    this.props.pubnub.publish({
+      message: {
+        user: this.props.user,
+        additionalMessage: `I just picked up a new card.`
+      },
+      channel: this.props.gameChannel
+    }); 
     this.setState(oldstate => {
       return { ...oldstate, disableCard: false, cardItems: selectedCardItems,nocardsPickedUp: oldstate.nocardsPickedUp+1 };
     });
+
     this.handleStartTimer();
   }
   handleStartTimer() {
@@ -222,7 +258,7 @@ export default class MultiPlayScreen extends Component {
         this.props.pubnub.publish({
           message: {
             user: this.props.user,
-            additionalMessage: `Time is up! \n  My card contained the following items: \n ${this.state.cardItems.map((item)=>{return `\n ${item} `})}`
+            htmlMessage: `Time is up! <br />  My card contained the following: <br /> ${this.state.cardItems.map((item)=>{return `<br /> ${item} `})}`
           },
           channel: this.props.gameChannel
         }); 
