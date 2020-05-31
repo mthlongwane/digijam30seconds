@@ -8,6 +8,24 @@ import PubNubReact from 'pubnub-react';
 import Swal from "sweetalert2";  
 import shortid  from 'shortid';
 
+const printAlert = (title, text)=>{
+    Swal.fire({
+      position: 'top',
+      allowOutsideClick: false,
+      title: title,
+      text: text,
+      width: 275,
+      padding: '0.7em',
+      // Custom CSS to change the size of the modal
+      customClass: {
+          heightAuto: false,
+          title: 'title-class',
+          popup: 'popup-class',
+          confirmButton: 'button-class'
+      }
+    })
+  };
+
 export default class MultiPlayContainer extends Component {
     constructor(props){
         super(props)
@@ -26,7 +44,7 @@ export default class MultiPlayContainer extends Component {
             username: null,
             roomID: null,
             isRoomCreator:false,
-            lobbyChannel: null
+            lobbyChannel: this.lobbyChannel
         }
         this.handleCreateGame = this.handleCreateGame.bind(this)
         
@@ -46,17 +64,50 @@ export default class MultiPlayContainer extends Component {
         if(this.lobbyChannel != null){
           this.pubnub.getMessage(this.lobbyChannel, (msg) => {
             // Start the game once an opponent joins the channel
+            
             if(msg.message.notRoomCreator){
-              // Create a different channel for the game
+              // Subscribt to channel for the game
               this.gameChannel = '30SecondsOnlinelobby--' + this.roomId;
               this.pubnub.subscribe({
                 channels: [this.gameChannel]
-              });
-              this.setState(oldstate =>{ return {...oldstate ,readyToPlay: true} })
+              })
+              
+              this.setState({readyToPlay: true})
+              
+            }else if(msg.message.notRoomCreator===false ){
+                printAlert('Notification',"No room with that ID was found! - We have created a new room for you (:" )
+                this.setState({isRoomCreator: true,readyToPlay: true})
             }
-            this.setState(oldstate =>{ return {...oldstate ,readyToPlay: true} })
+
           }); 
+          
         }
+      }
+    //   componentWillMount() {
+    //     // Check that the player is connected to a channel
+    //     if(this.lobbyChannel != null){
+    //       this.pubnub.getMessage(this.lobbyChannel, (msg) => {
+    //         // Start the game once an opponent joins the channel
+    //         if(msg.message.notRoomCreator){
+    //           // Create a different channel for the game
+    //           this.gameChannel = '30SecondsOnlinelobby--' + this.roomId;
+    //           this.pubnub.subscribe({
+    //             channels: [this.gameChannel]
+    //           });
+    //           this.setState({readyToPlay: true})
+    //           //this.setState(oldstate =>{ return {...oldstate ,readyToPlay: true} })
+    //         }
+    //         //this.setState({readyToPlay: true} )
+    //         //this.setState(oldstate =>{ return {...oldstate ,readyToPlay: true} })
+    //       }); 
+    //       //this.pubnub.getStatus();
+    //     }
+    //   }
+      
+      componentWillUnmount() {
+        this.pubnub.unsubscribe({
+          channels : [this.lobbyChannel, this.gameChannel]
+        });
       }
     handleCreateGame(){
         this.roomId = shortid.generate().substring(0,5);
@@ -80,10 +131,12 @@ export default class MultiPlayContainer extends Component {
                 confirmButton: 'button-class'
             }
           })
-        this.setState(oldstate =>{ return {...oldstate, roomId: this.roomId ,disableBtnCreate:true, showCreateForm: false, showJoinForm: false, isRoomCreator: true,lobbyChannel: this.lobbyChannel, readyToPlay: true} })
+        this.setState({ roomId: this.roomId ,disableBtnCreate:true, showCreateForm: false, showJoinForm: false, isRoomCreator: true,lobbyChannel: this.lobbyChannel, readyToPlay: true , username: "admin"} )
+       // this.setState(oldstate =>{ return {...oldstate, roomId: this.roomId ,disableBtnCreate:true, showCreateForm: false, showJoinForm: false, isRoomCreator: true,lobbyChannel: this.lobbyChannel, readyToPlay: true , username: "admin"} })
     }
     handleShowJoin(){
-        this.setState(oldstate =>{ return {...oldstate ,showJoinForm: true, showCreateForm: false} })
+        this.setState( {showJoinForm: true, showCreateForm: false} )
+        //this.setState(oldstate =>{ return {...oldstate ,showJoinForm: true, showCreateForm: false} })
     }
     handleJoinGame(){
         this.roomId = this.state.roomIdInput;
@@ -93,6 +146,7 @@ export default class MultiPlayContainer extends Component {
         this.pubnub.hereNow({
             channels: [this.lobbyChannel], 
         }).then((response) => { 
+            
             if(response.totalOccupancy < 10){
                 this.pubnub.subscribe({
                 channels: [this.lobbyChannel],
@@ -105,11 +159,13 @@ export default class MultiPlayContainer extends Component {
                 
                 this.pubnub.publish({
                 message: {
-                    notRoomCreator: true,
+                    notRoomCreator: response.totalOccupancy>0, //determines occupancy determines if I am the room creator
+                    newUser: this.state.usernameInput
                 },
                 channel: this.lobbyChannel
                 });
-                this.setState(oldstate =>{ return {...oldstate ,showJoinForm: false, showCreateForm: false, lobbyChannel: this.lobbyChannel, username: oldstate.usernameInput} })
+                this.setState({roomId: this.roomId,showJoinForm: false, showCreateForm: false, lobbyChannel: this.lobbyChannel, username:  this.state.usernameInput})
+               // this.setState(oldstate =>{ return {...oldstate, roomId: this.roomId,showJoinForm: false, showCreateForm: false, lobbyChannel: this.lobbyChannel, username: oldstate.usernameInput} })
             } 
             else{
                 // Game in progress
@@ -140,10 +196,27 @@ export default class MultiPlayContainer extends Component {
     handleNameInput(e){
         this.setState(oldstate =>{ return {...oldstate ,usernameInput:e.target.value} })
     }
+    // Reset everything
+    endGame = () => {
+        this.setState({
+        piece: '',
+        isPlaying: false,
+        isRoomCreator: false,
+        isDisabled: false,
+        myTurn: false,
+        });
 
+        this.lobbyChannel = null;
+        this.gameChannel = null;
+        this.roomId = null;  
+
+        this.pubnub.unsubscribe({
+        channels : [this.lobbyChannel, this.gameChannel]
+        });
+    }
     render() {
         return (
-            <div>{
+            <div className= "gamePage">{
                 !this.state.readyToPlay? (
                     <div> 
                         <Row className="flexbox-container-even">
@@ -198,11 +271,16 @@ export default class MultiPlayContainer extends Component {
                     </div>
                 )
                 : (
-                    <MultiPlayScreen teams={this.props.teams} 
+                    <MultiPlayScreen 
+                    user = {this.state.username}
+                    roomId = {this.roomId}
+                    teams={this.props.teams} 
                     pubnub={this.pubnub}
-                    gameChannel={this.gameChannel} 
+                    gameChannel={this.state.lobbyChannel} 
                     isRoomCreator={this.state.isRoomCreator}
                     endGame={this.endGame}
+                    pn_messages= {this.state.pn_messages}
+                    firebaseAnalytics ={this.props.firebaseAnalytics}
                     />
                 )
             }

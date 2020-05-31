@@ -9,6 +9,8 @@ import cardItemArray from "../../localDatafiles/card-data_Main.json";
 import { selectCard } from "../../helperFunctions/cardPicker";
 import runTimer from "../../helperFunctions/advancedTimer";
 
+import Swal from "sweetalert2";  
+
 import CountComponent from "../CountComponent";
 import ReactDice from '../Dice/ReactDice'
 
@@ -27,6 +29,24 @@ const gameState = {
   NEXTTEAM: "NEXTTEAM"
 };
 
+const printAlert = (title, text)=>{
+  Swal.fire({
+    position: 'top',
+    allowOutsideClick: false,
+    title: title,
+    text: text,
+    width: 275,
+    padding: '0.7em',
+    // Custom CSS to change the size of the modal
+    customClass: {
+        heightAuto: false,
+        title: 'title-class',
+        popup: 'popup-class',
+        confirmButton: 'button-class'
+    }
+  })
+};
+
 export default class MultiPlayScreen extends Component {
   constructor(props) {
     super(props);
@@ -39,16 +59,109 @@ export default class MultiPlayScreen extends Component {
       disableBtnRollDice: false,
       disableBtnReset: true,
       cardItems: ["", "", "", "", ""],
-      teams: new Array(this.props.teams ? this.props.teams : 2).fill(""),
-      nocardsPickedUp: 0
+      teams: new Array(this.props.teams ? this.props.teams : 2).fill(0),
+      nocardsPickedUp: 0,
+      pubnub: this.props.pubnub
     };
     this.handleRollDice = this.handleRollDice.bind(this);
     this.handlePickUpCard = this.handlePickUpCard.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.rollDoneCallback = this.rollDoneCallback.bind(this)
     this.alarm = new sound("/alarm-clock.mp3");
-  }
 
+    this.syncmystate =this.syncmystate.bind(this);
+    this.updateScore = this.updateScore.bind(this);
+
+    this.props.pubnub.addListener({
+      message: (message) => {
+        //console.log(message)
+        if(message.message){
+          const newMessageObj = message.message;
+          if( newMessageObj.newUser && newMessageObj.newUser!==this.props.user ){
+            //if message object contains newUser element then a new user joined
+            printAlert("Notification",`${newMessageObj.newUser} just joined! ` )
+          }
+          else if(newMessageObj.user && newMessageObj.user!==this.props.user ){
+            //First check is to ensure that this message isnt re-broadcasted to the orignial user who published it.
+
+            if(newMessageObj.state){
+              //check if this is a state change
+                if(newMessageObj.state.dice){
+                  //If dice change notification should say
+                  printAlert("Notification",`${newMessageObj.user} just rolled a ${newMessageObj.state.dice} on the dice` )
+                }else if (newMessageObj.state.teams){
+                  //If dice change notification should say
+                  printAlert("Notification",`${newMessageObj.user} just updated the scores.` )
+                }
+              
+              this.syncmystate(message.message.state)
+            }
+            else if(newMessageObj.additionalMessage){
+              printAlert("Notification",`${newMessageObj.user} : ${newMessageObj.additionalMessage}` )
+            }
+          
+          }
+        }
+
+      
+
+        //printAlert("Notification",`${JSON.stringify(message)} ` )
+        // // handle message
+        // const channelName = message.channel;
+        // const channelGroup = message.subscription;
+        // const publishTimetoken = message.timetoken;
+        // const msg = message.message;
+        // const publisher = message.publisher;
+    
+        // //show time
+        // const unixTimestamp = message.timetoken / 10000000;
+        // const gmtDate = new Date(unixTimestamp * 1000);
+        // const localeDateTime = gmtDate.toLocaleString();
+      }
+    });
+  }
+  componentDidMount(){
+    // this.props.pubnub.getMessage(this.props.gameChannel, (msg) => {
+    //   // Update other player's screen state
+      
+    //   //New user joins
+    //   if (msg.message && msg.message.newUser){
+
+    //     printAlert("Notification",`${msg.message.newUser} has joined the game!` )
+    //   }else{
+    //     console.log(msg.message)
+    //     Swal.fire({
+    //       position: 'top',
+    //       allowOutsideClick: false,
+    //       title: 'Message',
+    //       text: `${JSON.stringify(msg.message)}`,
+    //       width: 275,
+    //       padding: '0.7em',
+    //       // Custom CSS to change the size of the modal
+    //       customClass: {
+    //           heightAuto: false,
+    //           title: 'title-class',
+    //           popup: 'popup-class',
+    //           confirmButton: 'button-class'
+    //       }
+    //     })
+    //   }
+      
+      // if(this.props.user !==msg.message.user){
+
+        //this.syncmystate( msg.message.state);
+      //}
+    //});
+  }
+  syncmystate(state){
+    console.log(state)
+    this.setState((oldstate)=>{
+      return{
+        ...oldstate,
+        ...state
+      }
+    })
+  }
   componentWillUnmount() {
     clearInterval(this.state.counterId);
     this.props.firebaseAnalytics().logEvent('Game Exit', { cardsPickedUp: this.state.nocardsPickedUp})
@@ -56,6 +169,13 @@ export default class MultiPlayScreen extends Component {
   }
   rollDoneCallback(num) {
     this.handleRollDice(num)
+    this.props.pubnub.publish({
+      message: {
+        user: this.props.user,
+        state: {dice: num}
+      },
+      channel: this.props.gameChannel
+    });  
     //console.log(`You rolled a ${num}`)
   }
   handleRollDice(num) {
@@ -77,6 +197,7 @@ export default class MultiPlayScreen extends Component {
       this.setState(oldstate => {
         return { ...oldstate, dice: randomRoll };
       });
+
     }, 500);
   }
   handlePickUpCard() {
@@ -98,9 +219,17 @@ export default class MultiPlayScreen extends Component {
       if (count < 0) {
         clearInterval(counter); //time is now up
         this.alarm.play();
+        this.props.pubnub.publish({
+          message: {
+            user: this.props.user,
+            additionalMessage: `Time is up! \n  My card contained the following items: \n ${this.state.cardItems.map((item)=>{return `\n ${item} `})}`
+          },
+          channel: this.props.gameChannel
+        }); 
         ons.notification.alert("Time is up!").then(() => {
           this.alarm.stop();
         });
+
         this.setState(oldstate => {
           return {
             ...oldstate,
@@ -139,7 +268,13 @@ export default class MultiPlayScreen extends Component {
   handleReset() {
     //reset
     clearInterval(this.state.counterId);
-
+    this.props.pubnub.publish({
+      message: {
+        user: this.props.user,
+        additionalMessage: `I just reset my timer!`
+      },
+      channel: this.props.gameChannel
+    }); 
     //reset timer, remove card, disable card, enable pickup button
     this.setState(oldstate => {
       return {
@@ -156,12 +291,34 @@ export default class MultiPlayScreen extends Component {
     // pick new card
     //this.handlePickUpCard()
   }
+  updateScore(index, score){
+    this.setState(oldstate => {
+      var newScores = [...oldstate.teams]
+      newScores[index] = score
+
+      //publish new scores
+      this.props.pubnub.publish({
+        message: {
+          user: this.props.user,
+          state: {teams: newScores}
+        },
+        channel: this.props.gameChannel
+      }); 
+
+      return {
+        ...oldstate,
+        teams: newScores
+      };
+    });
+
+  }
   render() {
+
     return (
       <div className="gamePage">
         <Row  className="flexbox-container-center">
-          {//<Col className="dice_label">Dice: {this.state.dice}</Col>
-          }
+          <Col className="dice_label">Dice: {this.state.dice}</Col>
+          
           {/*className="timer_label"*/}
           <Col  className="timer_label_center" >Timer: {this.state.timer}s</Col>
         </Row>
@@ -225,13 +382,13 @@ export default class MultiPlayScreen extends Component {
         <div className="scoresection">
           <br></br>
           <Row className="scores_label">Scores!</Row>
-          
+          <Row className="roomID_label">(Room Id: {this.props.roomId})</Row>
           <Row className=" flexbox-container-even-around ">
-            {this.state.teams.map((item, index) => {
+            {this.state.teams.map((score, index) => {
               return (
                 <Col key={index} className="flexbox-item-center-noGrow">
                   Team:{index + 1}
-                  <CountComponent />
+                  <CountComponent index = {index} score ={score} updateScore = {this.updateScore}/>
                 </Col>
               );
             })}
