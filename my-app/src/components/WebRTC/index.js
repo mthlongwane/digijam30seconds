@@ -70,6 +70,7 @@ function generateToken(developerKey,applicationId,username,expiresInSeconds) {
     var shaObj = new jsSHA("SHA-384", "TEXT");
     shaObj.setHMACKey(developerKey, "TEXT");
     var jid = `${username}` + getRandomInt() + '@' + applicationId;
+    // eslint-disable-next-line
     var body = 'provision' + '\x00' + jid + '\x00' + expires + '\x00';
     shaObj.update(body);
     var mac = shaObj.getHMAC("HEX");

@@ -131,6 +131,16 @@ export default class MultiPlayContainer extends Component {
                 confirmButton: 'button-class'
             }
           })
+
+          if (navigator.share) {
+            navigator.share({
+              title: '30 Seconds online share',
+              text: `Please join my 30 Seconds online game with the Room Id: ${this.roomId}.`,
+              url: 'https://app.30secondsonline.com/',
+            })
+              .then(() => console.log('Successful share'))
+              .catch((error) => console.log('Error sharing', error));
+          }
         this.setState({ roomId: this.roomId ,disableBtnCreate:true, showCreateForm: false, showJoinForm: false, isRoomCreator: true,lobbyChannel: this.lobbyChannel, readyToPlay: true , username: "admin"} )
        // this.setState(oldstate =>{ return {...oldstate, roomId: this.roomId ,disableBtnCreate:true, showCreateForm: false, showJoinForm: false, isRoomCreator: true,lobbyChannel: this.lobbyChannel, readyToPlay: true , username: "admin"} })
     }
