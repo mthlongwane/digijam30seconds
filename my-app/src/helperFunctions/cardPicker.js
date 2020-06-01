@@ -5,7 +5,7 @@ function selectCard(cardItemArray) {
   var categoryIndexTracker = [];
   var newCardItemArrayLength = cardItemArrayLength;
 
-  while (card.length < 5) {
+  while (card.length < 3) {
     // randomly generate index number of category we will pich from
     let randomCategoryIndex = Math.ceil(
       Math.random() * newCardItemArrayLength - 1
@@ -102,4 +102,26 @@ function selectCardFromCategory(array, category) {
   return finalSelectedArray;
 }
 
-module.exports = { selectCard, getCategories, selectCardFromCategory };
+//function to remove the non-selected level and categories less than 50
+function chooseInitialCategories(array, level) {
+  var firstArray = [];
+  var i;
+  for (i = 0; i < array.length; i++) {
+    if (array[i][0] === level && array[i].length > 51) {
+      firstArray.push(array[i]);
+    }
+  }
+  var secondArray = [];
+  var j;
+  for (j = 0; j < firstArray.length; j++) {
+    secondArray[j] = firstArray[j].slice(1);
+  }
+  return secondArray;
+}
+
+module.exports = {
+  selectCard,
+  getCategories,
+  selectCardFromCategory,
+  chooseInitialCategories
+};

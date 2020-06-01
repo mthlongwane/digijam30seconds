@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import cardItemArray from "../../localDatafiles/card-data_Main.json";
 import {
   selectCardFromCategory,
   selectCard
@@ -7,15 +6,14 @@ import {
 import { Row, Col, Button } from "react-onsenui";
 import GameCard from "../../components/GameCard";
 
-const gameCards = cardItemArray;
-
 class BoosterCards extends Component {
   constructor(props) {
     super(props);
     this.state = {
       category: this.props.category,
       cardArray: ["", "", "", "", ""],
-      disableCard: false
+      disableCard: false,
+      gameCards: this.props.mixedCategories
     };
     this.handlePickUpCard = this.handlePickUpCard.bind(this);
     this.handleClearCard = this.handleClearCard.bind(this);
@@ -30,9 +28,12 @@ class BoosterCards extends Component {
   handlePickUpCard() {
     var newCard;
     if (this.props.category === "MIXED") {
-      newCard = selectCard(gameCards);
+      newCard = selectCard(this.state.gameCards);
     } else {
-      newCard = selectCardFromCategory(cardItemArray, this.props.category);
+      newCard = selectCardFromCategory(
+        this.state.gameCards,
+        this.props.category
+      );
     }
     this.setState(oldstate => {
       return { ...oldstate, cardArray: newCard };

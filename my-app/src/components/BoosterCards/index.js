@@ -1,20 +1,18 @@
 import React, { Component } from "react";
-import cardItemArray from "../../localDatafiles/card-data_Main.json";
 import { getCategories } from "../../helperFunctions/cardPicker";
 import { Row } from "react-onsenui";
-
-const gameCards = cardItemArray;
 
 class BoosterCards extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { gameCards: this.props.categories };
     this.handleCategorySelected = this.handleCategorySelected.bind(this);
   }
 
   handleCategorySelected(category) {
     this.props.pushPage(this.props.navigator, "boosterCard", {
-      category: category
+      category: category,
+      mixedCategories: this.state.gameCards
     });
   }
   render() {
@@ -33,7 +31,7 @@ class BoosterCards extends Component {
             </Row>
           </Row>
         </section>
-        {getCategories(gameCards).map((category, index) => {
+        {getCategories(this.state.gameCards).map((category, index) => {
           return (
             <section key={index} style={{ margin: "16px", marginTop: "20px" }}>
               <Row

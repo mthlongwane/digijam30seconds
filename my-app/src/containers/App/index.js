@@ -11,7 +11,6 @@ import GamePlayScreen from "../../components/GamePlayScreen";
 import Dice from "../../components/Dice";
 import BoosterCards from "../../components/BoosterCards";
 import BoosterCardContainer from "../BoosterCardContainer";
-import Levels from "../../components/Levels";
 
 const refreshCacheAndReload = () => {
   console.log("Clearing cache and hard reloading...");
@@ -74,7 +73,7 @@ class App extends Component {
             <GamePlayScreen
               firebaseAnalytics={this.props.firebaseAnalytics}
               teams={route.additionalProps.teams}
-              level={route.additionalProps.level}
+              categories={route.additionalProps.categories}
             />
           </Page>
         );
@@ -113,7 +112,7 @@ class App extends Component {
             <BoosterCards
               pushPage={this.pushPage}
               navigator={navigator}
-              level={route.additionalProps.level}
+              categories={route.additionalProps.categories}
             />
           </Page>
         );
@@ -129,19 +128,9 @@ class App extends Component {
               .logEvent("Booster Cards being used", {
                 category: route.additionalProps.category
               })}
-            <BoosterCardContainer category={route.additionalProps.category} />
-          </Page>
-        );
-      case "Levels":
-        return (
-          <Page
-            key={route.title}
-            renderToolbar={this.renderToolbar.bind(this, route, navigator)}
-          >
-            <Levels
-              pushPage={this.pushPage}
-              navigator={navigator}
-              teams={route.additionalProps.teams}
+            <BoosterCardContainer
+              category={route.additionalProps.category}
+              mixedCategories={route.additionalProps.mixedCategories}
             />
           </Page>
         );
