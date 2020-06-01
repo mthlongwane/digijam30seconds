@@ -281,6 +281,7 @@ export default class MultiPlayContainer extends Component {
                     endGame={this.endGame}
                     pn_messages= {this.state.pn_messages}
                     firebaseAnalytics ={this.props.firebaseAnalytics}
+                    readyToPlay = {this.state.readyToPlay}
                     />
                 )
             }

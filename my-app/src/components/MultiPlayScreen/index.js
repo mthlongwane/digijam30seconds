@@ -14,6 +14,8 @@ import Swal from "sweetalert2";
 import CountComponent from "../CountComponent";
 import ReactDice from '../Dice/ReactDice'
 
+import WebRTC from '../WebRTC'
+
 import "./index.scss";
 
 const gameCards = cardItemArray;
@@ -409,14 +411,9 @@ export default class MultiPlayScreen extends Component {
           </Col>
         </Row>
         {this.state.disableBtnRollDice?null: <span className ={'flexbox-container-center'} style ={{padding:'0px', margin:'0px'}} >Please tap the dice</span>}
-        {// <Row className ='flexbox-container-center' style= {{margin: `0px`, padding: '0px'}}>
-       
 
-          
-        // </Row>
-        }
         
-        <div className="scoresection">
+        <div className="scoresection" >
           <br></br>
           <Row className="scores_label">Scores!</Row>
           <Row className="roomID_label">(Room Id: {this.props.roomId})</Row>
@@ -431,6 +428,15 @@ export default class MultiPlayScreen extends Component {
             })}
           </Row>
         </div>
+        <br></br>
+        {
+          this.props.readyToPlay? 
+            <Row className="webrtcRow" >
+              <WebRTC roomId = {this.props.roomId} user = {this.props.user}/>
+            </Row>
+          : null
+          
+          }
       </div>
     );
   }
