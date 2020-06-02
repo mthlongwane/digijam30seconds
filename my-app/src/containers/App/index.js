@@ -148,6 +148,7 @@ class App extends Component {
             <MultiPlayContainer
               firebaseAnalytics={this.props.firebaseAnalytics}
               teams={route.additionalProps.teams}
+              fullCategories={route.additionalProps.fullCategories}
             />
           </Page>
         );

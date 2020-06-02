@@ -13,7 +13,8 @@ class BoosterCards extends Component {
       category: this.props.category,
       cardArray: ["", "", "", "", ""],
       disableCard: false,
-      gameCards: this.props.fullCategories
+      gameCards: this.props.fullCategories,
+      cardsChosen: []
     };
     this.handlePickUpCard = this.handlePickUpCard.bind(this);
     this.handleClearCard = this.handleClearCard.bind(this);
@@ -28,7 +29,7 @@ class BoosterCards extends Component {
   handlePickUpCard() {
     var newCard;
     if (this.props.category === "MIXED") {
-      newCard = selectCard(this.state.gameCards);
+      newCard = selectCard(this.state.gameCards, this.state.cardsChosen);
     } else {
       newCard = selectCardFromCategory(
         this.state.gameCards,
