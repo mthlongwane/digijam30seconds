@@ -280,7 +280,7 @@ export default class Home extends Component {
                 style={{ backgroundColor: "#ffd202" }}
               >
                 <Row className="flexbox-container-center">
-                  <h1 style={{ padding: "0px" }}>Multiplayer Online </h1>
+                  <h1 style={{ padding: "0px" }}>Virtual Game</h1>
                 </Row>
                 <Row className="flexbox-container-center sections-text">
                   <p>Want to play your friends online? </p>

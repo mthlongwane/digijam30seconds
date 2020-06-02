@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Row, Input } from "react-onsenui";
-import MultiPlayScreen from "../../components/MultiPlayScreen";
+import GamePlayScreen from "../../components/GamePlayScreen";
 
 //import PubNub from 'pubnub';
 //import { PubNubProvider, usePubNub } from 'pubnub-react';
@@ -330,17 +330,9 @@ export default class MultiPlayContainer extends Component {
             ) : null}
           </div>
         ) : (
-          <MultiPlayScreen
-            user={this.state.username}
-            roomId={this.roomId}
-            teams={this.props.teams}
-            pubnub={this.pubnub}
-            gameChannel={this.state.lobbyChannel}
-            isRoomCreator={this.state.isRoomCreator}
-            endGame={this.endGame}
-            pn_messages={this.state.pn_messages}
+          <GamePlayScreen
             firebaseAnalytics={this.props.firebaseAnalytics}
-            readyToPlay={this.state.readyToPlay}
+            teams={this.props.teams}
             fullCategories={this.props.fullCategories}
           />
         )}

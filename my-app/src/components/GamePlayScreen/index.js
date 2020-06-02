@@ -245,7 +245,11 @@ export default class GamePlayScreen extends Component {
               return (
                 <Col key={index} className="flexbox-item-center-noGrow">
                   Team:{index + 1}
-                  <CountComponent />
+                  <CountComponent 
+                  index={false}
+                  score={0}
+                  updateScore={false}
+                  />
                 </Col>
               );
             })}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import ons from "onsenui";
-import { Button, Row, Col } from "react-onsenui";
+import { Button, Row, Col, Switch } from "react-onsenui";
 
 import GameCard from "../GameCard";
 
@@ -82,7 +82,9 @@ export default class MultiPlayScreen extends Component {
       nocardsPickedUp: 0,
       pubnub: this.props.pubnub,
       gameCards: this.props.fullCategories,
-      cardsChosen: []
+      cardsChosen: [],
+      videoCall: false,
+      VideoChecked: false
     };
     this.handleRollDice = this.handleRollDice.bind(this);
     this.handlePickUpCard = this.handlePickUpCard.bind(this);
@@ -92,6 +94,7 @@ export default class MultiPlayScreen extends Component {
 
     this.syncmystate = this.syncmystate.bind(this);
     this.updateScore = this.updateScore.bind(this);
+    this.handleEnableVideo = this.handleEnableVideo.bind(this);
 
     this.props.pubnub.addListener({
       message: message => {
@@ -344,7 +347,7 @@ export default class MultiPlayScreen extends Component {
       return {
         ...oldstate,
         gameState: gameState.TIMERRESTARTED,
-        timer: "30:00",
+        timer: "30",
         cardItems: ["", "", "", "", ""],
         disableCard: false,
         disableBtnPickup: false,
@@ -375,14 +378,21 @@ export default class MultiPlayScreen extends Component {
       };
     });
   }
+
+  handleEnableVideo(e){
+    this.setState({VideoChecked: e.target.checked,videoCall: e.target.checked });
+  }
   render() {
     return (
       <div className="gamePage">
         <Row className="flexbox-container-center">
           <Col className="dice_label">Dice: {this.state.dice}</Col>
-
+          <Col className="videoSwitch_center">         
+           <p className="videoSwitch_text">{this.state.VideoChecked ? 'Video On' : ' Video Off'}</p>
+            <Switch checked={this.state.VideoChecked} onChange={this.handleEnableVideo}/>
+          </Col>
           {/*className="timer_label"*/}
-          <Col className="timer_label_center">Timer: {this.state.timer}s</Col>
+          <Col className="timer_label">Timer: {this.state.timer}s</Col>
         </Row>
 
         <Row className="flexbox-container-center">
@@ -463,7 +473,7 @@ export default class MultiPlayScreen extends Component {
           </Row>
         </div>
         <br></br>
-        {this.props.readyToPlay ? (
+        {this.props.readyToPlay && this.state.videoCall ? (
           <Row ref="webtrtcplayerrow" className="webrtcRow">
             <WebRTC roomId={this.props.roomId} user={this.props.user} />
           </Row>
