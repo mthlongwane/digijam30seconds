@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, ReactDOM } from "react";
 
 import ons from "onsenui";
 import { Button, Row, Col } from "react-onsenui";
@@ -194,6 +194,7 @@ export default class MultiPlayScreen extends Component {
       },
       channel: this.props.gameChannel
     }); 
+    // ReactDOM.unmountComponentAtNode(this.refs.webtrtcplayerrow) //disconnect player
     this.props.firebaseAnalytics().logEvent('Game Exit', { cardsPickedUp: this.state.nocardsPickedUp})
     
   }
@@ -251,9 +252,9 @@ export default class MultiPlayScreen extends Component {
     this.handleStartTimer();
   }
   handleStartTimer() {
-    var countSeconds = 30;
-    var countSplits = 0;
-    var count = 3000;
+    // var countSeconds = 30;
+    // var countSplits = 0;
+    var count = 30;
     const timer = () => {
       if (count < 0) {
         clearInterval(counter); //time is now up
@@ -278,20 +279,20 @@ export default class MultiPlayScreen extends Component {
         });
         return;
       }
-      if (countSplits < 0) {
-        countSeconds--;
-        countSplits = 99;
-      }
-      var newTime = runTimer(countSplits, countSeconds);
+      // if (countSplits < 0) {
+      //   countSeconds--;
+      //   countSplits = 99;
+      // }
+      // var newTime = runTimer(countSplits, countSeconds);
       //Each Second that Passes Set New timer value to state
       this.setState(oldstate => {
-        return { ...oldstate, timer: newTime };
+        return { ...oldstate, timer: count-- };
       });
-      count--;
-      countSplits--;
+      // count--;
+      // countSplits--;
     };
 
-    var counter = setInterval(timer, 10); //1000 will  run it every 1 second
+    var counter = setInterval(timer, 900); //1000 will  run it every 1 second
 
     this.setState(oldstate => {
       return {
@@ -431,7 +432,7 @@ export default class MultiPlayScreen extends Component {
         <br></br>
         {
           this.props.readyToPlay? 
-            <Row className="webrtcRow" >
+            <Row ref="webtrtcplayerrow" className="webrtcRow" >
               <WebRTC roomId = {this.props.roomId} user = {this.props.user}/>
             </Row>
           : null

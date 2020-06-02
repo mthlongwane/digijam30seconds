@@ -108,6 +108,7 @@ export default class MultiPlayContainer extends Component {
         this.pubnub.unsubscribe({
           channels : [this.lobbyChannel, this.gameChannel]
         });
+        this.setState({readyToPlay:false})
       }
     handleCreateGame(){
         this.roomId = shortid.generate().substring(0,5);
@@ -116,10 +117,18 @@ export default class MultiPlayContainer extends Component {
             channels: [this.lobbyChannel],
             withPresence: true // Checks the number of people in the channel
         });
+        if (navigator.share) {
+            navigator.share({
+              text: `Please join my 30 Seconds online game with the Room Id: ${this.roomId}.`,
+              url: 'https://app.30secondsonline.com/',
+            })
+              .then(() => console.log('Successful share'))
+              .catch((error) => console.log('Error sharing', error));
+          }
         Swal.fire({
             position: 'top',
             allowOutsideClick: false,
-            title: 'Share this room ID with your friend',
+            title: 'Share this room ID with your friends',
             text: this.roomId,
             width: 275,
             padding: '0.7em',
@@ -132,15 +141,7 @@ export default class MultiPlayContainer extends Component {
             }
           })
 
-          if (navigator.share) {
-            navigator.share({
-              title: '30 Seconds online share',
-              text: `Please join my 30 Seconds online game with the Room Id: ${this.roomId}.`,
-              url: 'https://app.30secondsonline.com/',
-            })
-              .then(() => console.log('Successful share'))
-              .catch((error) => console.log('Error sharing', error));
-          }
+
         this.setState({ roomId: this.roomId ,disableBtnCreate:true, showCreateForm: false, showJoinForm: false, isRoomCreator: true,lobbyChannel: this.lobbyChannel, readyToPlay: true , username: "admin"} )
        // this.setState(oldstate =>{ return {...oldstate, roomId: this.roomId ,disableBtnCreate:true, showCreateForm: false, showJoinForm: false, isRoomCreator: true,lobbyChannel: this.lobbyChannel, readyToPlay: true , username: "admin"} })
     }
