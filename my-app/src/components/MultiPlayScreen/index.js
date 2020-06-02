@@ -71,7 +71,7 @@ export default class MultiPlayScreen extends Component {
     super(props);
     this.state = {
       dice: "*",
-      timer: "30:00",
+      timer: "30",
       gameState: gameState.GAMESTART,
       disableCard: false,
       disableBtnPickup: true,
