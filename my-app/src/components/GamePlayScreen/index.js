@@ -37,7 +37,8 @@ export default class GamePlayScreen extends Component {
       disableBtnReset: true,
       cardItems: ["", "", "", "", ""],
       teams: new Array(this.props.teams ? this.props.teams : 2).fill(""),
-      gameCards: this.props.categories
+      gameCards: this.props.fullCategories,
+      cardsChosen: []
     };
     this.handleRollDice = this.handleRollDice.bind(this);
     this.handlePickUpCard = this.handlePickUpCard.bind(this);
@@ -82,9 +83,10 @@ export default class GamePlayScreen extends Component {
     //   Math.random() * gameCards.Classic.length - 1
     // );
 
-    const selectedCardItems = selectCard(this.state.gameCards); //gameCards.Classic[randomCardIndex];
-    console.log(selectedCardItems);
-    console.log(this.state.gameCards);
+    const selectedCardItems = selectCard(
+      this.state.gameCards,
+      this.state.cardsChosen
+    ); //gameCards.Classic[randomCardIndex];
     this.setState(oldstate => {
       return {
         ...oldstate,

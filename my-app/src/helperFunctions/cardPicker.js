@@ -1,11 +1,11 @@
-function selectCard(cardItemArray) {
+function selectCard(cardItemArray, cardsChosen) {
   const cardItemArrayLength = cardItemArray.length;
 
   var card = [];
   var categoryIndexTracker = [];
   var newCardItemArrayLength = cardItemArrayLength;
 
-  while (card.length < 3) {
+  while (card.length < 5) {
     // randomly generate index number of category we will pich from
     let randomCategoryIndex = Math.ceil(
       Math.random() * newCardItemArrayLength - 1
@@ -38,17 +38,17 @@ function selectCard(cardItemArray) {
 
     let cardItem = categoryItemsArray[randomIndexcategoryItemsArray];
 
-    if (cardItem === null) {
-      continue;
-    }
-
-    //prevent duplicates
-
-    if (card.includes(cardItem)) {
+    //prevent duplicates and null items
+    if (
+      cardItem === null ||
+      cardsChosen.includes(cardItem) ||
+      card.includes(cardItem)
+    ) {
       continue;
     }
 
     card.push(cardItem);
+    cardsChosen.push(cardItem);
 
     cardItemArray[randomCategoryIndex][
       randomIndexcategoryItemsArray + 1
@@ -104,24 +104,39 @@ function selectCardFromCategory(array, category) {
 
 //function to remove the non-selected level and categories less than 50
 function chooseInitialCategories(array, level) {
-  var firstArray = [];
-  var i;
-  for (i = 0; i < array.length; i++) {
+  var qualifyingCategories = []; //qualifyingCategories are of the chosen level and greater than 51 in length
+  for (var i = 0; i < array.length; i++) {
     if (array[i][0] === level && array[i].length > 51) {
-      firstArray.push(array[i]);
+      qualifyingCategories.push(array[i]);
     }
   }
-  var secondArray = [];
-  var j;
-  for (j = 0; j < firstArray.length; j++) {
-    secondArray[j] = firstArray[j].slice(1);
+
+  var qualifyingCategoriesLessHeader = [];
+  for (var k = 0; k < qualifyingCategories.length; k++) {
+    qualifyingCategoriesLessHeader[k] = qualifyingCategories[k].slice(1);
   }
-  return secondArray;
+  //console.log(qualifyingCategoriesLessHeader);
+  return qualifyingCategoriesLessHeader;
+}
+
+function chooseOtherCategory(array, level) {
+  var otherCategory = ["OTHER"]; //otherCategory will contain all items from non-qualifyingCategories(which are of the chosen level and less than & equal to 51 in length)
+  for (var i = 0; i < array.length; i++) {
+    if (array[i][0] === level) {
+      if (array[i].length < 52) {
+        for (var j = 2; j < array[i].length; j++) {
+          otherCategory.push(array[i][j]);
+        }
+      }
+    }
+  }
+  return [otherCategory];
 }
 
 module.exports = {
   selectCard,
   getCategories,
   selectCardFromCategory,
-  chooseInitialCategories
+  chooseInitialCategories,
+  chooseOtherCategory
 };

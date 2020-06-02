@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import Logo from "./zouzou_logo.png";
 
 import cardItemArray from "../../localDatafiles/card-data_Main.json";
-import { chooseInitialCategories } from "../../helperFunctions/cardPicker";
+import {
+  chooseInitialCategories,
+  chooseOtherCategory
+} from "../../helperFunctions/cardPicker";
 
 // import ons  from 'onsenui';
 
@@ -23,7 +26,7 @@ import {
 
 //import HelloWorldAlert from '../../components/test/HelloWorldAlert'
 
-const newCardItemArray = cardItemArray;
+//const newCardItemArray = cardItemArray;
 
 export default class Home extends Component {
   constructor(props) {
@@ -125,14 +128,18 @@ export default class Home extends Component {
       };
     });
 
-    var categoriesSelected = chooseInitialCategories(newCardItemArray, level);
+    var coreCategories = chooseInitialCategories(cardItemArray, level);
+    var fullCategories = coreCategories.concat(
+      chooseOtherCategory(cardItemArray, level)
+    );
     this.state.tracker === "New Cards"
       ? this.props.pushPage(this.props.navigator, "New Cards", {
-          categories: categoriesSelected
+          coreCategories: coreCategories,
+          fullCategories: fullCategories
         })
       : this.props.pushPage(this.props.navigator, "Game", {
           teams: this.state.tracker,
-          categories: categoriesSelected
+          fullCategories: fullCategories
         });
   }
   render() {

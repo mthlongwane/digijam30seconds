@@ -73,7 +73,7 @@ class App extends Component {
             <GamePlayScreen
               firebaseAnalytics={this.props.firebaseAnalytics}
               teams={route.additionalProps.teams}
-              categories={route.additionalProps.categories}
+              fullCategories={route.additionalProps.fullCategories}
             />
           </Page>
         );
@@ -112,7 +112,8 @@ class App extends Component {
             <BoosterCards
               pushPage={this.pushPage}
               navigator={navigator}
-              categories={route.additionalProps.categories}
+              coreCategories={route.additionalProps.coreCategories}
+              fullCategories={route.additionalProps.fullCategories}
             />
           </Page>
         );
@@ -130,7 +131,7 @@ class App extends Component {
               })}
             <BoosterCardContainer
               category={route.additionalProps.category}
-              mixedCategories={route.additionalProps.mixedCategories}
+              fullCategories={route.additionalProps.fullCategories}
             />
           </Page>
         );
