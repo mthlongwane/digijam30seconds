@@ -253,8 +253,7 @@ export default class Home extends Component {
                   <h1 style={{ padding: "0px" }}>New Game</h1>
                 </Row>
                 <Row className="flexbox-container-center sections-text">
-                  <p>Everyone is in the same building? </p>
-                  <p>Let the games begin!</p>
+                  <p>Sharing one phone or low on data? Let the games begin!</p>
                 </Row>
               </Row>
               <br></br>
@@ -267,10 +266,7 @@ export default class Home extends Component {
                   <h1 style={{ padding: "0px" }}>Boosters</h1>
                 </Row>
                 <Row className="flexbox-container-center sections-text">
-                  <p>
-                    Have the game at home but in need of a new pack of cards or
-                    a dice?
-                  </p>
+                  <p>Need a new pack of cards or a die?</p>
                 </Row>
               </Row>
               <br></br>
@@ -280,7 +276,7 @@ export default class Home extends Component {
                 style={{ backgroundColor: "#ffd202" }}
               >
                 <Row className="flexbox-container-center">
-                  <h1 style={{ padding: "0px" }}>Virtual Game</h1>
+                  <h1 style={{ padding: "0px" }}>Multiplayer Online</h1>
                 </Row>
                 <Row className="flexbox-container-center sections-text">
                   <p>Want to play your friends online? </p>
@@ -300,21 +296,21 @@ export default class Home extends Component {
                   this.openLevelActionSheet("Game", 2);
                 }}
               >
-                2
+                2 (Game On!)
               </ActionSheetButton>
               <ActionSheetButton
                 onClick={() => {
                   this.openLevelActionSheet("Game", 3);
                 }}
               >
-                3
+                3 (It's a Crowd!)
               </ActionSheetButton>
               <ActionSheetButton
                 onClick={() => {
                   this.openLevelActionSheet("Game", 4);
                 }}
               >
-                4
+                4 (Awesome Foursome!)
               </ActionSheetButton>
               <ActionSheetButton
                 onClick={this.cancelNewGameActionSheet}
@@ -364,21 +360,21 @@ export default class Home extends Component {
                   this.openLevelActionSheet("MultiplayerGame", 2);
                 }}
               >
-                2
+                2 (Game On!)
               </ActionSheetButton>
               <ActionSheetButton
                 onClick={() => {
                   this.openLevelActionSheet("MultiplayerGame", 3);
                 }}
               >
-                3
+                3 (It's a Crowd!)
               </ActionSheetButton>
               <ActionSheetButton
                 onClick={() => {
                   this.openLevelActionSheet("MultiplayerGame", 4);
                 }}
               >
-                4
+                4 (Awesome Foursome!)
               </ActionSheetButton>
               <ActionSheetButton
                 onClick={this.cancelNewGameMultiplayerActionSheet}
@@ -407,7 +403,7 @@ export default class Home extends Component {
                   this.handleLevel("EXPERT");
                 }}
               >
-                Expert
+                Expert (Not for the faint-hearted!)
               </ActionSheetButton>
 
               <ActionSheetButton
