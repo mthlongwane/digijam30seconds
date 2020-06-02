@@ -108,127 +108,6 @@ export default class MultiPlayContainer extends Component {
     this.pubnub.unsubscribe({
       channels: [this.lobbyChannel, this.gameChannel]
     });
-  }
-  handleCreateGame() {
-    this.roomId = shortid.generate().substring(0, 5);
-    this.lobbyChannel = "30SecondsOnlinelobby--" + this.roomId; // Lobby channel name
-    this.pubnub.subscribe({
-      channels: [this.lobbyChannel],
-      withPresence: true // Checks the number of people in the channel
-    });
-    Swal.fire({
-      position: "top",
-      allowOutsideClick: false,
-      title: "Share this room ID with your friend",
-      text: this.roomId,
-      width: 275,
-      padding: "0.7em",
-      // Custom CSS to change the size of the modal
-      customClass: {
-        heightAuto: false,
-        title: "title-class",
-        popup: "popup-class",
-        confirmButton: "button-class"
-      }
-    });
-
-    if (navigator.share) {
-      navigator
-        .share({
-          title: "30 Seconds online share",
-          text: `Please join my 30 Seconds online game with the Room Id: ${this.roomId}.`,
-          url: "https://app.30secondsonline.com/"
-        })
-        .then(() => console.log("Successful share"))
-        .catch(error => console.log("Error sharing", error));
-    }
-    this.setState({
-      roomId: this.roomId,
-      disableBtnCreate: true,
-      showCreateForm: false,
-      showJoinForm: false,
-      isRoomCreator: true,
-      lobbyChannel: this.lobbyChannel,
-      readyToPlay: true,
-      username: "admin"
-    });
-    // this.setState(oldstate =>{ return {...oldstate, roomId: this.roomId ,disableBtnCreate:true, showCreateForm: false, showJoinForm: false, isRoomCreator: true,lobbyChannel: this.lobbyChannel, readyToPlay: true , username: "admin"} })
-  }
-  handleShowJoin() {
-    this.setState({ showJoinForm: true, showCreateForm: false });
-    //this.setState(oldstate =>{ return {...oldstate ,showJoinForm: true, showCreateForm: false} })
-  }
-  handleJoinGame() {
-    this.roomId = this.state.roomIdInput;
-    this.lobbyChannel = "30SecondsOnlinelobby--" + this.roomId;
-
-    // Check the number of people in the channel
-    this.pubnub
-      .hereNow({
-        channels: [this.lobbyChannel]
-      })
-      .then(response => {
-        if (response.totalOccupancy < 10) {
-          this.pubnub.subscribe({
-            channels: [this.lobbyChannel],
-            withPresence: true
-          });
-
-          this.setState({
-            username: this.state.usernameInput // Player name
-          });
-
-          this.pubnub.publish({
-            message: {
-              notRoomCreator: response.totalOccupancy > 0, //determines occupancy determines if I am the room creator
-              newUser: this.state.usernameInput
-            },
-            channel: this.lobbyChannel
-          });
-          this.setState({
-            roomId: this.roomId,
-            showJoinForm: false,
-            showCreateForm: false,
-            lobbyChannel: this.lobbyChannel,
-            username: this.state.usernameInput
-          });
-          // this.setState(oldstate =>{ return {...oldstate, roomId: this.roomId,showJoinForm: false, showCreateForm: false, lobbyChannel: this.lobbyChannel, username: oldstate.usernameInput} })
-        } else {
-          // Game in progress
-          Swal.fire({
-            position: "top",
-            allowOutsideClick: false,
-            title: "Error",
-            text: "Game in progress. Try another room."
-          });
-        }
-      });
-  }
-  //   componentWillMount() {
-  //     // Check that the player is connected to a channel
-  //     if(this.lobbyChannel != null){
-  //       this.pubnub.getMessage(this.lobbyChannel, (msg) => {
-  //         // Start the game once an opponent joins the channel
-  //         if(msg.message.notRoomCreator){
-  //           // Create a different channel for the game
-  //           this.gameChannel = '30SecondsOnlinelobby--' + this.roomId;
-  //           this.pubnub.subscribe({
-  //             channels: [this.gameChannel]
-  //           });
-  //           this.setState({readyToPlay: true})
-  //           //this.setState(oldstate =>{ return {...oldstate ,readyToPlay: true} })
-  //         }
-  //         //this.setState({readyToPlay: true} )
-  //         //this.setState(oldstate =>{ return {...oldstate ,readyToPlay: true} })
-  //       });
-  //       //this.pubnub.getStatus();
-  //     }
-  //   }
-
-  componentWillUnmount() {
-    this.pubnub.unsubscribe({
-      channels: [this.lobbyChannel, this.gameChannel]
-    });
     this.setState({ readyToPlay: false });
   }
   handleCreateGame() {
@@ -274,6 +153,26 @@ export default class MultiPlayContainer extends Component {
     });
     // this.setState(oldstate =>{ return {...oldstate, roomId: this.roomId ,disableBtnCreate:true, showCreateForm: false, showJoinForm: false, isRoomCreator: true,lobbyChannel: this.lobbyChannel, readyToPlay: true , username: "admin"} })
   }
+  //   componentWillMount() {
+  //     // Check that the player is connected to a channel
+  //     if(this.lobbyChannel != null){
+  //       this.pubnub.getMessage(this.lobbyChannel, (msg) => {
+  //         // Start the game once an opponent joins the channel
+  //         if(msg.message.notRoomCreator){
+  //           // Create a different channel for the game
+  //           this.gameChannel = '30SecondsOnlinelobby--' + this.roomId;
+  //           this.pubnub.subscribe({
+  //             channels: [this.gameChannel]
+  //           });
+  //           this.setState({readyToPlay: true})
+  //           //this.setState(oldstate =>{ return {...oldstate ,readyToPlay: true} })
+  //         }
+  //         //this.setState({readyToPlay: true} )
+  //         //this.setState(oldstate =>{ return {...oldstate ,readyToPlay: true} })
+  //       });
+  //       //this.pubnub.getStatus();
+  //     }
+  //   }
   handleShowJoin() {
     this.setState({ showJoinForm: true, showCreateForm: false });
     //this.setState(oldstate =>{ return {...oldstate ,showJoinForm: true, showCreateForm: false} })
