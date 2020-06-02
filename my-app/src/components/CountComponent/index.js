@@ -6,7 +6,7 @@ export default class CountComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      score: 0
+      score: this.props.score
     };
     this.plusLabelTouch = this.plusLabelTouch.bind(this);
     this.minusLabelTouch = this.minusLabelTouch.bind(this);
@@ -14,6 +14,8 @@ export default class CountComponent extends Component {
 
   minusLabelTouch() {
     if (this.state.score > 0) {
+
+      this.props.updateScore(this.props.index, this.state.score-1)
       this.setState(oldstate => {
         return {
           ...oldstate,
@@ -24,6 +26,7 @@ export default class CountComponent extends Component {
   }
 
   plusLabelTouch() {
+    this.props.updateScore(this.props.index, this.state.score+1)
     this.setState(oldstate => {
       return {
         ...oldstate,
@@ -42,7 +45,7 @@ export default class CountComponent extends Component {
           -1
         </button>
         <label className="label-counter flexbox-item-center-noGrow">
-          {this.state.score}
+          {this.props.score}
         </label>
         <button
           className="button-counter flexbox-item-center-noGrow"

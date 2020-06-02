@@ -34,6 +34,7 @@ export default class Home extends Component {
     this.state = {
       isSideBarOpen: false,
       isNewGameActionSheetOpen: false,
+      isNewGameMultiplayerActionSheetOpen: false,
       isBoosterActionSheetOpen: false,
       isLevelActionSheetOpen: false,
       tracker: null
@@ -47,6 +48,11 @@ export default class Home extends Component {
     this.handleBooster = this.handleBooster.bind(this);
     this.cancelBoosterActionSheet = this.cancelBoosterActionSheet.bind(this);
     this.openBoosterActionSheet = this.openBoosterActionSheet.bind(this);
+
+    this.handleNewGameMultiplayer = this.handleNewGameMultiplayer.bind(this);
+    this.cancelNewGameMultiplayerActionSheet = this.cancelNewGameMultiplayerActionSheet.bind(this);
+    this.openNewGameMultiplayerActionSheet = this.openNewGameMultiplayerActionSheet.bind(this);
+
     this.openLevelActionSheet = this.openLevelActionSheet.bind(this);
     this.cancelLevelActionSheet = this.cancelLevelActionSheet.bind(this);
   }
@@ -104,6 +110,23 @@ export default class Home extends Component {
     });
     this.props.pushPage(this.props.navigator, page, {});
   }
+  cancelNewGameMultiplayerActionSheet() {
+    this.setState(prevState => {
+      return { ...prevState, isNewGameMultiplayerActionSheetOpen: false };
+    });
+  }
+  openNewGameMultiplayerActionSheet() {
+    this.setState(prevState => {
+      return { ...prevState, isNewGameMultiplayerActionSheetOpen: true };
+    });
+  }
+  handleNewGameMultiplayer(numTeams) {
+    this.setState(prevState => {
+      return { ...prevState, isNewGameMultiplayerActionSheetOpen: false };
+    });
+    this.props.pushPage(this.props.navigator, "MultiplayerGame", { teams: numTeams });
+  }
+
   openLevelActionSheet(val) {
     this.setState(prevState => {
       return {
@@ -161,7 +184,7 @@ export default class Home extends Component {
           <Page>
             <List
               style={{ marginTop: "60px" }}
-              dataSource={["New Game", "Boosters", "Settings"]}
+              dataSource={["New Game", "Boosters", "Multiplayer Online","Settings"]}
               renderRow={title =>
                 title === "New Game" ? (
                   <ListItem
@@ -179,7 +202,17 @@ export default class Home extends Component {
                   >
                     {title}
                   </ListItem>
-                ) : (
+                ) : title === "Multiplayer Online"?(
+                  <ListItem
+                    key={title}
+                    onClick={this.openNewGameMultiplayerActionSheet}
+                    tappable
+                  >
+                    {title}
+                  </ListItem>
+                )
+                :
+                (
                   <ListItem key={title} onClick={this.hideSideBar} tappable>
                     {title}
                   </ListItem>
@@ -203,7 +236,8 @@ export default class Home extends Component {
                   <h1 style={{ padding: "0px" }}>New Game</h1>
                 </Row>
                 <Row className="flexbox-container-center sections-text">
-                  <p>Lets the games begin!</p>
+                  <p>Everyone is in the same building? </p>
+                  <p>Let the games begin!</p>
                 </Row>
               </Row>
               <br></br>
@@ -222,6 +256,20 @@ export default class Home extends Component {
                   </p>
                 </Row>
               </Row>
+              <br></br>
+              <Row
+              onClick={this.openNewGameMultiplayerActionSheet}
+              className="sections flexbox-container-center "
+              style={{ backgroundColor: "#ffd202" }}
+            >
+              <Row className="flexbox-container-center">
+                <h1 style={{ padding: "0px" }}>Multiplayer Online </h1>
+              </Row>
+              <Row className="flexbox-container-center sections-text">
+                <p>Want to play your friends online? </p>
+                <p>Let the games begin!</p>
+              </Row>
+            </Row>
             </section>
             <ActionSheet
               isOpen={this.state.isNewGameActionSheetOpen}
@@ -287,6 +335,42 @@ export default class Home extends Component {
                 Cancel
               </ActionSheetButton>
             </ActionSheet>
+            <ActionSheet
+            isOpen={this.state.isNewGameMultiplayerActionSheetOpen}
+            animation="default"
+            onCancel={this.cancelNewGameMultiplayerActionSheet}
+            isCancelable={true}
+            title={"Number of Teams Playing:"}
+          >
+            <ActionSheetButton
+              onClick={() => {
+                this.handleNewGameMultiplayer(2);
+              }}
+            >
+              2
+            </ActionSheetButton>
+            <ActionSheetButton
+              onClick={() => {
+                this.handleNewGameMultiplayer(3);
+              }}
+            >
+              3
+            </ActionSheetButton>
+            <ActionSheetButton
+              onClick={() => {
+                this.handleNewGameMultiplayer(4);
+              }}
+            >
+              4
+            </ActionSheetButton>
+            <ActionSheetButton
+              onClick={this.cancelNewGameMultiplayerActionSheet}
+              icon={"md-close"}
+            >
+              Cancel
+            </ActionSheetButton>
+          </ActionSheet>
+            
 
             <ActionSheet
               isOpen={this.state.isLevelActionSheetOpen}
