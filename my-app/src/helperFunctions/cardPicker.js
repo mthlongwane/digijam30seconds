@@ -1,4 +1,4 @@
-function selectCard(cardItemArray) {
+function selectCard(cardItemArray, cardsChosen) {
   const cardItemArrayLength = cardItemArray.length;
 
   var card = [];
@@ -38,17 +38,17 @@ function selectCard(cardItemArray) {
 
     let cardItem = categoryItemsArray[randomIndexcategoryItemsArray];
 
-    if (cardItem === null) {
-      continue;
-    }
-
-    //prevent duplicates
-
-    if (card.includes(cardItem)) {
+    //prevent duplicates and null items
+    if (
+      cardItem === null ||
+      cardsChosen.includes(cardItem) ||
+      card.includes(cardItem)
+    ) {
       continue;
     }
 
     card.push(cardItem);
+    cardsChosen.push(cardItem);
 
     cardItemArray[randomCategoryIndex][
       randomIndexcategoryItemsArray + 1
@@ -102,4 +102,41 @@ function selectCardFromCategory(array, category) {
   return finalSelectedArray;
 }
 
-module.exports = { selectCard, getCategories, selectCardFromCategory };
+//function to remove the non-selected level and categories less than 50
+function chooseInitialCategories(array, level) {
+  var qualifyingCategories = []; //qualifyingCategories are of the chosen level and greater than 51 in length
+  for (var i = 0; i < array.length; i++) {
+    if (array[i][0] === level && array[i].length > 51) {
+      qualifyingCategories.push(array[i]);
+    }
+  }
+
+  var qualifyingCategoriesLessHeader = [];
+  for (var k = 0; k < qualifyingCategories.length; k++) {
+    qualifyingCategoriesLessHeader[k] = qualifyingCategories[k].slice(1);
+  }
+  //console.log(qualifyingCategoriesLessHeader);
+  return qualifyingCategoriesLessHeader;
+}
+
+function chooseOtherCategory(array, level) {
+  var otherCategory = ["OTHER"]; //otherCategory will contain all items from non-qualifyingCategories(which are of the chosen level and less than & equal to 51 in length)
+  for (var i = 0; i < array.length; i++) {
+    if (array[i][0] === level) {
+      if (array[i].length < 52) {
+        for (var j = 2; j < array[i].length; j++) {
+          otherCategory.push(array[i][j]);
+        }
+      }
+    }
+  }
+  return [otherCategory];
+}
+
+module.exports = {
+  selectCard,
+  getCategories,
+  selectCardFromCategory,
+  chooseInitialCategories,
+  chooseOtherCategory
+};

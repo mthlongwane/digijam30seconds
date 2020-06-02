@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import Logo from "./zouzou_logo.png";
 
+import cardItemArray from "../../localDatafiles/card-data_Main.json";
+import {
+  chooseInitialCategories,
+  chooseOtherCategory
+} from "../../helperFunctions/cardPicker";
+
 // import ons  from 'onsenui';
+
 import {
   Toolbar,
   ToolbarButton,
@@ -18,6 +25,8 @@ import {
 } from "react-onsenui";
 
 //import HelloWorldAlert from '../../components/test/HelloWorldAlert'
+
+//const newCardItemArray = cardItemArray;
 
 export default class Home extends Component {
   constructor(props) {
@@ -141,11 +150,19 @@ export default class Home extends Component {
         isLevelActionSheetOpen: false
       };
     });
+
+    var coreCategories = chooseInitialCategories(cardItemArray, level);
+    var fullCategories = coreCategories.concat(
+      chooseOtherCategory(cardItemArray, level)
+    );
     this.state.tracker === "New Cards"
-      ? this.props.pushPage(this.props.navigator, "New Cards", { level: level })
+      ? this.props.pushPage(this.props.navigator, "New Cards", {
+          coreCategories: coreCategories,
+          fullCategories: fullCategories
+        })
       : this.props.pushPage(this.props.navigator, "Game", {
           teams: this.state.tracker,
-          level: level
+          fullCategories: fullCategories
         });
   }
   render() {
@@ -364,14 +381,14 @@ export default class Home extends Component {
             >
               <ActionSheetButton
                 onClick={() => {
-                  this.handleLevel("Standard");
+                  this.handleLevel("STANDARD");
                 }}
               >
                 Standard
               </ActionSheetButton>
               <ActionSheetButton
                 onClick={() => {
-                  this.handleLevel("Expert");
+                  this.handleLevel("EXPERT");
                 }}
               >
                 Expert
