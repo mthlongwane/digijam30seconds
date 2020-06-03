@@ -175,7 +175,8 @@ export default class Home extends Component {
     } else if (this.state.tracker[0] === "MultiplayerGame") {
       this.props.pushPage(this.props.navigator, "MultiplayerGame", {
         teams: this.state.tracker[1],
-        fullCategories: fullCategories
+        fullCategories: fullCategories,
+        level: level
       });
     }
   }

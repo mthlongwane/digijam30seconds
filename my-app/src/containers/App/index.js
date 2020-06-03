@@ -150,6 +150,7 @@ class App extends Component {
               firebaseAnalytics={this.props.firebaseAnalytics}
               teams={route.additionalProps.teams}
               fullCategories={route.additionalProps.fullCategories}
+              level={route.additionalProps.level}
             />
           </Page>
         );

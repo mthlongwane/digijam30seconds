@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import {BrowserRouter, Route, Switch, Link, useParams} from 'react-router-dom'
+
 import firebase from 'firebase'
 
 import './index.scss';
 import App from './containers/App';
+import MultiPlayContainer from "./containers/MultiPlayContainer";
 
 import * as serviceWorker from './serviceWorker';
 
@@ -12,9 +15,18 @@ import * as serviceWorker from './serviceWorker';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 
+//card data
+import cardItemArray from "./localDatafiles/card-data_Main.json";
+import {
+  chooseInitialCategories,
+  chooseOtherCategory
+} from "./helperFunctions/cardPicker";
+
 //used for my build versioning
 import packageJson from '../package.json';
 global.appVersion = packageJson.version;
+
+
 
 //var ons = require('onsenui');
 //var Ons = require('react-onsenui');
@@ -34,14 +46,25 @@ firebase.initializeApp(firebaseConfig);
 const firebaseAnalytics = firebase.analytics;
 firebaseAnalytics().logEvent('webpage_loaded');
 
+
 ReactDOM.render(
-  // <React.StrictMode>
-    // <Page>
-    // <PullHook onChange{handleRefreshPull} onPull ={refreshCacheAndReload}>
-    // </PullHook>
-      <App firebaseAnalytics ={firebaseAnalytics}/>
-  //  </Page>
-  // </React.StrictMode>
+  <BrowserRouter>
+      <Switch>
+            <Route path="/join/:numTeams/:roomId/:level" >  
+              <RoomSetup />
+            </Route>
+
+            <Route exact path="/">
+              <App firebaseAnalytics ={firebaseAnalytics}/>
+            </Route>
+
+            <Route>
+              <div>404 - Page not found</div>
+              <Link to="/">Go back home</Link>
+            </Route>
+            
+          </Switch>
+  </BrowserRouter>
   ,
   document.getElementById('root')
 );
@@ -52,3 +75,22 @@ ReactDOM.render(
 //serviceWorker.unregister();
 serviceWorker.register();
 
+function RoomSetup (){
+  let {numTeams,roomId, level} = useParams();
+  var coreCategories = chooseInitialCategories(cardItemArray, level.substring(1));
+  var fullCategories = coreCategories.concat(
+    chooseOtherCategory(cardItemArray, level.substring(1))
+  );
+  return(
+
+    <MultiPlayContainer
+    fullCategories={fullCategories}
+    firebaseAnalytics ={firebaseAnalytics}
+    teams={Number(numTeams.substring(1))}
+    roomIdInput = {roomId.substring(1)}
+    showJoinForm = {true}
+    disableBtnCreate = {true}
+    />
+  )
+
+}

@@ -95,6 +95,7 @@ export default class MultiPlayScreen extends Component {
     this.syncmystate = this.syncmystate.bind(this);
     this.updateScore = this.updateScore.bind(this);
     this.handleEnableVideo = this.handleEnableVideo.bind(this);
+    this.handlesharecode = this.handlesharecode.bind(this);
 
     this.props.pubnub.addListener({
       message: message => {
@@ -110,6 +111,17 @@ export default class MultiPlayScreen extends Component {
               "Notification",
               `${newMessageObj.newUser} just joined! `
             );
+            // if (this.props.user==='admin'){ //When new user joins, need to share the cards with them
+            //   this.props.pubnub.publish({
+            //     message: {
+            //       user: this.props.user,
+            //       cardSetup: {cardsChosen: this.state.cardsChosen, 
+            //       gameCards: this.state.gameCards}
+            //     },
+            //     channel: this.lobbyChannel
+            //   });
+            // }
+
           } else if (
             newMessageObj.user &&
             newMessageObj.user !== this.props.user
@@ -144,6 +156,11 @@ export default class MultiPlayScreen extends Component {
                 newMessageObj.htmlMessage
               );
             }
+          }else if (
+            newMessageObj.cardSetup 
+          ) {
+          this.setState({cardsChosen:newMessageObj.cardSetup.cardsChosen, gameCards:newMessageObj.cardSetup.gameCards })
+          
           }
         }
 
@@ -382,6 +399,18 @@ export default class MultiPlayScreen extends Component {
   handleEnableVideo(e){
     this.setState({VideoChecked: e.target.checked,videoCall: e.target.checked });
   }
+  handlesharecode(){
+    
+    if (navigator.share) {
+      navigator
+        .share({
+          text: `Please join my 30 Seconds online game.`,
+          url: `https://secondsonline-63f60.web.app/join/:${this.props.teams}/:${this.props.roomId}/:${this.props.level}`
+        })
+        .then(() => console.log("Successful share"))
+        .catch(error => console.log("Error sharing", error));
+    }
+  }
   render() {
     return (
       <div className="gamePage">
@@ -456,7 +485,9 @@ export default class MultiPlayScreen extends Component {
         <div className="scoresection">
           <br></br>
           <Row className="scores_label">Scores!</Row>
-          <Row className="roomID_label">(Room Id: {this.props.roomId})</Row>
+          <Row onClick= {this.handlesharecode} 
+            className="roomID_label">Room Id: {this.props.roomId} (Click to share)
+          </Row>
           <Row className=" flexbox-container-even-around ">
             {this.state.teams.map((score, index) => {
               return (
