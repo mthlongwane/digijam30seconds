@@ -67,7 +67,7 @@ class VidyoConnector extends Component {
     // registerAdvancedSettingsListeners(vidyoConnector);
     // handleAdvancedSettingsChange(vidyoConnector);
     this.handleParticipantChange();
-    this.handleSharing();
+    //this.handleSharing();
     this.setState({ buttonsAvailable: true,
                     connectionStatus: 'Ready to connect' });
   }

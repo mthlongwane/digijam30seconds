@@ -117,12 +117,12 @@ export default class MultiPlayContainer extends Component {
       channels: [this.lobbyChannel],
       withPresence: true // Checks the number of people in the channel
     });
-    console.log(`${window.location.href}join/:${this.props.teams}/:${this.roomId}/:${this.props.level}`)
+    //console.log(`${window.location.href}join/:${this.props.teams}/:${this.roomId}/:${this.props.level}`)
     if (navigator.share) {
       navigator
         .share({
           text: `Please join my 30 Seconds online game.`,
-          url: `https://secondsonline-63f60.web.app/join/:${this.props.teams}/:${this.roomId}/:${this.props.level}`
+          url:`${window.location.href}join/:${this.props.teams}/:${this.roomId}/:${this.props.level}`
         })
         .then(() => {
             console.log("Successful share")

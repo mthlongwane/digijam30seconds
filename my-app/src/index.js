@@ -15,6 +15,8 @@ import * as serviceWorker from './serviceWorker';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 
+import {Page} from "react-onsenui";
+
 //card data
 import cardItemArray from "./localDatafiles/card-data_Main.json";
 import {
@@ -82,15 +84,17 @@ function RoomSetup (){
     chooseOtherCategory(cardItemArray, level.substring(1))
   );
   return(
+    <Page>
+      <MultiPlayContainer
+      fullCategories={fullCategories}
+      firebaseAnalytics ={firebaseAnalytics}
+      teams={Number(numTeams.substring(1))}
+      roomIdInput = {roomId.substring(1)}
+      showJoinForm = {true}
+      disableBtnCreate = {true}
+      />
+    </Page>
 
-    <MultiPlayContainer
-    fullCategories={fullCategories}
-    firebaseAnalytics ={firebaseAnalytics}
-    teams={Number(numTeams.substring(1))}
-    roomIdInput = {roomId.substring(1)}
-    showJoinForm = {true}
-    disableBtnCreate = {true}
-    />
   )
 
 }

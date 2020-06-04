@@ -235,6 +235,14 @@ export default class MultiPlayScreen extends Component {
     this.props
       .firebaseAnalytics()
       .logEvent("Game Exit", { cardsPickedUp: this.state.nocardsPickedUp });
+
+    //Check if any camera activity still exists
+    if (window.localStream && window.localStream.stop) {
+            window.localStream.getTracks().forEach((track) => {
+                track.stop();
+            });
+    }
+          
   }
   rollDoneCallback(num) {
     this.props.pubnub.publish({
@@ -414,12 +422,12 @@ export default class MultiPlayScreen extends Component {
     this.setState({VideoChecked: e.target.checked,videoCall: e.target.checked });
   }
   handlesharecode(){
-
+    console.log( `${window.location.href}join/:${this.props.teams}/:${this.props.roomId}/:${this.props.level}`)
     if (navigator.share) {
       navigator
         .share({
           text: `Please join my 30 Seconds online game.`,
-          url: `https://secondsonline-63f60.web.app/join/:${this.props.teams}/:${this.props.roomId}/:${this.props.level}`
+          url: `${window.location.href}join/:${this.props.teams}/:${this.props.roomId}/:${this.props.level}`
         })
         .then(() => {
           console.log("Successful share")
