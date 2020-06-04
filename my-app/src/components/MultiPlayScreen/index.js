@@ -142,6 +142,11 @@ export default class MultiPlayScreen extends Component {
                   "Notification",
                   `${newMessageObj.user} just updated the scores.`
                 );
+              }else if(newMessageObj.state.cardsChosen){
+                printAlert(
+                  "Notification",
+                  `${newMessageObj.user} just picked up a new card.`
+                );
               }
 
               this.syncmystate(message.message.state);
@@ -273,13 +278,22 @@ export default class MultiPlayScreen extends Component {
       this.state.gameCards,
       this.state.cardsChosen
     ); //gameCards.Classic[randomCardIndex];
+
+    // this.props.pubnub.publish({
+    //   message: {
+    //     user: this.props.user,
+    //     additionalMessage: `I just picked up a new card.`,
+    //   },
+    //   channel: this.props.gameChannel
+    // });
+    //used to ensure cards are synced
     this.props.pubnub.publish({
       message: {
         user: this.props.user,
-        additionalMessage: `I just picked up a new card.`
+        state: {cardsChosen: this.state.cardsChosen},
       },
       channel: this.props.gameChannel
-    });
+    })
     this.setState(oldstate => {
       return {
         ...oldstate,
@@ -400,14 +414,19 @@ export default class MultiPlayScreen extends Component {
     this.setState({VideoChecked: e.target.checked,videoCall: e.target.checked });
   }
   handlesharecode(){
-    
+
     if (navigator.share) {
       navigator
         .share({
           text: `Please join my 30 Seconds online game.`,
           url: `https://secondsonline-63f60.web.app/join/:${this.props.teams}/:${this.props.roomId}/:${this.props.level}`
         })
-        .then(() => console.log("Successful share"))
+        .then(() => {
+          console.log("Successful share")
+          this.props
+          .firebaseAnalytics()
+          .logEvent("Game code shared");
+      })
         .catch(error => console.log("Error sharing", error));
     }
   }

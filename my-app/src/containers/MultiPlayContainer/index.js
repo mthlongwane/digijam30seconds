@@ -36,7 +36,7 @@ export default class MultiPlayContainer extends Component {
     this.state = {
       readyToPlay: false,
       disableBtnCreate: this.props.disableBtnCreate ||false,
-      disableBtnJoin: false,
+      disableBtnJoin:  this.props.disableBtnJoin|| false,
       showCreateForm: false,
       showJoinForm: this.props.showJoinForm || false,
       roomIdInput: this.props.roomIdInput || "",
@@ -117,14 +117,19 @@ export default class MultiPlayContainer extends Component {
       channels: [this.lobbyChannel],
       withPresence: true // Checks the number of people in the channel
     });
-    //console.log(`https://secondsonline-63f60.web.app/join/:${this.props.teams}/:${this.roomId}/:${this.props.level}`)
+    console.log(`${window.location.href}join/:${this.props.teams}/:${this.roomId}/:${this.props.level}`)
     if (navigator.share) {
       navigator
         .share({
           text: `Please join my 30 Seconds online game.`,
           url: `https://secondsonline-63f60.web.app/join/:${this.props.teams}/:${this.roomId}/:${this.props.level}`
         })
-        .then(() => console.log("Successful share"))
+        .then(() => {
+            console.log("Successful share")
+            this.props
+            .firebaseAnalytics()
+            .logEvent("Game code shared");
+    })
         .catch(error => console.log("Error sharing", error));
     }
     Swal.fire({
@@ -288,6 +293,7 @@ export default class MultiPlayContainer extends Component {
                 </Row>
             }
             <br></br>
+            {this.state.disableBtnJoin? null:
             <Row
                 onClick={this.handleShowJoin}
                 className="sections flexbox-container-center "
@@ -302,6 +308,7 @@ export default class MultiPlayContainer extends Component {
                 </p>
                 </Row>
             </Row>
+            }
             </section>
           </div>
             {this.state.showJoinForm ? (

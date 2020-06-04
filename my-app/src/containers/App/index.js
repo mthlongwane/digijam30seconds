@@ -151,6 +151,7 @@ class App extends Component {
               teams={route.additionalProps.teams}
               fullCategories={route.additionalProps.fullCategories}
               level={route.additionalProps.level}
+              disableBtnJoin ={true}
             />
           </Page>
         );
