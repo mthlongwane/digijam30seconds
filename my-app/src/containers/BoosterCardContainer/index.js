@@ -14,7 +14,8 @@ class BoosterCards extends Component {
       cardArray: ["", "", "", "", ""],
       disableCard: false,
       gameCards: this.props.fullCategories,
-      cardsChosen: []
+      cardsChosen: [],
+      indicesChosen: []
     };
     this.handlePickUpCard = this.handlePickUpCard.bind(this);
     this.handleClearCard = this.handleClearCard.bind(this);
@@ -33,7 +34,8 @@ class BoosterCards extends Component {
     } else {
       newCard = selectCardFromCategory(
         this.state.gameCards,
-        this.props.category
+        this.props.category,
+        this.state.indicesChosen
       );
     }
     this.setState(oldstate => {

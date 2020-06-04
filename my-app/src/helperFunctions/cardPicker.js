@@ -70,13 +70,14 @@ function getCategories(array) {
   return filteredArray;
 }
 
-function selectCardFromCategory(array, category) {
+function selectCardFromCategory(array, category, indicesChosen) {
   const arrayOfCategories = array.map(categoryArray => {
     if (
       categoryArray &&
       categoryArray.length > 50 &&
       categoryArray[0] === category
     ) {
+      categoryArray = categoryArray.slice(1);
       return categoryArray;
     }
     return undefined;
@@ -86,12 +87,16 @@ function selectCardFromCategory(array, category) {
   })[0];
   var newCardIndices = [];
 
+  if (filteredArray.length - indicesChosen.length < 5) {
+    indicesChosen.splice(0, Math.floor(indicesChosen.length / 2));
+  }
+
   while (newCardIndices.length < 5) {
     var index = Math.ceil(Math.random() * filteredArray.length - 1);
-    if (newCardIndices.includes(index)) {
+    if (newCardIndices.includes(index) || indicesChosen.includes(index)) {
       continue;
     }
-
+    indicesChosen.push(index);
     newCardIndices.push(index);
   }
 
