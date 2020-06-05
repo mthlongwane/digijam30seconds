@@ -70,6 +70,7 @@ class VidyoConnector extends Component {
     //this.handleSharing();
     this.setState({ buttonsAvailable: true,
                     connectionStatus: 'Ready to connect' });
+    this.joinLeaveButtonOnClick(this.state.joinLeaveButtonState) //auto join call
   }
 
   registerDeviceListeners() {

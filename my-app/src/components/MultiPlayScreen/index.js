@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import ons from "onsenui";
 import { Button, Row, Col, Switch } from "react-onsenui";
 
+
 import GameCard from "../GameCard";
 
 //import cardItemArray from "../../localDatafiles/card-data_Main.json";
@@ -439,8 +440,12 @@ export default class MultiPlayScreen extends Component {
     }
   }
   render() {
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const showDiv = ((/iPad|iPhone|iPod/).test(userAgent) && !window.MSStream)? "coresection":""
+   
     return (
       <div className="gamePage">
+     <div className={`${showDiv}`}>
         <Row className="flexbox-container-center">
           <Col className="dice_label">Dice: {this.state.dice}</Col>
           <Col className="videoSwitch_center">         
@@ -530,11 +535,20 @@ export default class MultiPlayScreen extends Component {
             })}
           </Row>
         </div>
+      </div>
         <br></br>
         {this.props.readyToPlay && this.state.videoCall ? (
-          <Row ref="webtrtcplayerrow" className="webrtcRow">
-            <WebRTC roomId={this.props.roomId} user={this.props.user} />
+          ((/iPad|iPhone|iPod/).test(userAgent) && !window.MSStream)? 
+          <Row ref="webtrtcplayerrow" className="webrtcRow_IOS ">
+            <WebRTC roomId={this.props.roomId} user={this.props.user}  />
+            { printAlert("Apologies IOS","Sincerest Apologies to our IOS fans, we are workign on getting the camera feature working. For now you can connect via audio only.")}
           </Row>
+          
+          :
+          <Row ref="webtrtcplayerrow" className="webrtcRow">
+           <WebRTC roomId={this.props.roomId} user={this.props.user}  />
+          </Row>
+
         ) : null}
       </div>
     );

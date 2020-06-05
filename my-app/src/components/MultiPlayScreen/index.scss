@@ -86,8 +86,20 @@
 //     text-align: center;
 // }
 
+.coresection{
+    min-height: 600px;
+}
+
+
 .webrtcRow{
     width:        100%;
     height:       1000px;
+    background: rgb(33, 34, 36);
+}
+.webrtcRow_IOS{
+    display: flex;
+    flex-direction: column-reverse;
+    width:        100%;
+    min-height:       600px;
     background: rgb(33, 34, 36);
 }
