@@ -247,7 +247,7 @@ export default class GamePlayScreen extends Component {
                   Team:{index + 1}
                   <CountComponent 
                   index={false}
-                  score={0}
+                  score={null}
                   updateScore={false}
                   />
                 </Col>
