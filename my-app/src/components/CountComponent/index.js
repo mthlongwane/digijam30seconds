@@ -10,6 +10,14 @@ export default class CountComponent extends Component {
     this.plusLabelTouch = this.plusLabelTouch.bind(this);
     this.minusLabelTouch = this.minusLabelTouch.bind(this);
   }
+  componentWillReceiveProps(nextProps) {
+    // Any time props.email changes, update state.
+    if (nextProps.score !== this.props.score) {
+      this.setState({
+        score: nextProps.score
+      });
+    }
+  }
 
   minusLabelTouch() {
     if (this.state.score > 0) {

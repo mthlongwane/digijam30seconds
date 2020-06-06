@@ -135,8 +135,8 @@ export default class MultiPlayContainer extends Component {
     Swal.fire({
       position: "top",
       allowOutsideClick: false,
-      title: "Share this room ID with your friends",
-      text: this.roomId,
+      title: "Share this link for people to join the game",
+      text: `A popup will appear shortly which will allow you to share the link. You can also share this by clicking the Room Id at the bottom of the screen.  `,
       width: 275,
       padding: "0.7em",
       customClass: {
