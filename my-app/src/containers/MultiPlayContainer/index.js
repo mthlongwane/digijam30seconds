@@ -355,6 +355,7 @@ export default class MultiPlayContainer extends Component {
             readyToPlay={this.state.readyToPlay}
             fullCategories={this.props.fullCategories}
             level ={this.props.level}
+            disableVideo={ this.props.disableVideo}
           />
         )}
       </div>

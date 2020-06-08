@@ -155,7 +155,23 @@ class App extends Component {
             />
           </Page>
         );
-
+        case "MultiPhone":
+          return (
+            <Page
+              firebaseAnalytics={this.props.firebaseAnalytics}
+              key={route.title}
+              renderToolbar={this.renderToolbar.bind(this, route, navigator)}
+            >
+              <MultiPlayContainer
+                firebaseAnalytics={this.props.firebaseAnalytics}
+                teams={route.additionalProps.teams}
+                fullCategories={route.additionalProps.fullCategories}
+                level={route.additionalProps.level}
+                disableBtnJoin ={true}
+                disableVideo= {true}
+              />
+            </Page>
+          );
       default:
         return <div>404 - page not found</div>;
     }

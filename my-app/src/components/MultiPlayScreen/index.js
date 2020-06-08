@@ -448,10 +448,12 @@ export default class MultiPlayScreen extends Component {
      <div className={`${showDiv}`}>
         <Row className="flexbox-container-center">
           <Col className="dice_label">Dice: {this.state.dice}</Col>
+          {this.props.disableVideo===true?null:
           <Col className="videoSwitch_center">         
            <p className="videoSwitch_text">{this.state.VideoChecked ? 'Video On' : ' Video Off'}</p>
             <Switch checked={this.state.VideoChecked} onChange={this.handleEnableVideo}/>
           </Col>
+          }
           {/*className="timer_label"*/}
           <Col className="timer_label">Timer: {this.state.timer}s</Col>
         </Row>

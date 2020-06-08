@@ -248,16 +248,29 @@ export default class Home extends Component {
               <Row
                 onClick={this.openNewGameActionSheet}
                 className="sections flexbox-container-center "
-                style={{ backgroundColor: "#ffd202" }}
+                style={{ backgroundColor: "#ffe795" }}
               >
                 <Row className="flexbox-container-center">
-                  <h1 style={{ padding: "0px" }}>New Game</h1>
+                  <h1 style={{ padding: "0px" }}>Offline Mode</h1>
                 </Row>
                 <Row className="flexbox-container-center sections-text">
                   <p>Sharing one phone or low on data? Let the games begin!</p>
                 </Row>
               </Row>
               <br></br>
+              <Row
+              onClick={this.openNewGameMultiplayerActionSheet}
+              className="sections flexbox-container-center "
+              style={{ backgroundColor: "#ffd202" }}
+            >
+              <Row className="flexbox-container-center">
+                <h1 style={{ padding: "0px" }}>Multiple Phones</h1>
+              </Row>
+              <Row className="flexbox-container-center sections-text">
+                <p>All the players in the same building? </p>
+              </Row>
+            </Row>
+            <br></br>
               <Row
                 onClick={this.openBoosterActionSheet}
                 className="sections flexbox-container-center "
@@ -277,7 +290,7 @@ export default class Home extends Component {
                 style={{ backgroundColor: "#ffd202" }}
               >
                 <Row className="flexbox-container-center">
-                  <h1 style={{ padding: "0px" }}>Multiplayer Online</h1>
+                  <h1 style={{ padding: "0px" }}>MultiPhone + Video</h1>
                 </Row>
                 <Row className="flexbox-container-center sections-text">
                   <p>Want to play your friends online? </p>
