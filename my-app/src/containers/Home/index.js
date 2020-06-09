@@ -36,6 +36,7 @@ export default class Home extends Component {
       isNewGameActionSheetOpen: false,
       isNewGameMultiplayerActionSheetOpen: false,
       isBoosterActionSheetOpen: false,
+      isMultiPhoneActionSheetOpen: false,
       isLevelActionSheetOpen: false,
       tracker: null
     };
@@ -59,6 +60,11 @@ export default class Home extends Component {
 
     this.openLevelActionSheet = this.openLevelActionSheet.bind(this);
     this.cancelLevelActionSheet = this.cancelLevelActionSheet.bind(this);
+
+    this.openMultiPhoneActionSheet = this.openMultiPhoneActionSheet.bind(this);
+    this.cancelMultiPhoneActionSheet = this.cancelMultiPhoneActionSheet.bind(
+      this
+    );
   }
   renderToolbar() {
     return (
@@ -141,6 +147,7 @@ export default class Home extends Component {
         isNewGameActionSheetOpen: false,
         isBoosterActionSheetOpen: false,
         isNewGameMultiplayerActionSheetOpen: false,
+        isMultiPhoneActionSheetOpen: false,
         tracker: [gameType, additionalParam]
       };
     });
@@ -150,6 +157,19 @@ export default class Home extends Component {
       return { ...prevState, isLevelActionSheetOpen: false };
     });
   }
+
+  openMultiPhoneActionSheet() {
+    this.setState(prevState => {
+      return { ...prevState, isMultiPhoneActionSheetOpen: true };
+    });
+  }
+
+  cancelMultiPhoneActionSheet() {
+    this.setState(prevState => {
+      return { ...prevState, isMultiPhoneActionSheetOpen: false };
+    });
+  }
+
   handleLevel(level) {
     this.setState(prevState => {
       return {
@@ -174,6 +194,12 @@ export default class Home extends Component {
       });
     } else if (this.state.tracker[0] === "MultiplayerGame") {
       this.props.pushPage(this.props.navigator, "MultiplayerGame", {
+        teams: this.state.tracker[1],
+        fullCategories: fullCategories,
+        level: level
+      });
+    } else if (this.state.tracker[0] === "MultiPhone") {
+      this.props.pushPage(this.props.navigator, "MultiPhone", {
         teams: this.state.tracker[1],
         fullCategories: fullCategories,
         level: level
@@ -259,18 +285,18 @@ export default class Home extends Component {
               </Row>
               <br></br>
               <Row
-              onClick={this.openNewGameMultiplayerActionSheet}
-              className="sections flexbox-container-center "
-              style={{ backgroundColor: "#ffd202" }}
-            >
-              <Row className="flexbox-container-center">
-                <h1 style={{ padding: "0px" }}>Multiple Phones</h1>
+                onClick={this.openMultiPhoneActionSheet}
+                className="sections flexbox-container-center "
+                style={{ backgroundColor: "#ffd202" }}
+              >
+                <Row className="flexbox-container-center">
+                  <h1 style={{ padding: "0px" }}>Multiple Phones</h1>
+                </Row>
+                <Row className="flexbox-container-center sections-text">
+                  <p>All the players in the same building? </p>
+                </Row>
               </Row>
-              <Row className="flexbox-container-center sections-text">
-                <p>All the players in the same building? </p>
-              </Row>
-            </Row>
-            <br></br>
+              <br></br>
               <Row
                 onClick={this.openBoosterActionSheet}
                 className="sections flexbox-container-center "
@@ -293,7 +319,7 @@ export default class Home extends Component {
                   <h1 style={{ padding: "0px" }}>MultiPhone + Video</h1>
                 </Row>
                 <Row className="flexbox-container-center sections-text">
-                  <p>Want to play your friends online? </p>
+                  <p>Want to play a game via video call? </p>
                   <p>Let the games begin!</p>
                 </Row>
               </Row>
@@ -392,6 +418,42 @@ export default class Home extends Component {
               </ActionSheetButton>
               <ActionSheetButton
                 onClick={this.cancelNewGameMultiplayerActionSheet}
+                icon={"md-close"}
+              >
+                Cancel
+              </ActionSheetButton>
+            </ActionSheet>
+
+            <ActionSheet
+              isOpen={this.state.isMultiPhoneActionSheetOpen}
+              animation="default"
+              onCancel={this.cancelMultiPhoneActionSheet}
+              isCancelable={true}
+              title={"Number of Teams Playing:"}
+            >
+              <ActionSheetButton
+                onClick={() => {
+                  this.openLevelActionSheet("MultiPhone", 2);
+                }}
+              >
+                2 (Game On!)
+              </ActionSheetButton>
+              <ActionSheetButton
+                onClick={() => {
+                  this.openLevelActionSheet("MultiPhone", 3);
+                }}
+              >
+                3 (It's a Crowd!)
+              </ActionSheetButton>
+              <ActionSheetButton
+                onClick={() => {
+                  this.openLevelActionSheet("MultiPhone", 4);
+                }}
+              >
+                4 (Awesome Foursome!)
+              </ActionSheetButton>
+              <ActionSheetButton
+                onClick={this.cancelMultiPhoneActionSheet}
                 icon={"md-close"}
               >
                 Cancel
