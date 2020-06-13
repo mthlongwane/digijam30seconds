@@ -206,12 +206,42 @@ export default class Demo extends Component {
             <Text size=".7em">See your friends while you play!</Text>
           </Box>
         </Row>
-
+        <br></br>
         <Box data-tut="reactour__enjoy">
           <Row className="flexbox-container-center">
             <Image src={enjoy} />
           </Row>
         </Box>
+        <Row className="flexbox-container-center">
+          <Box data-tut="reactour__rules">
+            <Heading h="1">RULES!</Heading>
+            <Link
+              href="http://www.30seconds.ie/30-seconds-irish-board-game-about/the-rules/"
+              color="dark"
+              nospaces
+            >
+              Click here to get the rules for the board game
+            </Link>
+            <Text>
+              Rules refined to this version of the game coming soon. Should you
+              have any queries, feel free to reach out to us
+            </Text>
+            <Heading h="4">
+              <Link color="dark" h="4" href="https://twitter.com/SecondsOnline">
+                Twitter
+              </Link>
+            </Heading>
+            <Heading h="4">
+              <Link
+                color="dark"
+                h="4"
+                href="https://www.facebook.com/30secondsonline"
+              >
+                Facebook
+              </Link>
+            </Heading>
+          </Box>
+        </Row>
       </div>
     );
   }

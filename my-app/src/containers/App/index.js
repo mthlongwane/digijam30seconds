@@ -277,7 +277,7 @@ const tourConfig = [
             cursor: "pointer",
             margin: "1em auto"
           }}
-          onClick={() => goTo(0)}
+          onClick={() => goTo(12)}
         >
           CLICK HERE
         </button>
@@ -294,35 +294,57 @@ const tourConfig = [
   },
   {
     selector: '[data-tut="reactour__two_types"]',
-    content: `No data? No problem. We got you with Offline Mode :).`
+    content: `Get your phones ready. Get your friends ready!`
   },
   {
     selector: '[data-tut="reactour__create_room"]',
-    content: `Want to play with using more than one device? We got you again...`
+    content: `Time to create a safe space to obliterate your opponents`
   },
   {
     selector: '[data-tut="reactour__share_link"]',
-    content: `Want to play with using more than one device? We got you again...`
+    content: `We have made easy to congregate`
   },
   {
     selector: '[data-tut="reactour__join_game"]',
-    content: `Want to play with using more than one device? We got you again...`
+    content: `Just your name to get in...`
   },
   {
     selector: '[data-tut="reactour__lets_play"]',
-    content: `Want to play with using more than one device? We got you again...`
+    content: `Everyone sees what everyone's doing. Cozy isn't it?`
   },
   {
     selector: '[data-tut="reactour__end_of_round"]',
-    content: `Want to play with using more than one device? We got you again...`
+    content: `Always. Audit. The card.`
   },
   {
     selector: '[data-tut="reactour__video_call"]',
-    content: `Want to play with using more than one device? We got you again...`
+    content: `Turn on the video to see how silly everyone looks when they describe :D`
   },
   {
     selector: '[data-tut="reactour__enjoy"]',
-    content: `Want to play with using more than one device? We got you again...`
+    content: `Excuse the crustiness...`
+  },
+  {
+    selector: '[data-tut="reactour__rules"]',
+    content: ({ goTo }) => (
+      <div>
+        If you want to go back to beginning of NAVIGATION: RULES:
+        <button
+          style={{
+            border: "1px solid #f7f7f7",
+            background: "none",
+            padding: ".3em .7em",
+            fontSize: "inherit",
+            display: "block",
+            cursor: "pointer",
+            margin: "1em auto"
+          }}
+          onClick={() => goTo(1)}
+        >
+          CLICK HERE
+        </button>
+      </div>
+    )
   }
 ];
 
