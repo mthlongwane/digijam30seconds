@@ -26,6 +26,20 @@
     // justify-content: center !important;
 }
 
+.sections-squareImg{
+        // position: absolute;
+    // top: 0;
+    // right: 0;
+    // bottom: 0;
+    // left: 0;
+    width: 90%;
+    max-width: 192px;
+    height: 90%;
+    max-height: 192px;
+    padding: 0px;
+    // justify-content: center !important;
+}
+
 @media (prefers-color-scheme : dark ), (prefers-color-scheme : light ) {
     .sections{
         padding: 16px;

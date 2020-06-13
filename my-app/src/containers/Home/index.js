@@ -21,8 +21,12 @@ import {
   Page,
   Row,
   ActionSheet,
-  ActionSheetButton
+  ActionSheetButton,
+  Button,
+  Col
 } from "react-onsenui";
+
+//import backgroundImg from "./zouzou_background.png";
 
 //import HelloWorldAlert from '../../components/test/HelloWorldAlert'
 
@@ -65,6 +69,7 @@ export default class Home extends Component {
     this.cancelMultiPhoneActionSheet = this.cancelMultiPhoneActionSheet.bind(
       this
     );
+    this.openDemo = this.openDemo.bind(this);
   }
   renderToolbar() {
     return (
@@ -151,6 +156,16 @@ export default class Home extends Component {
         tracker: [gameType, additionalParam]
       };
     });
+  }
+
+  openDemo() {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isTourOpen: true
+      };
+    });
+    this.props.pushPage(this.props.navigator, "Demo");
   }
   cancelLevelActionSheet() {
     this.setState(prevState => {
@@ -270,6 +285,14 @@ export default class Home extends Component {
             <div className="flexbox-container-center">
               <img src={Logo} className="sections-img" alt="App Logo" />
             </div>
+            <Row className="flexbox-container-center">
+              <Col className="flexbox-item-center-noGrow">
+                <Button onClick={this.openDemo}>
+                  Want to learn how to play?
+                </Button>
+              </Col>
+            </Row>
+            <br></br>
             <section style={{ margin: "16px", marginTop: "0px" }}>
               <Row
                 onClick={this.openNewGameActionSheet}

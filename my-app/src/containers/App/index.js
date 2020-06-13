@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import ons from "onsenui";
 import { Navigator, Page, PullHook, BackButton, Toolbar } from "react-onsenui";
+//import Tour from "reacttour";
 //import  {Page, PullHook} from 'react-onsenui';
 
 //import CacheBuster from '../../CacheBuster';
@@ -15,6 +16,18 @@ import MultiPlayContainer from "../MultiPlayContainer";
 import Dice from "../../components/Dice";
 import BoosterCards from "../../components/BoosterCards";
 import BoosterCardContainer from "../BoosterCardContainer";
+
+//below are imports for demoPage:
+
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
+import Demo from "../../components/Demo";
+//import Login from "../../components/test/HelloWorldAlert";
+import Tour from "reactour";
+// import Text from "../../components/Demo/Text.js";
+// import Glitch from "../../components/Demo/Glitch.js";
+// import Tooltip from "../../components/Demo/Tooltip.js";
+// import { Link } from "../../components/Demo/Button.js";
+import "./styles.css";
 
 const refreshCacheAndReload = () => {
   console.log("Clearing cache and hard reloading...");
@@ -31,10 +44,37 @@ const refreshCacheAndReload = () => {
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isTourOpen: false,
+      isShowingMore: false
+    };
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.pushPage = this.pushPage.bind(this);
     this.renderPage = this.renderPage.bind(this);
+    this.disableBody = this.disableBody.bind(this);
+    this.enableBody = this.disableBody.bind(this);
+    this.toggleShowMore = this.toggleShowMore.bind(this);
+    this.closeTour = this.closeTour.bind(this);
+    this.openTour = this.openTour.bind(this);
   }
+
+  disableBody = target => disableBodyScroll(target);
+  enableBody = target => enableBodyScroll(target);
+
+  toggleShowMore = () => {
+    this.setState(prevState => ({
+      isShowingMore: !prevState.isShowingMore
+    }));
+  };
+
+  closeTour = () => {
+    this.setState({ isTourOpen: false });
+  };
+
+  openTour = () => {
+    this.setState({ isTourOpen: true });
+  };
+
   renderToolbar(route, navigator) {
     const backButton = route.hasBackButton ? (
       <BackButton onClick={() => this.handleBackButtonClick(navigator)}>
@@ -66,6 +106,7 @@ class App extends Component {
     });
   }
   renderPage(route, navigator) {
+    const accentColor = "#5cb7b7";
     switch (route.title) {
       case "Game":
         return (
@@ -151,27 +192,52 @@ class App extends Component {
               teams={route.additionalProps.teams}
               fullCategories={route.additionalProps.fullCategories}
               level={route.additionalProps.level}
-              disableBtnJoin ={true}
+              disableBtnJoin={true}
             />
           </Page>
         );
-        case "MultiPhone":
-          return (
-            <Page
+      case "MultiPhone":
+        return (
+          <Page
+            firebaseAnalytics={this.props.firebaseAnalytics}
+            key={route.title}
+            renderToolbar={this.renderToolbar.bind(this, route, navigator)}
+          >
+            <MultiPlayContainer
               firebaseAnalytics={this.props.firebaseAnalytics}
-              key={route.title}
-              renderToolbar={this.renderToolbar.bind(this, route, navigator)}
-            >
-              <MultiPlayContainer
-                firebaseAnalytics={this.props.firebaseAnalytics}
-                teams={route.additionalProps.teams}
-                fullCategories={route.additionalProps.fullCategories}
-                level={route.additionalProps.level}
-                disableBtnJoin ={true}
-                disableVideo= {true}
-              />
-            </Page>
-          );
+              teams={route.additionalProps.teams}
+              fullCategories={route.additionalProps.fullCategories}
+              level={route.additionalProps.level}
+              disableBtnJoin={true}
+              disableVideo={true}
+            />
+          </Page>
+        );
+      case "Demo":
+        return (
+          <Page
+            firebaseAnalytics={this.props.firebaseAnalytics}
+            key={route.title}
+            renderToolbar={this.renderToolbar.bind(this, route, navigator)}
+          >
+            <Demo
+              openTour={this.openTour}
+              toggleShowMore={this.toggleShowMore}
+              isShowingMore={this.state.isShowingMore}
+            />
+            <Tour
+              onRequestClose={this.closeTour}
+              steps={tourConfig}
+              isOpen={this.state.isTourOpen}
+              maskClassName="mask"
+              className="helper"
+              rounded={5}
+              accentColor={accentColor}
+              onAfterOpen={this.disableBody}
+              onBeforeClose={this.enableBody}
+            />
+          </Page>
+        );
       default:
         return <div>404 - page not found</div>;
     }
@@ -189,6 +255,149 @@ class App extends Component {
     );
   }
 }
+
+const tourConfig = [
+  {
+    selector: '[data-tut="reactour__socialLinks"]',
+    content: `We want our game to be as fun to play as it was to build...`
+  },
+  {
+    selector: '[data-tut="reactour__nav"]',
+    content: ({ goTo }) => (
+      <div>
+        Let's Go! We will start with NAVIGATION. If you want to skip to the
+        RULES:
+        <button
+          style={{
+            border: "1px solid #f7f7f7",
+            background: "none",
+            padding: ".3em .7em",
+            fontSize: "inherit",
+            display: "block",
+            cursor: "pointer",
+            margin: "1em auto"
+          }}
+          onClick={() => goTo(0)}
+        >
+          CLICK HERE
+        </button>
+      </div>
+    )
+  },
+  {
+    selector: '[data-tut="reactour__boosters"]',
+    content: `Boosters are probably our easiest to use. If you have a board, try them out...`
+  },
+  {
+    selector: '[data-tut="reactour__offline"]',
+    content: `No data? No problem. We got you with Offline Mode :).`
+  },
+  {
+    selector: '[data-tut="reactour__two_types"]',
+    content: `No data? No problem. We got you with Offline Mode :).`
+  },
+  {
+    selector: '[data-tut="reactour__create_room"]',
+    content: `Want to play with using more than one device? We got you again...`
+  },
+  {
+    selector: '[data-tut="reactour__share_link"]',
+    content: `Want to play with using more than one device? We got you again...`
+  },
+  {
+    selector: '[data-tut="reactour__join_game"]',
+    content: `Want to play with using more than one device? We got you again...`
+  },
+  {
+    selector: '[data-tut="reactour__lets_play"]',
+    content: `Want to play with using more than one device? We got you again...`
+  },
+  {
+    selector: '[data-tut="reactour__end_of_round"]',
+    content: `Want to play with using more than one device? We got you again...`
+  },
+  {
+    selector: '[data-tut="reactour__video_call"]',
+    content: `Want to play with using more than one device? We got you again...`
+  },
+  {
+    selector: '[data-tut="reactour__enjoy"]',
+    content: `Want to play with using more than one device? We got you again...`
+  }
+];
+
+// {
+//   selector: '[data-tut="reactour__style"]',
+//   content: () => (
+//     <div>
+//       <Glitch data-glitch="Styled">Styled</Glitch>
+//       <Text color="#e5e5e5">
+//         The <Tooltip data-tooltip="this helper ⬇">tourist guide</Tooltip>{" "}
+//         could be dressed in any way, using custom components, styles and so
+//         on…
+//       </Text>
+//       <Text color="#373737" size=".7em" style={{ marginTop: ".7em" }}>
+//         <Link
+//           href="http://codepen.io/lbebber/full/ypgql/"
+//           color="dark"
+//           nospaces
+//         >
+//           Text effect
+//         </Link>{" "}
+//         by{" "}
+//         <Link href="https://twitter.com/lucasbebber" color="dark" nospaces>
+//           Lucas Bebber
+//         </Link>
+//       </Text>
+//     </div>
+//   ),
+//   style: {
+//     backgroundColor: "black",
+//     color: "white"
+//   }
+// },
+// {
+//   selector: '[data-tut="reactour__position"]',
+//   content: () => (
+//     <Text>
+//       The <Tooltip data-tooltip="this helper ⬇">tourist guide</Tooltip> could
+//       be positioned where you want.
+//       <br /> In this case will try to stay in the <strong>
+//         left side
+//       </strong>{" "}
+//       if there's available space, otherwise will{" "}
+//       <strong>auto position</strong>.
+//     </Text>
+//   ),
+//   position: "left"
+// },
+// {
+//   selector: '[data-tut="reactour__scroll"]',
+//   content:
+//     "Probably you noted that the Tour scrolled directly to the desired place, and you could control the time also…"
+// },
+// {
+//   selector: '[data-tut="reactour__scroll--hidden"]',
+//   content: "Also when places are pretty hidden…"
+// },
+// {
+//   selector: '[data-tut="reactour__action"]',
+//   content:
+//     "When arrived on each place you could fire an action, like… (look at the console)",
+//   action: () =>
+//     console.log(`
+//                 ------------🏠🏚---------
+//     🚌 Arrived to explore these beautiful buildings! 🚌
+//                 ------------🏠🏚---------
+//  🚧 This action could also fire a method in your Component 🚧
+//   `)
+// } ,
+// {
+//   selector: '[data-tut="reactour__state"]',
+//   content:
+//     "And the Tour could be observing changes to update the view, try clicking the button…",
+//   observe: '[data-tut="reactour__state--observe"]'
+// }
 
 // class App extends Component  {
 //   render(){
