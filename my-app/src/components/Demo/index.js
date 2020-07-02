@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 //import Section from "./Section.js";
-import { Button, Row } from "react-onsenui";
+import { /*Button,*/ Row } from "react-onsenui";
 // import Logo from "./Logo";
 import Text from "./Text";
 import Heading from "./Heading";
@@ -11,6 +11,8 @@ import Box from "./Box";
 import Image from "./Image";
 import { Link } from "./Button.js";
 //import { fontFamily } from "./settings";
+
+import "./index.scss";
 
 import squareLogo from "./logo192.png";
 import boosters from "./boosters.png";
@@ -36,10 +38,25 @@ export default class Demo extends Component {
           />
         </div>
         <br></br>
-        <Row className=" flexbox-container-center flexbox-item-center-noGrow">
-          <Button onClick={this.props.openTour}>START TOUR</Button>
+        <Row
+          onClick={this.props.openTour}
+          className="sections flexbox-container-center "
+          style={{ backgroundColor: "#ffe795" }}
+        >
+          <Row className="flexbox-container-center">
+            <h3 style={{ padding: "0px" }}> CLICK HERE TO START TOUR !</h3>
+          </Row>
+          {/* <Row className="flexbox-container-center sections-text">
+            <p>Sharing one phone or low on data? Let the games begin!</p>
+          </Row> */}
         </Row>
+        {/* <Row className=" flexbox-container-center flexbox-item-center-noGrow">
+          <Button onClick={this.props.openTour}>START TOUR</Button>
+        </Row> */}
         <br></br>
+        <div>
+          <hr className="separator-line" />
+        </div>
         <Row className="flexbox-container-center">
           <Box center width="100%" data-tut="reactour__socialLinks">
             <Heading h="3">Let us know what you think</Heading>
@@ -66,6 +83,9 @@ export default class Demo extends Component {
             </Heading>
           </Box>
         </Row>
+        <div>
+          <hr className="separator-line" />
+        </div>
         <Row className="flexbox-container-center">
           <Heading h="1" data-tut="reactour__nav">
             NAVIGATION!
@@ -212,6 +232,9 @@ export default class Demo extends Component {
             <Image src={enjoy} />
           </Row>
         </Box>
+        <div>
+          <hr className="separator-line" />
+        </div>
         <Row className="flexbox-container-center">
           <Box data-tut="reactour__rules">
             <Heading h="1">RULES!</Heading>

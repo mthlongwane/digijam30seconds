@@ -59,6 +59,7 @@
     "react-dev-utils": "^10.2.1",
     "react-dice-complete": "^1.2.0",
     "react-dom": "^16.13.1",
+    "react-helmet": "^6.1.0",
     "react-onsenui": "^1.11.2",
     "react-router-dom": "^5.2.0",
     "reactour": "^1.17.0",

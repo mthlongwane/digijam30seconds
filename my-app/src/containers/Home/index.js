@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Logo from "./zouzou_logo.png";
 
+//import Helmet from "react-helmet";
+
 import cardItemArray from "../../localDatafiles/card-data_Main.json";
 import {
   chooseInitialCategories,
@@ -281,237 +283,243 @@ export default class Home extends Component {
           </Page>
         </SplitterSide>
         <SplitterContent>
-          <Page /*renderToolbar={this.renderToolbar} */>
-            <div className="flexbox-container-center">
-              <img src={Logo} className="sections-img" alt="App Logo" />
+          <Page
+          /*renderToolbar={this.renderToolbar} */
+          >
+            <div className="page__background">
+              <div className="flexbox-container-center">
+                <img src={Logo} className="sections-img" alt="App Logo" />
+              </div>
+              <Row className="flexbox-container-center">
+                <Col className="flexbox-item-center-noGrow">
+                  <Button onClick={this.openDemo}>
+                    Want to learn how to play?
+                  </Button>
+                </Col>
+              </Row>
+              <br></br>
+              <section style={{ margin: "16px", marginTop: "0px" }}>
+                <Row
+                  onClick={this.openNewGameActionSheet}
+                  className="sections flexbox-container-center "
+                  style={{ backgroundColor: "#ffe795" }}
+                >
+                  <Row className="flexbox-container-center">
+                    <h1 style={{ padding: "0px" }}>Offline Mode</h1>
+                  </Row>
+                  <Row className="flexbox-container-center sections-text">
+                    <p>
+                      Sharing one phone or low on data? Let the games begin!
+                    </p>
+                  </Row>
+                </Row>
+                <br></br>
+                <Row
+                  onClick={this.openMultiPhoneActionSheet}
+                  className="sections flexbox-container-center "
+                  style={{ backgroundColor: "#ffd202" }}
+                >
+                  <Row className="flexbox-container-center">
+                    <h1 style={{ padding: "0px" }}>Multiple Phones</h1>
+                  </Row>
+                  <Row className="flexbox-container-center sections-text">
+                    <p>All the players in the same building? </p>
+                  </Row>
+                </Row>
+                <br></br>
+                <Row
+                  onClick={this.openBoosterActionSheet}
+                  className="sections flexbox-container-center "
+                  style={{ backgroundColor: "#ffe795" }}
+                >
+                  <Row className="flexbox-container-center">
+                    <h1 style={{ padding: "0px" }}>Boosters</h1>
+                  </Row>
+                  <Row className="flexbox-container-center sections-text">
+                    <p>Need a new pack of cards or a die?</p>
+                  </Row>
+                </Row>
+                <br></br>
+                <Row
+                  onClick={this.openNewGameMultiplayerActionSheet}
+                  className="sections flexbox-container-center "
+                  style={{ backgroundColor: "#ffd202" }}
+                >
+                  <Row className="flexbox-container-center">
+                    <h1 style={{ padding: "0px" }}>MultiPhone + Video</h1>
+                  </Row>
+                  <Row className="flexbox-container-center sections-text">
+                    <p>Want to play a game via video call? </p>
+                    <p>Let the games begin!</p>
+                  </Row>
+                </Row>
+              </section>
+              <ActionSheet
+                isOpen={this.state.isNewGameActionSheetOpen}
+                animation="default"
+                onCancel={this.cancelNewGameActionSheet}
+                isCancelable={true}
+                title={"Number of Teams Playing:"}
+              >
+                <ActionSheetButton
+                  onClick={() => {
+                    this.openLevelActionSheet("Game", 2);
+                  }}
+                >
+                  2 (Game On!)
+                </ActionSheetButton>
+                <ActionSheetButton
+                  onClick={() => {
+                    this.openLevelActionSheet("Game", 3);
+                  }}
+                >
+                  3 (It's a Crowd!)
+                </ActionSheetButton>
+                <ActionSheetButton
+                  onClick={() => {
+                    this.openLevelActionSheet("Game", 4);
+                  }}
+                >
+                  4 (Awesome Foursome!)
+                </ActionSheetButton>
+                <ActionSheetButton
+                  onClick={this.cancelNewGameActionSheet}
+                  icon={"md-close"}
+                >
+                  Cancel
+                </ActionSheetButton>
+              </ActionSheet>
+              <ActionSheet
+                isOpen={this.state.isBoosterActionSheetOpen}
+                animation="default"
+                onCancel={this.cancelBoosterActionSheet}
+                isCancelable={true}
+                title={"Select a Booster:"}
+              >
+                <ActionSheetButton
+                  onClick={() => {
+                    this.handleBooster("Dice");
+                  }}
+                >
+                  Dice
+                </ActionSheetButton>
+                <ActionSheetButton
+                  onClick={() => {
+                    this.openLevelActionSheet("New Cards", null);
+                  }}
+                >
+                  New Cards
+                </ActionSheetButton>
+
+                <ActionSheetButton
+                  onClick={this.cancelBoosterActionSheet}
+                  icon={"md-close"}
+                >
+                  Cancel
+                </ActionSheetButton>
+              </ActionSheet>
+              <ActionSheet
+                isOpen={this.state.isNewGameMultiplayerActionSheetOpen}
+                animation="default"
+                onCancel={this.cancelNewGameMultiplayerActionSheet}
+                isCancelable={true}
+                title={"Number of Teams Playing:"}
+              >
+                <ActionSheetButton
+                  onClick={() => {
+                    this.openLevelActionSheet("MultiplayerGame", 2);
+                  }}
+                >
+                  2 (Game On!)
+                </ActionSheetButton>
+                <ActionSheetButton
+                  onClick={() => {
+                    this.openLevelActionSheet("MultiplayerGame", 3);
+                  }}
+                >
+                  3 (It's a Crowd!)
+                </ActionSheetButton>
+                <ActionSheetButton
+                  onClick={() => {
+                    this.openLevelActionSheet("MultiplayerGame", 4);
+                  }}
+                >
+                  4 (Awesome Foursome!)
+                </ActionSheetButton>
+                <ActionSheetButton
+                  onClick={this.cancelNewGameMultiplayerActionSheet}
+                  icon={"md-close"}
+                >
+                  Cancel
+                </ActionSheetButton>
+              </ActionSheet>
+
+              <ActionSheet
+                isOpen={this.state.isMultiPhoneActionSheetOpen}
+                animation="default"
+                onCancel={this.cancelMultiPhoneActionSheet}
+                isCancelable={true}
+                title={"Number of Teams Playing:"}
+              >
+                <ActionSheetButton
+                  onClick={() => {
+                    this.openLevelActionSheet("MultiPhone", 2);
+                  }}
+                >
+                  2 (Game On!)
+                </ActionSheetButton>
+                <ActionSheetButton
+                  onClick={() => {
+                    this.openLevelActionSheet("MultiPhone", 3);
+                  }}
+                >
+                  3 (It's a Crowd!)
+                </ActionSheetButton>
+                <ActionSheetButton
+                  onClick={() => {
+                    this.openLevelActionSheet("MultiPhone", 4);
+                  }}
+                >
+                  4 (Awesome Foursome!)
+                </ActionSheetButton>
+                <ActionSheetButton
+                  onClick={this.cancelMultiPhoneActionSheet}
+                  icon={"md-close"}
+                >
+                  Cancel
+                </ActionSheetButton>
+              </ActionSheet>
+
+              <ActionSheet
+                isOpen={this.state.isLevelActionSheetOpen}
+                animation="default"
+                onCancel={this.cancelLevelActionSheet}
+                isCancelable={true}
+                title={"Choose Your Difficulty Level:"}
+              >
+                <ActionSheetButton
+                  onClick={() => {
+                    this.handleLevel("STANDARD");
+                  }}
+                >
+                  Standard
+                </ActionSheetButton>
+                <ActionSheetButton
+                  onClick={() => {
+                    this.handleLevel("EXPERT");
+                  }}
+                >
+                  Expert (Not for the faint-hearted!)
+                </ActionSheetButton>
+
+                <ActionSheetButton
+                  onClick={this.cancelLevelActionSheet}
+                  icon={"md-close"}
+                >
+                  Cancel
+                </ActionSheetButton>
+              </ActionSheet>
             </div>
-            <Row className="flexbox-container-center">
-              <Col className="flexbox-item-center-noGrow">
-                <Button onClick={this.openDemo}>
-                  Want to learn how to play?
-                </Button>
-              </Col>
-            </Row>
-            <br></br>
-            <section style={{ margin: "16px", marginTop: "0px" }}>
-              <Row
-                onClick={this.openNewGameActionSheet}
-                className="sections flexbox-container-center "
-                style={{ backgroundColor: "#ffe795" }}
-              >
-                <Row className="flexbox-container-center">
-                  <h1 style={{ padding: "0px" }}>Offline Mode</h1>
-                </Row>
-                <Row className="flexbox-container-center sections-text">
-                  <p>Sharing one phone or low on data? Let the games begin!</p>
-                </Row>
-              </Row>
-              <br></br>
-              <Row
-                onClick={this.openMultiPhoneActionSheet}
-                className="sections flexbox-container-center "
-                style={{ backgroundColor: "#ffd202" }}
-              >
-                <Row className="flexbox-container-center">
-                  <h1 style={{ padding: "0px" }}>Multiple Phones</h1>
-                </Row>
-                <Row className="flexbox-container-center sections-text">
-                  <p>All the players in the same building? </p>
-                </Row>
-              </Row>
-              <br></br>
-              <Row
-                onClick={this.openBoosterActionSheet}
-                className="sections flexbox-container-center "
-                style={{ backgroundColor: "#ffe795" }}
-              >
-                <Row className="flexbox-container-center">
-                  <h1 style={{ padding: "0px" }}>Boosters</h1>
-                </Row>
-                <Row className="flexbox-container-center sections-text">
-                  <p>Need a new pack of cards or a die?</p>
-                </Row>
-              </Row>
-              <br></br>
-              <Row
-                onClick={this.openNewGameMultiplayerActionSheet}
-                className="sections flexbox-container-center "
-                style={{ backgroundColor: "#ffd202" }}
-              >
-                <Row className="flexbox-container-center">
-                  <h1 style={{ padding: "0px" }}>MultiPhone + Video</h1>
-                </Row>
-                <Row className="flexbox-container-center sections-text">
-                  <p>Want to play a game via video call? </p>
-                  <p>Let the games begin!</p>
-                </Row>
-              </Row>
-            </section>
-            <ActionSheet
-              isOpen={this.state.isNewGameActionSheetOpen}
-              animation="default"
-              onCancel={this.cancelNewGameActionSheet}
-              isCancelable={true}
-              title={"Number of Teams Playing:"}
-            >
-              <ActionSheetButton
-                onClick={() => {
-                  this.openLevelActionSheet("Game", 2);
-                }}
-              >
-                2 (Game On!)
-              </ActionSheetButton>
-              <ActionSheetButton
-                onClick={() => {
-                  this.openLevelActionSheet("Game", 3);
-                }}
-              >
-                3 (It's a Crowd!)
-              </ActionSheetButton>
-              <ActionSheetButton
-                onClick={() => {
-                  this.openLevelActionSheet("Game", 4);
-                }}
-              >
-                4 (Awesome Foursome!)
-              </ActionSheetButton>
-              <ActionSheetButton
-                onClick={this.cancelNewGameActionSheet}
-                icon={"md-close"}
-              >
-                Cancel
-              </ActionSheetButton>
-            </ActionSheet>
-            <ActionSheet
-              isOpen={this.state.isBoosterActionSheetOpen}
-              animation="default"
-              onCancel={this.cancelBoosterActionSheet}
-              isCancelable={true}
-              title={"Select a Booster:"}
-            >
-              <ActionSheetButton
-                onClick={() => {
-                  this.handleBooster("Dice");
-                }}
-              >
-                Dice
-              </ActionSheetButton>
-              <ActionSheetButton
-                onClick={() => {
-                  this.openLevelActionSheet("New Cards", null);
-                }}
-              >
-                New Cards
-              </ActionSheetButton>
-
-              <ActionSheetButton
-                onClick={this.cancelBoosterActionSheet}
-                icon={"md-close"}
-              >
-                Cancel
-              </ActionSheetButton>
-            </ActionSheet>
-            <ActionSheet
-              isOpen={this.state.isNewGameMultiplayerActionSheetOpen}
-              animation="default"
-              onCancel={this.cancelNewGameMultiplayerActionSheet}
-              isCancelable={true}
-              title={"Number of Teams Playing:"}
-            >
-              <ActionSheetButton
-                onClick={() => {
-                  this.openLevelActionSheet("MultiplayerGame", 2);
-                }}
-              >
-                2 (Game On!)
-              </ActionSheetButton>
-              <ActionSheetButton
-                onClick={() => {
-                  this.openLevelActionSheet("MultiplayerGame", 3);
-                }}
-              >
-                3 (It's a Crowd!)
-              </ActionSheetButton>
-              <ActionSheetButton
-                onClick={() => {
-                  this.openLevelActionSheet("MultiplayerGame", 4);
-                }}
-              >
-                4 (Awesome Foursome!)
-              </ActionSheetButton>
-              <ActionSheetButton
-                onClick={this.cancelNewGameMultiplayerActionSheet}
-                icon={"md-close"}
-              >
-                Cancel
-              </ActionSheetButton>
-            </ActionSheet>
-
-            <ActionSheet
-              isOpen={this.state.isMultiPhoneActionSheetOpen}
-              animation="default"
-              onCancel={this.cancelMultiPhoneActionSheet}
-              isCancelable={true}
-              title={"Number of Teams Playing:"}
-            >
-              <ActionSheetButton
-                onClick={() => {
-                  this.openLevelActionSheet("MultiPhone", 2);
-                }}
-              >
-                2 (Game On!)
-              </ActionSheetButton>
-              <ActionSheetButton
-                onClick={() => {
-                  this.openLevelActionSheet("MultiPhone", 3);
-                }}
-              >
-                3 (It's a Crowd!)
-              </ActionSheetButton>
-              <ActionSheetButton
-                onClick={() => {
-                  this.openLevelActionSheet("MultiPhone", 4);
-                }}
-              >
-                4 (Awesome Foursome!)
-              </ActionSheetButton>
-              <ActionSheetButton
-                onClick={this.cancelMultiPhoneActionSheet}
-                icon={"md-close"}
-              >
-                Cancel
-              </ActionSheetButton>
-            </ActionSheet>
-
-            <ActionSheet
-              isOpen={this.state.isLevelActionSheetOpen}
-              animation="default"
-              onCancel={this.cancelLevelActionSheet}
-              isCancelable={true}
-              title={"Choose Your Difficulty Level:"}
-            >
-              <ActionSheetButton
-                onClick={() => {
-                  this.handleLevel("STANDARD");
-                }}
-              >
-                Standard
-              </ActionSheetButton>
-              <ActionSheetButton
-                onClick={() => {
-                  this.handleLevel("EXPERT");
-                }}
-              >
-                Expert (Not for the faint-hearted!)
-              </ActionSheetButton>
-
-              <ActionSheetButton
-                onClick={this.cancelLevelActionSheet}
-                icon={"md-close"}
-              >
-                Cancel
-              </ActionSheetButton>
-            </ActionSheet>
           </Page>
         </SplitterContent>
       </Splitter>
