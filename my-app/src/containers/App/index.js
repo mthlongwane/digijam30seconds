@@ -122,7 +122,7 @@ class App extends Component {
             />
           </Page>
         );
-      case "ZouZou - Home":
+      case "Home":
         return (
           <Page
             key={route.title}
@@ -248,7 +248,7 @@ class App extends Component {
         swipeable
         renderPage={this.renderPage}
         initialRoute={{
-          title: "ZouZou - Home",
+          title: "Home",
           hasBackButton: false
         }}
       />

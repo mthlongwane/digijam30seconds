@@ -10,6 +10,7 @@ import runTimer from "../../helperFunctions/advancedTimer";
 
 import CountComponent from "../CountComponent";
 import ReactDice from "../Dice/ReactDice";
+import Confetti from "../Confetti";
 
 import "./index.scss";
 
@@ -45,6 +46,7 @@ export default class GamePlayScreen extends Component {
     this.handleReset = this.handleReset.bind(this);
     this.rollDoneCallback = this.rollDoneCallback.bind(this);
     this.alarm = new sound("/alarm-clock.mp3");
+    this.updateScore = this.updateScore.bind(this);
   }
 
   componentWillUnmount() {
@@ -163,9 +165,30 @@ export default class GamePlayScreen extends Component {
     // pick new card
     //this.handlePickUpCard()
   }
+
+  updateScore(index, score) {
+    this.setState(oldstate => {
+      var newScores = [...oldstate.teams];
+      newScores[index] = score;
+      return {
+        ...oldstate,
+        teams: newScores
+      };
+    });
+  }
+
   render() {
     return (
       <div className="gamePage">
+        {this.state.teams.includes(30) ? (
+          <Confetti
+            winner={
+              this.state.teams.findIndex(score => {
+                return score === 30;
+              }) + 1
+            }
+          />
+        ) : null}
         <Row className="flexbox-container-center">
           {
             //<Col className="dice_label">Dice: {this.state.dice}</Col>
@@ -241,14 +264,14 @@ export default class GamePlayScreen extends Component {
           <Row className="scores_label">Scores!</Row>
 
           <Row className=" flexbox-container-even-around ">
-            {this.state.teams.map((item, index) => {
+            {this.state.teams.map((score, index) => {
               return (
                 <Col key={index} className="flexbox-item-center-noGrow">
                   Team:{index + 1}
-                  <CountComponent 
-                  index={false}
-                  score={null}
-                  updateScore={false}
+                  <CountComponent
+                    index={index}
+                    score={score}
+                    updateScore={this.updateScore}
                   />
                 </Col>
               );

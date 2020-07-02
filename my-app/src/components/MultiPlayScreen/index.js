@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import ons from "onsenui";
 import { Button, Row, Col, Switch } from "react-onsenui";
 
-
 import GameCard from "../GameCard";
 
 //import cardItemArray from "../../localDatafiles/card-data_Main.json";
@@ -16,6 +15,7 @@ import CountComponent from "../CountComponent";
 import ReactDice from "../Dice/ReactDice";
 
 import WebRTC from "../WebRTC";
+import Confetti from "../Confetti";
 
 import "./index.scss";
 
@@ -116,13 +116,12 @@ export default class MultiPlayScreen extends Component {
             //   this.props.pubnub.publish({
             //     message: {
             //       user: this.props.user,
-            //       cardSetup: {cardsChosen: this.state.cardsChosen, 
+            //       cardSetup: {cardsChosen: this.state.cardsChosen,
             //       gameCards: this.state.gameCards}
             //     },
             //     channel: this.lobbyChannel
             //   });
             // }
-
           } else if (
             newMessageObj.user &&
             newMessageObj.user !== this.props.user
@@ -143,7 +142,7 @@ export default class MultiPlayScreen extends Component {
                   "Notification",
                   `${newMessageObj.user} just updated the scores.`
                 );
-              }else if(newMessageObj.state.cardsChosen){
+              } else if (newMessageObj.state.cardsChosen) {
                 printAlert(
                   "Notification",
                   `${newMessageObj.user} just picked up a new card.`
@@ -162,11 +161,11 @@ export default class MultiPlayScreen extends Component {
                 newMessageObj.htmlMessage
               );
             }
-          }else if (
-            newMessageObj.cardSetup 
-          ) {
-          this.setState({cardsChosen:newMessageObj.cardSetup.cardsChosen, gameCards:newMessageObj.cardSetup.gameCards })
-          
+          } else if (newMessageObj.cardSetup) {
+            this.setState({
+              cardsChosen: newMessageObj.cardSetup.cardsChosen,
+              gameCards: newMessageObj.cardSetup.gameCards
+            });
           }
         }
 
@@ -239,11 +238,10 @@ export default class MultiPlayScreen extends Component {
 
     //Check if any camera activity still exists
     if (window.localStream && window.localStream.stop) {
-            window.localStream.getTracks().forEach((track) => {
-                track.stop();
-            });
+      window.localStream.getTracks().forEach(track => {
+        track.stop();
+      });
     }
-          
   }
   rollDoneCallback(num) {
     this.props.pubnub.publish({
@@ -299,10 +297,10 @@ export default class MultiPlayScreen extends Component {
     this.props.pubnub.publish({
       message: {
         user: this.props.user,
-        state: {cardsChosen: this.state.cardsChosen},
+        state: { cardsChosen: this.state.cardsChosen }
       },
       channel: this.props.gameChannel
-    })
+    });
     this.setState(oldstate => {
       return {
         ...oldstate,
@@ -419,11 +417,16 @@ export default class MultiPlayScreen extends Component {
     });
   }
 
-  handleEnableVideo(e){
-    this.setState({VideoChecked: e.target.checked,videoCall: e.target.checked });
+  handleEnableVideo(e) {
+    this.setState({
+      VideoChecked: e.target.checked,
+      videoCall: e.target.checked
+    });
   }
-  handlesharecode(){
-    console.log( `${window.location.href}join/:${this.props.teams}/:${this.props.roomId}/:${this.props.level}`)
+  handlesharecode() {
+    console.log(
+      `${window.location.href}join/:${this.props.teams}/:${this.props.roomId}/:${this.props.level}`
+    );
     if (navigator.share) {
       navigator
         .share({
@@ -431,126 +434,142 @@ export default class MultiPlayScreen extends Component {
           url: `${window.location.href}join/:${this.props.teams}/:${this.props.roomId}/:${this.props.level}`
         })
         .then(() => {
-          console.log("Successful share")
-          this.props
-          .firebaseAnalytics()
-          .logEvent("Game code shared");
-      })
+          console.log("Successful share");
+          this.props.firebaseAnalytics().logEvent("Game code shared");
+        })
         .catch(error => console.log("Error sharing", error));
     }
   }
   render() {
     var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const showDiv = ((/iPad|iPhone|iPod/).test(userAgent) && !window.MSStream)? "coresection":""
-   
+    const showDiv =
+      /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream
+        ? "coresection"
+        : "";
     return (
       <div className="gamePage">
-     <div className={`${showDiv}`}>
-        <Row className="flexbox-container-center">
-          <Col className="dice_label">Dice: {this.state.dice}</Col>
-          {this.props.disableVideo===true?null:
-          <Col className="videoSwitch_center">         
-           <p className="videoSwitch_text">{this.state.VideoChecked ? 'Video On' : ' Video Off'}</p>
-            <Switch checked={this.state.VideoChecked} onChange={this.handleEnableVideo}/>
-          </Col>
-          }
-          {/*className="timer_label"*/}
-          <Col className="timer_label">Timer: {this.state.timer}s</Col>
-        </Row>
-
-        <Row className="flexbox-container-center">
-          <GameCard
-            disabled={this.state.disableCard}
-            cardItems={this.state.cardItems}
-            categoryHead={"MIXED"}
+        {this.state.teams.includes(30) ? (
+          <Confetti
+            winner={
+              this.state.teams.findIndex(score => {
+                return score === 30;
+              }) + 1
+            }
           />
-        </Row>
-
-        <Row className="flexbox-container-even">
-          {
-            // <Col className="flexbox-item-center-noGrow">
-            //   <Button
-            //     onClick={this.handleRollDice}
-            //     disabled={this.state.disableBtnRollDice}
-            //   >
-            //     Roll Dice
-            //   </Button>
-            // </Col>
-          }
-          <Col className="flexbox-item-center-noGrow">
-            <Button
-              onClick={this.handlePickUpCard}
-              disabled={this.state.disableBtnPickup}
-              hidden={true}
-            >
-              Pick up Card
-            </Button>
-          </Col>
-          <ReactDice
-            className="flexbox-item-center-noGrow"
-            min={0}
-            sides={3}
-            numDice={1}
-            faceColor={"#ffd202"}
-            dotColor={"#111111"}
-            rollTime={2}
-            rollDone={this.rollDoneCallback}
-            ref={dice => (this.reactDice = dice)}
-            disableIndividual={this.state.disableBtnRollDice}
-          />
-          <Col className="flexbox-item-center-noGrow">
-            <Button
-              onClick={this.handleReset}
-              disabled={this.state.disableBtnReset}
-            >
-              Reset Timer
-            </Button>
-          </Col>
-        </Row>
-        {this.state.disableBtnRollDice ? null : (
-          <span
-            className={"flexbox-container-center"}
-            style={{ padding: "0px", margin: "0px" }}
-          >
-            Please tap the dice
-          </span>
-        )}
-
-        <div className="scoresection">
-          <br></br>
-          <Row className="scores_label">Scores!</Row>
-          <Row onClick= {this.handlesharecode} 
-            className="roomID_label">Room Id: {this.props.roomId} (Click to share)
+        ) : null}
+        <div className={`${showDiv}`}>
+          <Row className="flexbox-container-center">
+            <Col className="dice_label">Dice: {this.state.dice}</Col>
+            {this.props.disableVideo === true ? null : (
+              <Col className="videoSwitch_center">
+                <p className="videoSwitch_text">
+                  {this.state.VideoChecked ? "Video On" : " Video Off"}
+                </p>
+                <Switch
+                  checked={this.state.VideoChecked}
+                  onChange={this.handleEnableVideo}
+                />
+              </Col>
+            )}
+            {/*className="timer_label"*/}
+            <Col className="timer_label">Timer: {this.state.timer}s</Col>
           </Row>
-          <Row className=" flexbox-container-even-around ">
-            {this.state.teams.map((score, index) => {
-              return (
-                <Col key={index} className="flexbox-item-center-noGrow">
-                  Team:{index + 1}
-                  <CountComponent
-                    index={index}
-                    score={score}
-                    updateScore={this.updateScore}
-                  />
-                </Col>
-              );
-            })}
+
+          <Row className="flexbox-container-center">
+            <GameCard
+              disabled={this.state.disableCard}
+              cardItems={this.state.cardItems}
+              categoryHead={"MIXED"}
+            />
           </Row>
+
+          <Row className="flexbox-container-even">
+            {
+              // <Col className="flexbox-item-center-noGrow">
+              //   <Button
+              //     onClick={this.handleRollDice}
+              //     disabled={this.state.disableBtnRollDice}
+              //   >
+              //     Roll Dice
+              //   </Button>
+              // </Col>
+            }
+            <Col className="flexbox-item-center-noGrow">
+              <Button
+                onClick={this.handlePickUpCard}
+                disabled={this.state.disableBtnPickup}
+                hidden={true}
+              >
+                Pick up Card
+              </Button>
+            </Col>
+            <ReactDice
+              className="flexbox-item-center-noGrow"
+              min={0}
+              sides={3}
+              numDice={1}
+              faceColor={"#ffd202"}
+              dotColor={"#111111"}
+              rollTime={2}
+              rollDone={this.rollDoneCallback}
+              ref={dice => (this.reactDice = dice)}
+              disableIndividual={this.state.disableBtnRollDice}
+            />
+            <Col className="flexbox-item-center-noGrow">
+              <Button
+                onClick={this.handleReset}
+                disabled={this.state.disableBtnReset}
+              >
+                Reset Timer
+              </Button>
+            </Col>
+          </Row>
+          {this.state.disableBtnRollDice ? null : (
+            <span
+              className={"flexbox-container-center"}
+              style={{ padding: "0px", margin: "0px" }}
+            >
+              Please tap the dice
+            </span>
+          )}
+
+          <div className="scoresection">
+            <br></br>
+            <Row className="scores_label">Scores!</Row>
+            <Row onClick={this.handlesharecode} className="roomID_label">
+              Room Id: {this.props.roomId} (Click to share)
+            </Row>
+            <Row className=" flexbox-container-even-around ">
+              {this.state.teams.map((score, index) => {
+                return (
+                  <Col key={index} className="flexbox-item-center-noGrow">
+                    Team:{index + 1}
+                    <CountComponent
+                      index={index}
+                      score={score}
+                      updateScore={this.updateScore}
+                    />
+                  </Col>
+                );
+              })}
+            </Row>
+          </div>
         </div>
-      </div>
         <br></br>
         {this.props.readyToPlay && this.state.videoCall ? (
-          ((/iPad|iPhone|iPod/).test(userAgent) && !window.MSStream)? 
-          <Row ref="webtrtcplayerrow" className="webrtcRow_IOS ">
-            <WebRTC roomId={this.props.roomId} user={this.props.user}  />
-            { printAlert("Apologies IOS","Sincerest Apologies to our IOS fans, we are workign on getting the camera feature working. For now you can connect via audio only.")}
-          </Row>
-          
-          :
-          <Row ref="webtrtcplayerrow" className="webrtcRow">
-           <WebRTC roomId={this.props.roomId} user={this.props.user}  />
-          </Row>
-
+          /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream ? (
+            <Row ref="webtrtcplayerrow" className="webrtcRow_IOS ">
+              <WebRTC roomId={this.props.roomId} user={this.props.user} />
+              {printAlert(
+                "Apologies IOS",
+                "Sincerest Apologies to our IOS fans, we are workign on getting the camera feature working. For now you can connect via audio only."
+              )}
+            </Row>
+          ) : (
+            <Row ref="webtrtcplayerrow" className="webrtcRow">
+              <WebRTC roomId={this.props.roomId} user={this.props.user} />
+            </Row>
+          )
         ) : null}
       </div>
     );
