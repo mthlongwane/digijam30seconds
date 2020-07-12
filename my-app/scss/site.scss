@@ -33,3 +33,12 @@
     background-image: url('../src/containers/Home/zouzou_background_colour.png');
     height: 100%
 }
+
+.ad_FullWidth{
+    //flex: none;
+    align-self: flex-end;
+    margin-bottom: 0px;
+    
+    bottom: 0;
+    width: 100%;
+}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import './index.scss'
 
 import ReactDice from "./ReactDice";
+import Ad from "../Ad"
 import "./styles.scss";
 
 export default class Dice extends Component {
@@ -62,6 +63,11 @@ export default class Dice extends Component {
             disabled={true}
           />
         </div>
+        <div className="ad_FullWidth">
+          <Ad/>
+        </div>
+
+      
       </div>
     );
   }
