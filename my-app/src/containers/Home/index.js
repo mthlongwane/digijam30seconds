@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Logo from "./zouzou_logo.png";
-
 //import Helmet from "react-helmet";
 
 import cardItemArray from "../../localDatafiles/card-data_Main.json";
@@ -21,6 +20,7 @@ import {
   SplitterSide,
   SplitterContent,
   Page,
+  PullHook,
   Row,
   ActionSheet,
   ActionSheetButton,
@@ -34,6 +34,18 @@ import {
 
 //const newCardItemArray = cardItemArray;
 
+const refreshCacheAndReload = () => {
+  console.log("Clearing cache and hard reloading...");
+  if (caches) {
+    // Service worker cache should be cleared with caches.delete()
+    caches.keys().then(function(names) {
+      for (let name of names) caches.delete(name);
+    });
+  }
+  // delete browser cache and hard reload
+  window.location.reload(true);
+};
+
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -44,7 +56,8 @@ export default class Home extends Component {
       isBoosterActionSheetOpen: false,
       isMultiPhoneActionSheetOpen: false,
       isLevelActionSheetOpen: false,
-      tracker: null
+      tracker: null,
+      pullHookState: 'initial'
     };
     this.renderToolbar = this.renderToolbar.bind(this);
     this.hideSideBar = this.hideSideBar.bind(this);
@@ -72,7 +85,35 @@ export default class Home extends Component {
       this
     );
     this.openDemo = this.openDemo.bind(this);
+    this.handleRefresh = this.handleRefresh.bind(this);
+    this.getRefreshContent  =  this.getRefreshContent.bind(this)
+    this.handleRefreshState = this.handleRefreshState.bind(this)
   }
+
+  handleRefreshState(e) {
+    this.setState({pullHookState: e.state});
+  }
+  handleRefresh(done) {
+    // const data = this.getRandomData();
+
+    setTimeout(() => {
+      this.setState(done);
+      refreshCacheAndReload()
+    }, 500);
+  }
+  getRefreshContent() {
+    switch (this.state.pullHookState) {
+      case 'initial':
+        return 'Pull to refresh';
+      case 'preaction':
+        return 'Release';
+      case 'action':
+        return 'Loading...';
+      default:
+          return 'Pull to refresh';
+    }
+  }
+
   renderToolbar() {
     return (
       <Toolbar>
@@ -286,6 +327,11 @@ export default class Home extends Component {
           <Page
           /*renderToolbar={this.renderToolbar} */
           >
+          <PullHook onPull={ this.handleRefreshState /* refreshCacheAndReload */} onLoad={this.handleRefresh}>
+            {
+              this.getRefreshContent()
+            }
+          </PullHook>
             <div className="page__background">
               <div className="flexbox-container-center">
                 <img src={Logo} className="sections-img" alt="App Logo" />

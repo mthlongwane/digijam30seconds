@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import ons from "onsenui";
-import { Navigator, Page, PullHook, BackButton, Toolbar } from "react-onsenui";
+import { Navigator, Page,/* PullHook, */BackButton, Toolbar } from "react-onsenui";
 //import Tour from "reacttour";
 //import  {Page, PullHook} from 'react-onsenui';
 
@@ -29,24 +29,25 @@ import Tour from "reactour";
 // import { Link } from "../../components/Demo/Button.js";
 import "./styles.css";
 
-const refreshCacheAndReload = () => {
-  console.log("Clearing cache and hard reloading...");
-  if (caches) {
-    // Service worker cache should be cleared with caches.delete()
-    caches.keys().then(function(names) {
-      for (let name of names) caches.delete(name);
-    });
-  }
-  // delete browser cache and hard reload
-  window.location.reload(true);
-};
+// const refreshCacheAndReload = () => {
+//   console.log("Clearing cache and hard reloading...");
+//   if (caches) {
+//     // Service worker cache should be cleared with caches.delete()
+//     caches.keys().then(function(names) {
+//       for (let name of names) caches.delete(name);
+//     });
+//   }
+//   // delete browser cache and hard reload
+//   window.location.reload(true);
+// };
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isTourOpen: false,
-      isShowingMore: false
+      isShowingMore: false,
+      pullHookState: 'initial'
     };
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.pushPage = this.pushPage.bind(this);
@@ -56,7 +57,27 @@ class App extends Component {
     this.toggleShowMore = this.toggleShowMore.bind(this);
     this.closeTour = this.closeTour.bind(this);
     this.openTour = this.openTour.bind(this);
+    // this.handleRefresh = this.handleRefresh.bind(this);
+    // this.getRefreshContent  =  this.getRefreshContent.bind(this)
   }
+
+  // handleRefresh(done) {
+  //   const data = this.getRandomData();
+
+  //   setTimeout(() => {
+  //     this.setState({data: data}, done);
+  //   }, 500);
+  // }
+  // getRefreshContent() {
+  //   switch (this.state.state) {
+  //     case 'initial':
+  //       return 'Pull to refresh';
+  //     case 'preaction':
+  //       return 'Release';
+  //     case 'action':
+  //       return 'Loading...';
+  //   }
+  // }
 
   disableBody = target => disableBodyScroll(target);
   enableBody = target => enableBodyScroll(target);
@@ -128,12 +149,20 @@ class App extends Component {
             key={route.title}
             renderToolbar={this.renderToolbar.bind(this, route, navigator)}
           >
-            <PullHook onPull={refreshCacheAndReload}></PullHook>
+          {/*
+          <PullHook onPull={refreshCacheAndReload} onLoad={this.handleRefresh}>
+              {
+                this.getRefreshContent()
+              }
+          </PullHook>
+          */
+        }
             <Home
               className="App"
               pushPage={this.pushPage}
               navigator={navigator}
             />
+            
           </Page>
         );
       case "Dice":
