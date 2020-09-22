@@ -85,7 +85,8 @@ export default class MultiPlayScreen extends Component {
       gameCards: this.props.fullCategories,
       cardsChosen: [],
       videoCall: false,
-      VideoChecked: false
+      VideoChecked: false,
+      participants: ["admin"]
     };
     this.handleRollDice = this.handleRollDice.bind(this);
     this.handlePickUpCard = this.handlePickUpCard.bind(this);
@@ -108,6 +109,22 @@ export default class MultiPlayScreen extends Component {
             newMessageObj.newUser !== this.props.user
           ) {
             //if message object contains newUser element then a new user joined
+            if(this.props.isRoomCreator){
+              //add new participant to list of participants
+              var newParticipantArray = this.state.participants.concat(newMessageObj.newUser)
+              this.setState({ participants: newParticipantArray })
+              //ensure their cardschosen is correct
+              this.props.pubnub.publish({
+                message: {
+                  user: this.props.user,
+                  state: { 
+                    cardsChosen: this.state.cardsChosen,
+                    participants: this.state.participants
+                  }
+                },
+                channel: this.props.gameChannel
+              });
+            }
             printAlert(
               "Notification",
               `${newMessageObj.newUser} just joined! `
@@ -548,11 +565,24 @@ export default class MultiPlayScreen extends Component {
                       index={index}
                       score={score}
                       updateScore={this.updateScore}
+                      isRoomCreator ={this.props.isRoomCreator}
                     />
                   </Col>
                 );
               })}
             </Row>
+            <Row>
+              {this.props.isRoomCreator? 
+                <div>
+                  <p>Participants: </p>
+                  <div>
+                    {this.state.participants.map((participant)=>{return <p key={participant}>  {participant}  </p> })}
+                  </div>
+                </div>
+                :null
+            }
+            </Row>
+            
           </div>
         </div>
         <br></br>

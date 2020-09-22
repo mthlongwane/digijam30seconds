@@ -44,7 +44,8 @@ export default class MultiPlayContainer extends Component {
       username: null,
       roomID: null,
       isRoomCreator: false,
-      lobbyChannel: this.lobbyChannel
+      lobbyChannel: this.lobbyChannel,
+      participants: ["admin"]
     };
     this.handleCreateGame = this.handleCreateGame.bind(this);
 
@@ -193,7 +194,7 @@ export default class MultiPlayContainer extends Component {
         channels: [this.lobbyChannel]
       })
       .then(response => {
-        if (response.totalOccupancy < 10) {
+        if (response.totalOccupancy < 14) {
           this.pubnub.subscribe({
             channels: [this.lobbyChannel],
             withPresence: true
@@ -210,6 +211,9 @@ export default class MultiPlayContainer extends Component {
             },
             channel: this.lobbyChannel
           });
+          //participants array !!
+          this.state.participants.push(this.state.usernameInput)
+
           this.setState({
             roomId: this.roomId,
             showJoinForm: false,
@@ -356,6 +360,7 @@ export default class MultiPlayContainer extends Component {
             fullCategories={this.props.fullCategories}
             level ={this.props.level}
             disableVideo={ this.props.disableVideo}
+            participants= {this.state.participants}
           />
         )}
       </div>
