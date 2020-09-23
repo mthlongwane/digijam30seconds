@@ -57,7 +57,7 @@ export default class Home extends Component {
       isMultiPhoneActionSheetOpen: false,
       isLevelActionSheetOpen: false,
       tracker: null,
-      pullHookState: 'initial'
+      pullHookState: "initial"
     };
     this.renderToolbar = this.renderToolbar.bind(this);
     this.hideSideBar = this.hideSideBar.bind(this);
@@ -86,31 +86,31 @@ export default class Home extends Component {
     );
     this.openDemo = this.openDemo.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
-    this.getRefreshContent  =  this.getRefreshContent.bind(this)
-    this.handleRefreshState = this.handleRefreshState.bind(this)
+    this.getRefreshContent = this.getRefreshContent.bind(this);
+    this.handleRefreshState = this.handleRefreshState.bind(this);
   }
 
   handleRefreshState(e) {
-    this.setState({pullHookState: e.state});
+    this.setState({ pullHookState: e.state });
   }
   handleRefresh(done) {
     // const data = this.getRandomData();
 
     setTimeout(() => {
       this.setState(done);
-      refreshCacheAndReload()
+      refreshCacheAndReload();
     }, 500);
   }
   getRefreshContent() {
     switch (this.state.pullHookState) {
-      case 'initial':
-        return 'Pull to refresh';
-      case 'preaction':
-        return 'Release';
-      case 'action':
-        return 'Loading...';
+      case "initial":
+        return "Pull to refresh";
+      case "preaction":
+        return "Release";
+      case "action":
+        return "Loading...";
       default:
-          return 'Pull to refresh';
+        return "Pull to refresh";
     }
   }
 
@@ -327,16 +327,17 @@ export default class Home extends Component {
           <Page
           /*renderToolbar={this.renderToolbar} */
           >
-          <PullHook onPull={ this.handleRefreshState /* refreshCacheAndReload */} onLoad={this.handleRefresh}>
-            {
-              this.getRefreshContent()
-            }
-          </PullHook>
+            <PullHook
+              onPull={this.handleRefreshState /* refreshCacheAndReload */}
+              onLoad={this.handleRefresh}
+            >
+              {this.getRefreshContent()}
+            </PullHook>
             <div className="page__background">
-              <div className="flexbox-container-center">
+              <div className="flexbox-container-center-img">
                 <img src={Logo} className="sections-img" alt="App Logo" />
               </div>
-              <Row className="flexbox-container-center">
+              <Row className="flexbox-container-center-img">
                 <Col className="flexbox-item-center-noGrow">
                   <Button onClick={this.openDemo}>
                     Want to learn how to play?
@@ -347,13 +348,13 @@ export default class Home extends Component {
               <section style={{ margin: "16px", marginTop: "0px" }}>
                 <Row
                   onClick={this.openNewGameActionSheet}
-                  className="sections flexbox-container-center "
+                  className="sections flexbox-container-center-1 "
                   style={{ backgroundColor: "#ffe795" }}
                 >
-                  <Row className="flexbox-container-center">
+                  <Row className="flexbox-container-center-1">
                     <h1 style={{ padding: "0px" }}>Offline Mode</h1>
                   </Row>
-                  <Row className="flexbox-container-center sections-text">
+                  <Row className="flexbox-container-center-1 sections-text">
                     <p>
                       Sharing one phone or low on data? Let the games begin!
                     </p>
@@ -362,39 +363,39 @@ export default class Home extends Component {
                 <br></br>
                 <Row
                   onClick={this.openMultiPhoneActionSheet}
-                  className="sections flexbox-container-center "
+                  className="sections flexbox-container-center-2 "
                   style={{ backgroundColor: "#ffd202" }}
                 >
-                  <Row className="flexbox-container-center">
+                  <Row className="flexbox-container-center-2">
                     <h1 style={{ padding: "0px" }}>Multiple Phones</h1>
                   </Row>
-                  <Row className="flexbox-container-center sections-text">
+                  <Row className="flexbox-container-center-2 sections-text">
                     <p>All the players in the same building? </p>
                   </Row>
                 </Row>
                 <br></br>
                 <Row
                   onClick={this.openBoosterActionSheet}
-                  className="sections flexbox-container-center "
+                  className="sections flexbox-container-center-1 "
                   style={{ backgroundColor: "#ffe795" }}
                 >
-                  <Row className="flexbox-container-center">
+                  <Row className="flexbox-container-center-1">
                     <h1 style={{ padding: "0px" }}>Boosters</h1>
                   </Row>
-                  <Row className="flexbox-container-center sections-text">
+                  <Row className="flexbox-container-center-1 sections-text">
                     <p>Need a new pack of cards or a die?</p>
                   </Row>
                 </Row>
                 <br></br>
                 <Row
                   onClick={this.openNewGameMultiplayerActionSheet}
-                  className="sections flexbox-container-center "
+                  className="sections flexbox-container-center-2 "
                   style={{ backgroundColor: "#ffd202" }}
                 >
-                  <Row className="flexbox-container-center">
+                  <Row className="flexbox-container-center-2">
                     <h1 style={{ padding: "0px" }}>MultiPhone + Video</h1>
                   </Row>
-                  <Row className="flexbox-container-center sections-text">
+                  <Row className="flexbox-container-center-2 sections-text">
                     <p>Want to play a game via video call? </p>
                     <p>Let the games begin!</p>
                   </Row>

@@ -109,15 +109,17 @@ export default class MultiPlayScreen extends Component {
             newMessageObj.newUser !== this.props.user
           ) {
             //if message object contains newUser element then a new user joined
-            if(this.props.isRoomCreator){
+            if (this.props.isRoomCreator) {
               //add new participant to list of participants
-              var newParticipantArray = this.state.participants.concat(newMessageObj.newUser)
-              this.setState({ participants: newParticipantArray })
+              var newParticipantArray = this.state.participants.concat(
+                newMessageObj.newUser
+              );
+              this.setState({ participants: newParticipantArray });
               //ensure their cardschosen is correct
               this.props.pubnub.publish({
                 message: {
                   user: this.props.user,
-                  state: { 
+                  state: {
                     cardsChosen: this.state.cardsChosen,
                     participants: this.state.participants
                   }
@@ -543,7 +545,7 @@ export default class MultiPlayScreen extends Component {
           </Row>
           {this.state.disableBtnRollDice ? null : (
             <span
-              className={"flexbox-container-center"}
+              className="flexbox-container-center-img"
               style={{ padding: "0px", margin: "0px" }}
             >
               Please tap the dice
@@ -559,30 +561,39 @@ export default class MultiPlayScreen extends Component {
             <Row className=" flexbox-container-even-around ">
               {this.state.teams.map((score, index) => {
                 return (
-                  <Col key={index} className="flexbox-item-center-noGrow">
+                  <Col
+                    style={{ color: "#ffff" }}
+                    key={index}
+                    className="flexbox-item-center-noGrow"
+                  >
                     Team:{index + 1}
                     <CountComponent
                       index={index}
                       score={score}
                       updateScore={this.updateScore}
-                      isRoomCreator ={this.props.isRoomCreator}
+                      isRoomCreator={this.props.isRoomCreator}
                     />
                   </Col>
                 );
               })}
             </Row>
             <Row>
-              {this.props.isRoomCreator? 
+              {this.props.isRoomCreator ? (
                 <div>
-                  <p>Participants: </p>
+                  <p style={{ color: "#ffff" }}>Participants: </p>
                   <div>
-                    {this.state.participants.map((participant)=>{return <p key={participant}>  {participant}  </p> })}
+                    {this.state.participants.map(participant => {
+                      return (
+                        <p style={{ color: "#ffff" }} key={participant}>
+                          {" "}
+                          {participant}{" "}
+                        </p>
+                      );
+                    })}
                   </div>
                 </div>
-                :null
-            }
+              ) : null}
             </Row>
-            
           </div>
         </div>
         <br></br>

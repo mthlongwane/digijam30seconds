@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // import './index.scss'
 
 import ReactDice from "./ReactDice";
-import Ad from "../Ad"
+import Ad from "../Ad";
 import "./styles.scss";
 
 export default class Dice extends Component {
@@ -39,12 +39,9 @@ export default class Dice extends Component {
   rollDoneCallback(num) {}
   render() {
     return (
-      <div  className="flex-col">
+      <div className="flex-col">
         <div>
-          <p
-            className="dice-title-center"
-            style={{ textAlign: "center" }}
-          >
+          <p className="dice-title-center" style={{ textAlign: "center" }}>
             {" "}
             Tap the dice to roll it!
           </p>
@@ -55,8 +52,8 @@ export default class Dice extends Component {
             min={0}
             sides={3}
             numDice={1}
-            faceColor={"#ffd202"}
-            dotColor={"#111111"}
+            faceColor={"#003366"}
+            dotColor={"#fffff"}
             rollTime={2}
             rollDone={this.rollDoneCallback}
             ref={dice => (this.reactDice = dice)}
@@ -64,10 +61,8 @@ export default class Dice extends Component {
           />
         </div>
         <div className="ad_FullWidth">
-          <Ad/>
+          <Ad />
         </div>
-
-      
       </div>
     );
   }

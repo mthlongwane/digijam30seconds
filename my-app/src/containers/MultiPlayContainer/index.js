@@ -35,8 +35,8 @@ export default class MultiPlayContainer extends Component {
     });
     this.state = {
       readyToPlay: false,
-      disableBtnCreate: this.props.disableBtnCreate ||false,
-      disableBtnJoin:  this.props.disableBtnJoin|| false,
+      disableBtnCreate: this.props.disableBtnCreate || false,
+      disableBtnJoin: this.props.disableBtnJoin || false,
       showCreateForm: false,
       showJoinForm: this.props.showJoinForm || false,
       roomIdInput: this.props.roomIdInput || "",
@@ -123,14 +123,12 @@ export default class MultiPlayContainer extends Component {
       navigator
         .share({
           text: `Please join my 30 Seconds online game.`,
-          url:`${window.location.href}join/:${this.props.teams}/:${this.roomId}/:${this.props.level}`
+          url: `${window.location.href}join/:${this.props.teams}/:${this.roomId}/:${this.props.level}`
         })
         .then(() => {
-            console.log("Successful share")
-            this.props
-            .firebaseAnalytics()
-            .logEvent("Game code shared");
-    })
+          console.log("Successful share");
+          this.props.firebaseAnalytics().logEvent("Game code shared");
+        })
         .catch(error => console.log("Error sharing", error));
     }
     Swal.fire({
@@ -212,7 +210,7 @@ export default class MultiPlayContainer extends Component {
             channel: this.lobbyChannel
           });
           //participants array !!
-          this.state.participants.push(this.state.usernameInput)
+          this.state.participants.push(this.state.usernameInput);
 
           this.setState({
             roomId: this.roomId,
@@ -277,46 +275,42 @@ export default class MultiPlayContainer extends Component {
       <div className="gamePage">
         {!this.state.readyToPlay ? (
           <div>
-          <div className="flexbox-container-center">
-            <section style={{ margin: "16px", marginTop: "0px" }}>
-            <br></br>
-            {this.state.disableBtnCreate ? null:
-                <Row
+            <div className="flexbox-container-center-1">
+              <section style={{ margin: "16px", marginTop: "0px" }}>
+                <br></br>
+                {this.state.disableBtnCreate ? null : (
+                  <Row
                     onClick={this.handleCreateGame}
-                    className="sections flexbox-container-center "
+                    className="sections flexbox-container-center-1 "
                     style={{ backgroundColor: "#ffd202" }}
-                    
-                >
-           
-                    <Row className="flexbox-container-center">
-                    <h1 style={{ padding: "0px" }}>Create Room</h1>
+                  >
+                    <Row className="flexbox-container-center-1">
+                      <h1 style={{ padding: "0px" }}>Create Room</h1>
                     </Row>
-                    <Row className="flexbox-container-center sections-text">
-                    <p>Call your friends and let the games begin </p>
+                    <Row className="flexbox-container-center-1 sections-text">
+                      <p>Call your friends and let the games begin </p>
                     </Row>
-                </Row>
-            }
-            <br></br>
-            {this.state.disableBtnJoin? null:
-            <Row
-                onClick={this.handleShowJoin}
-                className="sections flexbox-container-center "
-                style={{ backgroundColor: "#ffe795" }}
-            >
-                <Row className="flexbox-container-center">
-                <h1 style={{ padding: "0px" }}>Join Room</h1>
-                </Row>
-                <Row className="flexbox-container-center sections-text">
-                <p>
-                    Been invited to a game and have a game-room code?
-                </p>
-                </Row>
-            </Row>
-            }
-            </section>
-          </div>
+                  </Row>
+                )}
+                <br></br>
+                {this.state.disableBtnJoin ? null : (
+                  <Row
+                    onClick={this.handleShowJoin}
+                    className="sections flexbox-container-center-2"
+                    style={{ backgroundColor: "#ffe795" }}
+                  >
+                    <Row className="flexbox-container-center-2">
+                      <h1 style={{ padding: "0px" }}>Join Room</h1>
+                    </Row>
+                    <Row className="flexbox-container-center-2 sections-text">
+                      <p>Been invited to a game and have a game-room code?</p>
+                    </Row>
+                  </Row>
+                )}
+              </section>
+            </div>
             {this.state.showJoinForm ? (
-              <div className="flexbox-container-center">
+              <div className="flexbox-container-center-2">
                 <div className="flexbox-container-col-center">
                   <p>
                     <Input
@@ -358,9 +352,9 @@ export default class MultiPlayContainer extends Component {
             firebaseAnalytics={this.props.firebaseAnalytics}
             readyToPlay={this.state.readyToPlay}
             fullCategories={this.props.fullCategories}
-            level ={this.props.level}
-            disableVideo={ this.props.disableVideo}
-            participants= {this.state.participants}
+            level={this.props.level}
+            disableVideo={this.props.disableVideo}
+            participants={this.state.participants}
           />
         )}
       </div>

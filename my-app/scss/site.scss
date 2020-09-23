@@ -1,6 +1,22 @@
 @import "scss/all-utilities";
 
-.flexbox-container-center{
+.flexbox-container-center-1{
+    display: flex; 
+    flex-direction: row;
+    justify-content: center;
+    background-color: #10A5F5 !important;
+    color: white
+}
+
+.flexbox-container-center-2{
+    display: flex; 
+    flex-direction: row;
+    justify-content: center;
+    background-color: #003366 !important;
+    color: white
+}
+
+.flexbox-container-center-img{
     display: flex; 
     flex-direction: row;
     justify-content: center
@@ -24,13 +40,13 @@
 .flexbox-item-center-noGrow{
     flex: 0 0 ;
     align-self: center;
-    text-align: center
+    text-align: center;
 }
 
 .page__background {
     // background-color: blue !important;
     // background: blue !important;
-    background-image: url('../src/containers/Home/zouzou_background_colour.png');
+    background-image: url('../src/containers/Home/res-life_background.png');
     height: 100%
 }
 
