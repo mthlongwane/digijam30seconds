@@ -275,7 +275,7 @@ export default class MultiPlayContainer extends Component {
       <div className="gamePage">
         {!this.state.readyToPlay ? (
           <div>
-            <div className="flexbox-container-center-1">
+            <div className="flexbox-container-center-img">
               <section style={{ margin: "16px", marginTop: "0px" }}>
                 <br></br>
                 {this.state.disableBtnCreate ? null : (
@@ -310,9 +310,9 @@ export default class MultiPlayContainer extends Component {
               </section>
             </div>
             {this.state.showJoinForm ? (
-              <div className="flexbox-container-center-2">
+              <div className="flexbox-container-center-img">
                 <div className="flexbox-container-col-center">
-                  <p>
+                  <p style={{ color: "#ffff" }}>
                     <Input
                       value={this.state.roomIdInput}
                       onChange={this.handleRoomIdInput}
@@ -321,7 +321,7 @@ export default class MultiPlayContainer extends Component {
                       placeholder="Room ID"
                     />
                   </p>
-                  <p>
+                  <p style={{ color: "#ffff" }}>
                     <Input
                       value={this.state.usernameInput}
                       onChange={this.handleNameInput}
