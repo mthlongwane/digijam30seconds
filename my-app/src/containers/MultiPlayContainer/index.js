@@ -192,7 +192,7 @@ export default class MultiPlayContainer extends Component {
         channels: [this.lobbyChannel]
       })
       .then(response => {
-        if (response.totalOccupancy < 14) {
+        if (response.totalOccupancy < 100) {
           this.pubnub.subscribe({
             channels: [this.lobbyChannel],
             withPresence: true
