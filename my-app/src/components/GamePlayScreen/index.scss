@@ -20,6 +20,7 @@
 
 .dice_label{
     font-size: x-large;
+    color: white;
 }
 
 .col-align-end{
@@ -31,7 +32,7 @@
     // display: flex;
     // flex-direction: row;
     justify-content: center;
-    color: rgb(9, 0, 128);
+    color: rgb(255, 255, 255);
     font-size: 30px;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -49,7 +50,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: #10A5F5 !important;
+    background-color: #3b187b !important;
 
     justify-content: flex-end;
     align-items: flex-end;

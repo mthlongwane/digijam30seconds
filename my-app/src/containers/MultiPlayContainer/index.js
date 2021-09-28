@@ -319,6 +319,7 @@ export default class MultiPlayContainer extends Component {
                       modifier="underbar"
                       float
                       placeholder="Room ID"
+                      className="sections-text"
                     />
                   </p>
                   <p style={{ color: "#ffff" }}>
@@ -329,6 +330,7 @@ export default class MultiPlayContainer extends Component {
                       type="text"
                       float
                       placeholder="Your Name"
+                      className="sections-text"
                     />
                   </p>
 

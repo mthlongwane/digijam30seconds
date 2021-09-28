@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Logo from "./zouzou_logo.png";
+import Logo from "./Original_on_Transparent.png";
 //import Helmet from "react-helmet";
 
 import cardItemArray from "../../localDatafiles/card-data_Main.json";
@@ -346,7 +346,8 @@ export default class Home extends Component {
               </Row>
               <br></br>
               <section style={{ margin: "16px", marginTop: "0px" }}>
-                <Row
+               {
+              /* <Row
                   onClick={this.openNewGameActionSheet}
                   className="sections flexbox-container-center-1 "
                   style={{ backgroundColor: "#ffe795" }}
@@ -360,6 +361,7 @@ export default class Home extends Component {
                     </p>
                   </Row>
                 </Row>
+               */}
                 <br></br>
                 <Row
                   onClick={this.openMultiPhoneActionSheet}
@@ -367,13 +369,15 @@ export default class Home extends Component {
                   style={{ backgroundColor: "#ffd202" }}
                 >
                   <Row className="flexbox-container-center-2">
-                    <h1 style={{ padding: "0px" }}>Multiple Phones</h1>
+                    <h1 style={{ padding: "0px" }}>Play Now</h1>
                   </Row>
                   <Row className="flexbox-container-center-2 sections-text">
                     <p>All the players in the same building? </p>
                   </Row>
                 </Row>
                 <br></br>
+                {
+                  /* 
                 <Row
                   onClick={this.openBoosterActionSheet}
                   className="sections flexbox-container-center-1 "
@@ -400,6 +404,7 @@ export default class Home extends Component {
                     <p>Let the games begin!</p>
                   </Row>
                 </Row>
+                */}
               </section>
               <ActionSheet
                 isOpen={this.state.isNewGameActionSheetOpen}

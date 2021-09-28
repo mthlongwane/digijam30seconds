@@ -221,7 +221,7 @@ class App extends Component {
               teams={route.additionalProps.teams}
               fullCategories={route.additionalProps.fullCategories}
               level={route.additionalProps.level}
-              disableBtnJoin={true}
+              disableBtnJoin={false}
             />
           </Page>
         );
@@ -237,7 +237,7 @@ class App extends Component {
               teams={route.additionalProps.teams}
               fullCategories={route.additionalProps.fullCategories}
               level={route.additionalProps.level}
-              disableBtnJoin={true}
+              disableBtnJoin={false}
               disableVideo={true}
             />
           </Page>
