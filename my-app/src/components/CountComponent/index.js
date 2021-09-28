@@ -51,27 +51,25 @@ export default class CountComponent extends Component {
   render() {
     return (
       <div className="flexbox-container-even-around">
-      {this.props.isRoomCreator?
+      
           <button
             className="button-counter flexbox-item-center-noGrow"
             onClick={this.minusLabelTouch}
           >
             -1
           </button>
-          :null
-        }
+
         <label className="label-counter flexbox-item-center-noGrow">
           {this.props.score||this.state.score}
         </label>
-        {this.props.isRoomCreator?
+
           <button
             className="button-counter flexbox-item-center-noGrow"
             onClick={this.plusLabelTouch}
           >
             +1
           </button>
-          :null
-        }
+          
       </div>
     );
   }
